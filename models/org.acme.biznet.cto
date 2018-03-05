@@ -1,0 +1,266 @@
+/**
+ * model definition for blockchain-based, decentralized sensor data trading app
+ */
+
+namespace org.acme.biznet
+
+import composer.base.*
+
+enum TransferStatus {
+ o FOR_SALE
+ o SOLD
+ o PROCESSED
+ o FORWARDED
+}
+
+/**
+ * Sensorenbesitzer, z.B private Personen, Haushalte etc.
+ */
+participant Seller identified by sellerId extends Member {
+  o String sellerId
+  o String firstName
+  o String lastName
+  --> Wallet wallet
+  --> Account account
+}
+
+/**
+ * Sensordatenabnehmer, z.B Dienstleister, Forschungszentren, Behörden etc.
+ */
+participant Buyer identified by buyerId extends Member {
+  o String buyerId
+  o String name
+  --> Wallet wallet
+  --> Account account
+}
+
+/**
+ * dem Ökosystem involvierte Exchanges.
+ */
+participant Exchange identified by exchangeId extends Member {
+ o String exchangeId
+ o String name
+ --> Wallet wallet
+ --> Account account
+}
+
+/**
+ * Konsument, der die aufbereitete Sensordaten kauft, z.B Regierung, WHO.
+ */
+participant DataConsumer identified by dataConsumerId extends Member {
+ o String dataConsumerId
+ o String name
+ --> Account account
+}
+
+/**
+ * Wallets von den Netzwerkteilnehmern.
+ */
+asset Wallet identified by walletId {
+  o String walletId
+  o String ownerId
+  o Double balance
+}
+
+/**
+ * Geldkonten von den Netzwerkteilnehmern.
+ */
+asset Account identified by accountId {
+  o String accountId
+  o String ownerId
+  o Double balance
+}
+
+/**
+ * Wetterdaten, die von Seller verkauft werden.
+ */
+asset WeatherData identified by weatherDataId {
+  o String weatherDataId
+  o String location
+  o DateTime datetime
+  o TransferStatus status default = 'FOR_SALE'
+  o String currentCondition
+  o String currentTemp
+  o String currentHumidity
+  --> Member owner 
+}
+
+asset AirPollutionData identified by airPollutionDataId {
+  o String airPollutionDataId
+  o String location
+  o DateTime datetime
+  o TransferStatus status default = "FOR_SALE"
+  o CO co
+  o NO2 no2
+  o O3 o3
+  o PM10 pm10
+  o PM25 pm25
+  o SO2 so2
+  --> Member owner
+}
+
+concept CO {
+  o String pollutant_description default="Carbon monoxide"
+  o String units default="ppb"
+  o String concentration
+}  
+
+concept NO2 {
+  o String pollutant_description default="Nitrogen dioxide"
+  o String units default="ppb"
+  o Double concentration
+}
+
+concept O3 {
+  o String pollutant_description default="Ozone"
+  o String units default="ppb"
+  o Double concentration
+}
+  
+concept PM10 {
+  o String pollutant_description default="Inhalable particulate matter (<10µm)"
+  o String units default="ug/m3"
+  o Double concentration
+}
+
+concept PM25 {
+  o String pollutant_description default="Fine particulate matter (<2.5µm)"
+  o String units default="ug/m3"
+  o Double concentration
+}
+  
+concept SO2 {
+  o String pollutant_description default="Sulfur dioxide"
+  o String units default="ug/m3"
+  o Double concentration
+}  
+
+/**
+ * Aufbereitete Wetterprognosen, die von Buyer dem Konsumenten zur Verfügung gestellt werden.
+ */
+asset WeatherForecast identified by weatherForecastId {
+ o String weatherForecastId
+ o String location
+ o DateTime datetime
+ o TransferStatus status
+ o String tempTomorrow
+ o String humidityTomorrow
+ o String conditionTomorrow
+ --> Member owner
+}
+
+/**
+ * Aufbereitete Luftverschmutzungsprognosen, die von Buyer dem Konsumenten zur Verfügung gestellt werden.
+ */
+asset AirQualityData identified by airQualityDataId {
+ o String airQualityDataId
+ o String location
+ o DateTime datetime
+ o TransferStatus status default="PROCESSED"
+ o String AQIndex
+ o String APLevel
+ o String healthImplications
+ o String cautionaryStatement 
+ --> Member owner
+}
+
+/**
+ * Aktuelle Wetterdaten werden gegen Coins verkauft.
+ */
+transaction TradeWeatherDataToTokens {
+  o Double amount
+  --> WeatherData weatherdata 
+  --> Seller owner
+  --> Buyer newOwner
+  --> Wallet fromWallet
+  --> Wallet toWallet
+}
+
+/**
+ * Aktuelle Luftverschmtzungsdaten werden gegen Coins verkauft.
+ */
+transaction TradeAirPollutionDataToTokens {
+  o Double amount
+  --> AirPollutionData airpollutiondata 
+  --> Seller owner
+  --> Buyer newOwner
+  --> Wallet fromWallet
+  --> Wallet toWallet
+}
+
+/**
+ * Aufbereitete Wetterprognosen werden dem Konsumenten zur Verfügung gestellt.
+ */
+transaction ForwardWeatherForecast {
+ o Double amount
+ --> WeatherForecast weatherforecast
+ --> Buyer owner
+ --> DataConsumer newOwner
+ --> Account fromAccount
+ --> Account toAccount
+}
+
+/**
+ * Aufbereitete Luftqualitäsdaten werden dem Konsumenten zur Verfügung gestellt.
+ */
+transaction ForwardAirQualityData {
+ o Double amount
+ --> AirQualityData airqualitydata
+ --> Buyer owner
+ --> DataConsumer newOwner
+ --> Account fromAccount
+ --> Account toAccount
+}
+
+/**
+ * Geld gegen Tokens getauscht.
+ */
+transaction ExchangeCashToTokens {
+  o Double cashRate
+  o Double cashValue
+  --> Wallet fromWallet 
+  --> Wallet toWallet
+  --> Account fromAccount
+  --> Account toAccount
+}
+
+/**
+ * Tokens gegen Geld getauscht.
+ */
+transaction ExchangeTokensToCash {
+    o Double tokenRate       
+    o Double tokenValue    
+    --> Wallet fromWallet
+    --> Wallet toWallet
+    --> Account fromAccount
+    --> Account toAccount
+}
+
+/**
+ * Wenn aktuelle Wetterdaten verkauft werden, wird eine Benachrichtigung erzeugt.
+ */
+event TradeWeatherDataNotification {
+    --> WeatherData weatherdata
+}
+
+  /**
+ * Wenn Luftverschmutzungsdaten verkauft werden, wird eine Benachrichtigung erzeugt.
+ */
+event TradeAirPollutionDataNotification {
+    --> AirPollutionData airpollutiondata
+}
+
+/**
+ * Wenn Wetterprognosen an Konsumenten weitergeleitet werden, wird eine Benachrichtigung erzeugt.
+ */
+event ForwardWeatherForecastNotification {
+    --> WeatherForecast weatherforecast
+}
+
+/**
+ * Wenn Luftqualitätsdaten an Konsumenten weitergeleitet werden, wird eine Benachrichtigung erzeugt.
+ */
+event ForwardAirQualityDataNotification {
+    --> AirQualityData airqualitydata
+}
+

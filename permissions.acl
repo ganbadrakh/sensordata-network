@@ -1,0 +1,151 @@
+/**
+ * Access control rules for sensordata-network
+ */
+
+//Sellers to have access only to their own account
+rule SellerAccessOwnRecord {
+    description: "Allow sellers to access only their profile"
+    participant(p): "org.acme.biznet.Seller"
+    operation: READ, UPDATE, DELETE
+    resource(r): "org.acme.biznet.Seller"
+    condition: (r.getIdentifier() === p.getIdentifier())
+    action: ALLOW
+}
+
+//Sellers to have read only access to other Buyers
+rule SellerReadAccessBuyers {
+    description: "Allow sellers read access to other buyers"
+    participant: "org.acme.biznet.Seller"
+    operation: READ
+    resource: "org.acme.biznet.Buyer"
+    action: ALLOW
+}
+
+//Sellers to have read only access to other Exchanges
+rule SellerReadAccessExchanges {
+    description: "Allow sellers read access to other exchanges"
+    participant: "org.acme.biznet.Seller"
+    operation: READ
+    resource: "org.acme.biznet.Exchange"
+    action: ALLOW
+}
+
+//Buyers to have access to their own account
+rule BuyerAccessOwnRecord {
+    description: "Allow buyer to access only their profile"
+    participant(p): "org.acme.biznet.Buyer"
+    operation: ALL
+    resource(r): "org.acme.biznet.Buyer"
+    condition: (r.getIdentifier() === p.getIdentifier())
+    action: ALLOW
+}
+
+//Buyers to have read only access to other Sellers
+rule BuyerReadAccessSellers {
+    description: "Allow buyers read access to other Sellers"
+    participant: "org.acme.biznet.Buyer"
+    operation: READ
+    resource: "org.acme.biznet.Seller"
+    action: ALLOW
+}
+
+//Buyers to have read only access to other Exchanges
+rule BuyerReadAccessExchanges {
+    description: "Allow buyers read access to other exchanges"
+    participant: "org.acme.biznet.Buyer"
+    operation: READ
+    resource: "org.acme.biznet.Exchange"
+    action: ALLOW
+}
+
+//Buyers to have read access to all sensor data assets
+rule BuyerAccessWeatherForecastRecord {
+    description: "Allow buyers create access to all forecast data assets"
+    participant(p): "org.acme.biznet.Buyer"
+    operation: ALL
+    resource(r): "org.acme.biznet.WeatherForecast"
+  	condition: (r.owner.getIdentifier() == p.getIdentifier())
+    action: ALLOW
+}
+
+//Buyers to have read access to all sensor data assets
+rule BuyerReadAccessWeatherForecastRecord {
+    description: "Allow buyers create access to all forecast data assets"
+    participant(p): "org.acme.biznet.Buyer"
+    operation: READ
+    resource(r): "org.acme.biznet.WeatherForecast"
+  	condition: (r.owner.getIdentifier() != p.getIdentifier())
+    action: ALLOW
+}
+
+//Exchanges to have access to their own account
+rule ExchangeAccessOwnRecord {
+    description: "Allow exchanges to access only their profile"
+    participant(p): "org.acme.biznet.Exchange"
+    operation: READ, UPDATE, DELETE
+    resource(r): "org.acme.biznet.Exchange"
+    condition: (r.getIdentifier() === p.getIdentifier())
+    action: ALLOW
+}
+
+//Exchanges to have read only access to other Buyers
+rule ExchangeReadAccessBuyers {
+    description: "Allow exchanges read access to other Buyers"
+    participant: "org.acme.biznet.Exchange"
+    operation: READ
+    resource: "org.acme.biznet.Buyer"
+    action: ALLOW
+}
+
+//Exchanges to have read only access to other Sellers
+rule ExchangeReadAccessSellers {
+    description: "Allow exchanges read access to other Sellers"
+    participant: "org.acme.biznet.Exchange"
+    operation: READ
+    resource: "org.acme.biznet.Seller"
+    action: ALLOW
+}
+
+//Data Consumers to have access only to their own account
+rule DataConsumerAccessOwnRecord {
+    description: "Allow data consumers to access only their profile"
+    participant(p): "org.acme.biznet.DataConsumer"
+    operation: READ, UPDATE, DELETE
+    resource(r): "org.acme.biznet.DataConsumer"
+    condition: (r.getIdentifier() === p.getIdentifier())
+    action: ALLOW
+}
+
+//Data Consumers to have read only access to other Buyers
+rule DataConsumerReadAccessBuyers {
+    description: "Allow data consumerss read access to other Buyers"
+    participant: "org.acme.biznet.DataConsumer"
+    operation: READ
+    resource: "org.acme.biznet.Buyer"
+    action: ALLOW
+}
+
+rule NetworkAdminUser {
+    description: "Grant business network administrators full access to user resources"
+    participant: "org.hyperledger.composer.system.NetworkAdmin"
+    operation: ALL
+    resource: "**"
+    action: ALLOW
+}
+
+rule NetworkAdminSystem {
+    description: "Grant business network administrators full access to system resources"
+    participant: "org.hyperledger.composer.system.NetworkAdmin"
+    operation: ALL
+    resource: "org.hyperledger.composer.system.**"
+    action: ALLOW
+}
+
+rule SystemACL {
+  description:  "System ACL to permit all access"
+  participant: "ANY"
+  operation: ALL
+  resource: "org.hyperledger.composer.system.**"
+  action: ALLOW
+}
+
