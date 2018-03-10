@@ -1,0 +1,51 @@
+/**
+ * Simple queries
+ */
+
+query selectBuyers {
+  description: "Select all Buyers"
+  statement:
+  	SELECT org.acme.biznet.Buyer 
+}
+
+query selectSellers {
+  description: "Select all Sellers"
+  statement:
+  	SELECT org.acme.biznet.Seller 
+}
+
+query selectDataConsumers {
+  description: "Select all Data Consumers"
+  statement:
+  	SELECT org.acme.biznet.DataConsumer 
+}
+
+query selectExchanges {
+  description: "Select all Exchanges"
+  statement:
+  	SELECT org.acme.biznet.Exchange 
+}
+
+query selectWeatherData {
+  description: "Select all Weather Data assets"
+  statement:
+  	SELECT org.acme.biznet.WeatherData 
+}
+
+query selectAirPollutionData {
+  description: "Select all Air Pollution Data assets"
+  statement:
+  	SELECT org.acme.biznet.AirPollutionData 
+}
+
+query selectWeatherForecast {
+  description: "Select all Weather Forecast Data assets"
+  statement:
+  	SELECT org.acme.biznet.WeatherForecast 
+}
+
+query selectAirQualityData {
+  description: "Select all Air Quality Data assets"
+  statement:
+  	SELECT org.acme.biznet.AirQualityData 
+}
