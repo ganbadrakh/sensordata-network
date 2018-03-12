@@ -133,8 +133,8 @@ asset AirPollutionData identified by airPollutionDataId {
   o String airPollutionDataId
   o String location
   o DateTime datetime
-  o Double[] PM25 default=0.0
-  o Double[] PM10 default=0.0
+  o Double[] PM25
+  o Double[] PM10
   o Double CO default=0.0
   o Double NO2 default=0.0
   o Double O3 default=0.0
