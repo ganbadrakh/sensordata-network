@@ -1,0 +1,484 @@
+<div class="modal fade" id="addAssetModal" tabindex="-1" role="dialog" aria-labelledby="addAssetModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="addAssetModalLabel">Add Asset</h4>
+      </div>
+      <form [formGroup]="myForm">
+        <div class="modal-body">
+
+
+          
+
+            
+              <div class="form-group text-left">
+                <label for="airPollutionDataId">airPollutionDataId</label>
+                
+                  <input formControlName="airPollutionDataId" type="text" class="form-control">
+                
+              </div>
+            
+          
+
+            
+              <div class="form-group text-left">
+                <label for="location">location</label>
+                
+                  <input formControlName="location" type="text" class="form-control">
+                
+              </div>
+            
+          
+
+            
+              <div class="form-group text-left">
+                <label for="datetime">datetime</label>
+                
+                  <input formControlName="datetime" type="text" class="form-control">
+                
+              </div>
+            
+          
+
+            
+              <div class="form-group text-left">
+                <label for="PM25">PM25</label>
+                
+                  <input formControlName="PM25" type="number" step='any' class="form-control">
+                
+              </div>
+            
+          
+
+            
+              <div class="form-group text-left">
+                <label for="PM10">PM10</label>
+                
+                  <input formControlName="PM10" type="number" step='any' class="form-control">
+                
+              </div>
+            
+          
+
+            
+              <div class="form-group text-left">
+                <label for="CO">CO</label>
+                
+                  <input formControlName="CO" type="number" step='any' class="form-control">
+                
+              </div>
+            
+          
+
+            
+              <div class="form-group text-left">
+                <label for="NO2">NO2</label>
+                
+                  <input formControlName="NO2" type="number" step='any' class="form-control">
+                
+              </div>
+            
+          
+
+            
+              <div class="form-group text-left">
+                <label for="O3">O3</label>
+                
+                  <input formControlName="O3" type="number" step='any' class="form-control">
+                
+              </div>
+            
+          
+
+            
+              <div class="form-group text-left">
+                <label for="SO2">SO2</label>
+                
+                  <input formControlName="SO2" type="number" step='any' class="form-control">
+                
+              </div>
+            
+          
+
+            
+              <label for="status">status</label>
+              <div class="checkbox">
+                
+                  <label>
+                    <input
+                      
+                        formControlName="status"
+                      
+                      name="status"
+                      value="FOR_SALE"
+                      type="radio"
+                      
+                    />
+                    FOR_SALE
+                  </label>
+                
+                  <label>
+                    <input
+                      
+                        formControlName="status"
+                      
+                      name="status"
+                      value="SOLD"
+                      type="radio"
+                      
+                    />
+                    SOLD
+                  </label>
+                
+                  <label>
+                    <input
+                      
+                        formControlName="status"
+                      
+                      name="status"
+                      value="PROCESSED"
+                      type="radio"
+                      
+                    />
+                    PROCESSED
+                  </label>
+                
+                  <label>
+                    <input
+                      
+                        formControlName="status"
+                      
+                      name="status"
+                      value="FORWARDED"
+                      type="radio"
+                      
+                    />
+                    FORWARDED
+                  </label>
+                
+              </div>
+            
+          
+
+            
+              <div class="form-group text-left">
+                <label for="owner">owner</label>
+                
+                    <textarea formControlName="owner" class="form-control" rows="3"></textarea>
+                
+              </div>
+            
+          
+
+        </div>
+        <div class="modal-footer">
+          <button (click)="addAsset(myForm);" type="submit" class="btn btn-success" data-dismiss="modal">Submit</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+
+
+<div class="modal fade" id="updateAssetModal" tabindex="-1" role="dialog" aria-labelledby="updateAssetModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="updateAssetModalLabel">Update Asset</h4>
+      </div>
+      <form [formGroup]="myForm">
+        <div class="modal-body">
+
+
+          
+            <div class="form-group text-left">
+              <label for="airPollutionDataId">airPollutionDataId</label>
+
+              
+                <input [ngModel]="airPollutionDataId"formControlName="airPollutionDataId" type="text" class="form-control">
+              
+
+            </div>
+          
+            <div class="form-group text-left">
+              <label for="location">location</label>
+
+              
+                <input [ngModel]="location"formControlName="location" type="text" class="form-control">
+              
+
+            </div>
+          
+            <div class="form-group text-left">
+              <label for="datetime">datetime</label>
+
+              
+                <input [ngModel]="datetime"formControlName="datetime" type="text" class="form-control">
+              
+
+            </div>
+          
+            <div class="form-group text-left">
+              <label for="PM25">PM25</label>
+
+              
+                <input [ngModel]="PM25" formControlName="PM25" type="number" step='any' class="form-control">
+              
+
+            </div>
+          
+            <div class="form-group text-left">
+              <label for="PM10">PM10</label>
+
+              
+                <input [ngModel]="PM10" formControlName="PM10" type="number" step='any' class="form-control">
+              
+
+            </div>
+          
+            <div class="form-group text-left">
+              <label for="CO">CO</label>
+
+              
+                <input [ngModel]="CO" formControlName="CO" type="number" step='any' class="form-control">
+              
+
+            </div>
+          
+            <div class="form-group text-left">
+              <label for="NO2">NO2</label>
+
+              
+                <input [ngModel]="NO2" formControlName="NO2" type="number" step='any' class="form-control">
+              
+
+            </div>
+          
+            <div class="form-group text-left">
+              <label for="O3">O3</label>
+
+              
+                <input [ngModel]="O3" formControlName="O3" type="number" step='any' class="form-control">
+              
+
+            </div>
+          
+            <div class="form-group text-left">
+              <label for="SO2">SO2</label>
+
+              
+                <input [ngModel]="SO2" formControlName="SO2" type="number" step='any' class="form-control">
+              
+
+            </div>
+          
+            <div class="form-group text-left">
+              <label for="status">status</label>
+
+              
+                
+                  <div class="row">
+                    <div class="col-xs-12 checkbox">
+                    
+                      <label>
+                        <input
+                          
+                            formControlName="status"
+                            [ngModel]="status"
+                          
+                          name="status"
+                          value="FOR_SALE"
+                          type="radio"
+                          
+                        />
+                        FOR_SALE
+                      </label>
+                    
+                      <label>
+                        <input
+                          
+                            formControlName="status"
+                            [ngModel]="status"
+                          
+                          name="status"
+                          value="SOLD"
+                          type="radio"
+                          
+                        />
+                        SOLD
+                      </label>
+                    
+                      <label>
+                        <input
+                          
+                            formControlName="status"
+                            [ngModel]="status"
+                          
+                          name="status"
+                          value="PROCESSED"
+                          type="radio"
+                          
+                        />
+                        PROCESSED
+                      </label>
+                    
+                      <label>
+                        <input
+                          
+                            formControlName="status"
+                            [ngModel]="status"
+                          
+                          name="status"
+                          value="FORWARDED"
+                          type="radio"
+                          
+                        />
+                        FORWARDED
+                      </label>
+                    
+                    </div>
+                  </div>
+                
+              
+
+            </div>
+          
+            <div class="form-group text-left">
+              <label for="owner">owner</label>
+
+              
+                
+                  <textarea [ngModel]="owner" formControlName="owner" class="form-control" rows="3"></textarea>
+                
+              
+
+            </div>
+          
+
+
+        </div>
+        <div class="modal-footer">
+          <button (click)="updateAsset(myForm)" type="submit" class="btn btn-success" data-dismiss="modal">Submit</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="modal fade" id="deleteAssetModal" tabindex="-1" role="dialog" aria-labelledby="deleteAssetModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="deleteAssetModalLabel">Delete Asset</h4>
+      </div>
+      <form [formGroup]="myForm" (ngSubmit)="deleteAsset()">
+        <div class="modal-body">
+          Are you sure you want to delete this asset?
+        </div>
+        <div class="modal-footer">
+          <button (click)="deleteAsset()" type="submit" class="btn btn-danger" data-dismiss="modal">Yes</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+<div class="container">
+	<div *ngIf="errorMessage" class="alert alert-danger" role="alert">
+		<strong>Error:</strong> {{errorMessage}}
+	</div>
+  <h1 id='assetName'>AirPollutionData</h1>
+  <div class="row">
+    <div class="col-md-12 text-right">
+      <button (click)="resetForm()" type="button" class="btn btn-primary" data-toggle="modal" data-target="#addAssetModal">Add Asset</button>
+    </div>
+  </div>
+  <br>
+  <div class="row">
+    <div class="col-md-12">
+      <table class="table table-bordered table-responsive table-striped">
+        <thead class="thead">
+          <tr class="thead-cols">
+            
+                <th class="info">airPollutionDataId</th>
+            
+                <th class="info">location</th>
+            
+                <th class="info">datetime</th>
+            
+                <th class="info">PM25</th>
+            
+                <th class="info">PM10</th>
+            
+                <th class="info">CO</th>
+            
+                <th class="info">NO2</th>
+            
+                <th class="info">O3</th>
+            
+                <th class="info">SO2</th>
+            
+                <th class="info">status</th>
+            
+                <th class="info">owner</th>
+            
+              <th class="info">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let asset of allAssets">
+
+            
+                <td>{{asset.airPollutionDataId}}</td>
+            
+                <td>{{asset.location}}</td>
+            
+                <td>{{asset.datetime}}</td>
+            
+                <td>{{asset.PM25}}</td>
+            
+                <td>{{asset.PM10}}</td>
+            
+                <td>{{asset.CO}}</td>
+            
+                <td>{{asset.NO2}}</td>
+            
+                <td>{{asset.O3}}</td>
+            
+                <td>{{asset.SO2}}</td>
+            
+                <td>{{asset.status}}</td>
+            
+                <td>{{asset.owner}}</td>
+            
+            <td>
+              <button (click)="getForm(asset.airPollutionDataId);" type="button" class="btn btn-success" data-toggle="modal" data-target="#updateAssetModal">Update Asset</button>
+
+              <button (click)="setId(asset.airPollutionDataId);" type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteAssetModal">Delete Asset</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
