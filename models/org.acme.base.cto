@@ -20,19 +20,6 @@ namespace composer.base
 
 abstract participant Member {
  o String memberId
- o ContactDetails contactDetails 
-}
-
-concept ContactDetails {
-  o String email
-  o Address address optional
-}
-
-concept Address {
-  o String city optional
-  o String country optional
-  o String region optional
-  o String street optional
-  o String street2 optional
-  o String postalCode optional
+ o String email
+ o String address optional
 }

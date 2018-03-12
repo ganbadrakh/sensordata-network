@@ -22,6 +22,37 @@ enum APLevel {
   o HAZARDOUS  
 }
 
+enum TempUnit {
+  o CELSIUS
+  o FAHRENHEIT 
+}
+
+enum CurrentCondition {
+  o SUNNY
+  o CLOUDY
+  o MOSTLY_CLOUDY
+  o PARTLY_CLOUDY
+  o RAINY
+  o SNOWY
+  o WINDY
+  o THUNDER
+  o BLIZZARD
+  o STORM
+}
+
+enum ConditionTomorrow {
+  o SUNNY
+  o CLOUDY
+  o MOSTLY_CLOUDY
+  o PARTLY_CLOUDY
+  o RAINY
+  o SNOWY
+  o WINDY
+  o THUNDER
+  o BLIZZARD
+  o STORM
+}
+
 /**
  * Sensorenbesitzer, z.B private Personen, Haushalte etc.
  */
@@ -68,7 +99,7 @@ participant DataConsumer identified by dataConsumerId extends Member {
 asset Wallet identified by walletId {
   o String walletId
   o String ownerId
-  o Double balance
+  o Double balance default=0.0
 }
 
 /**
@@ -77,7 +108,7 @@ asset Wallet identified by walletId {
 asset Account identified by accountId {
   o String accountId
   o String ownerId
-  o Double balance
+  o Double balance default=0.0
 }
 
 /**
@@ -87,63 +118,30 @@ asset WeatherData identified by weatherDataId {
   o String weatherDataId
   o String location
   o DateTime datetime
+  o CurrentCondition currentCondition
+  o TempUnit tempUnit
+  o Double currentTemp
+  o Integer currentHumidity
   o TransferStatus status default = 'FOR_SALE'
-  o String currentCondition
-  o String currentTemp
-  o String currentHumidity
   --> Member owner 
 }
 
- 
+/**
+ * Luftverschmutzungsdaten, die von Seller verkauft werden.
+ */
 asset AirPollutionData identified by airPollutionDataId {
   o String airPollutionDataId
   o String location
   o DateTime datetime
+  o Double[] PM25 default=0.0
+  o Double[] PM10 default=0.0
+  o Double CO default=0.0
+  o Double NO2 default=0.0
+  o Double O3 default=0.0
+  o Double SO2 default=0.0 
   o TransferStatus status default = "FOR_SALE"
-  o PM25 pm25
-  o CO co
-  o NO2 no2
-  o O3 o3
-  o PM10 pm10
-  o SO2 so2
   --> Member owner
 }
-
-concept PM25 {
-  o String pollutant_description default="Fine particulate matter (<2.5µm)"
-  o String units default="ug/m3"
-  o Double[] concentration
-}
-  
-concept CO {
-  o String pollutant_description default="Carbon monoxide"
-  o String units default="ppb"
-  o Double concentration
-}  
-
-concept NO2 {
-  o String pollutant_description default="Nitrogen dioxide"
-  o String units default="ppb"
-  o Double concentration
-}
-
-concept O3 {
-  o String pollutant_description default="Ozone"
-  o String units default="ppb"
-  o Double concentration
-}
-  
-concept PM10 {
-  o String pollutant_description default="Inhalable particulate matter (<10µm)"
-  o String units default="ug/m3"
-  o Double concentration
-}
- 
-concept SO2 {
-  o String pollutant_description default="Sulfur dioxide"
-  o String units default="ug/m3"
-  o Double concentration
-}  
 
 /**
  * Aufbereitete Wetterprognosen, die von Buyer dem Konsumenten zur Verfügung gestellt werden.
@@ -152,10 +150,11 @@ asset WeatherForecast identified by weatherForecastId {
  o String weatherForecastId
  o String location
  o DateTime datetime
- o TransferStatus status
- o String tempTomorrow
- o String humidityTomorrow
- o String conditionTomorrow
+ o TempUnit tempUnit
+ o Double tempTomorrow
+ o Integer humidityTomorrow
+ o ConditionTomorrow conditionTomorrow
+ o TransferStatus status default="PROCESSED"
  --> Member owner
 }
 
@@ -166,11 +165,11 @@ asset AirQualityData identified by airQualityDataId {
  o String airQualityDataId
  o String location
  o DateTime datetime
- o TransferStatus status default="PROCESSED"
  o String AQIndex
  o APLevel level
  o String healthImplications
- o String cautionaryStatement 
+ o String cautionaryStatement
+ o TransferStatus status default="PROCESSED" 
  --> Member owner
 }
 
