@@ -1,8 +1,7 @@
-<<<<<<< HEAD
 <nav class="navbar navbar-inverse navbar2">
   <div class="container-fluid">
     <div class="navbar-header">
-      <a class="navbar-brand navfont" href="#">Decentralized Energy</a>
+      <a class="navbar-brand navfont" href="#">Decentralized sensor data Trading</a>
       
     </div>
     <ul class="nav navbar-nav navbar-right">
@@ -22,9 +21,10 @@
           <span class="caret navfont"></span></a>
         <ul class="dropdown-menu">
           
-          <li><a [routerLink]="['/Resident']">Residents</a></li>
-          <li><a [routerLink]="['/Bank']">Banks</a></li>
-          <li><a [routerLink]="['/UtilityCompany']">Utility Companies</a></li>
+          <li><a [routerLink]="['/Seller']">Sellers</a></li>
+          <li><a [routerLink]="['/Buyer']">Buyers</a></li>
+          <li><a [routerLink]="['/Exchange']">Exchanges</a></li>
+	  <li><a [routerLink]="['/DataConsumer']">Data Consumers</a></li>
  
         </ul>
       </li>
@@ -35,9 +35,10 @@
           <span class="caret"></span></a>
         <ul class="dropdown-menu">
           
-          <li><a [routerLink]="['/TransactionRR']">Resident to Resident</a></li>
-          <li><a [routerLink]="['/TransactionRU']">Resident to Utility Company</a></li>
-          <li><a [routerLink]="['/TransactionRB']">Resident to Bank</a></li>
+          <li><a [routerLink]="['/TransactionRR']">Trade data to Tokens</a></li>
+          <li><a [routerLink]="['/TransactionRU']">Trade tokens to Cash</a></li>
+          <li><a [routerLink]="['/TransactionRB']">Trade cash to Tokens</a></li>
+	  <li><a [routerLink]="['/TransactionRB']">Provide data to Consumer</a></li>
  
         </ul>
       </li>
@@ -48,11 +49,13 @@
           <span class="caret"></span></a>
         <ul class="dropdown-menu">
           
-          <li><a [routerLink]="['/Coins']">Coins</a></li>
+          <li><a [routerLink]="['/Wallet']">Wallets</a></li>
           
-          <li><a [routerLink]="['/Energy']">Energy</a></li>
+          <li><a [routerLink]="['/Account']">Accounts</a></li>
 
-          <li><a [routerLink]="['/Cash']">Cash</a></li>
+          <li><a [routerLink]="['/AirPollutionData']">Air Pollution Data</a></li>
+
+	  <li><a [routerLink]="['/AirQualityData']">Air Quality Data</a></li>
           
         </ul>
       </li>
@@ -68,36 +71,3 @@
 </div>
 
 
-=======
-<nav class="navbar navbar-inverse">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <a class="navbar-brand" href="#">sensordata-network@0.0.1</a>
-    </div>
-    <ul class="nav navbar-nav navbar-right">
-      <li class=""><a [routerLink]="['/']">Home</a></li>
-      <li class="dropdown">
-        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Assets
-          <span class="caret"></span></a>
-        <ul class="dropdown-menu">
-          
-          <li><a [routerLink]="['/Wallet']">Wallet</a></li>
-          
-          <li><a [routerLink]="['/Account']">Account</a></li>
-          
-          <li><a [routerLink]="['/WeatherData']">WeatherData</a></li>
-          
-          <li><a [routerLink]="['/AirPollutionData']">AirPollutionData</a></li>
-          
-          <li><a [routerLink]="['/WeatherForecast']">WeatherForecast</a></li>
-          
-          <li><a [routerLink]="['/AirQualityData']">AirQualityData</a></li>
-          
-        </ul>
-      </li>
-    </ul>
-  </div>
-</nav>
-
-<router-outlet></router-outlet>
->>>>>>> d004a28f916b7701f26de281183070f23f23f14e
