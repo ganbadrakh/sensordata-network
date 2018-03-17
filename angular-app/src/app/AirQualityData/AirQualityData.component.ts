@@ -23,6 +23,10 @@ export class AirQualityDataComponent implements OnInit {
         
   
       
+          dataFrom = new FormControl("", Validators.required);
+        
+  
+      
           location = new FormControl("", Validators.required);
         
   
@@ -61,6 +65,10 @@ export class AirQualityDataComponent implements OnInit {
     
         
           airQualityDataId:this.airQualityDataId,
+        
+    
+        
+          dataFrom:this.dataFrom,
         
     
         
@@ -160,6 +168,10 @@ export class AirQualityDataComponent implements OnInit {
         
       
         
+          "dataFrom":this.dataFrom.value,
+        
+      
+        
           "location":this.location.value,
         
       
@@ -197,6 +209,10 @@ export class AirQualityDataComponent implements OnInit {
       
         
           "airQualityDataId":null,
+        
+      
+        
+          "dataFrom":null,
         
       
         
@@ -241,6 +257,10 @@ export class AirQualityDataComponent implements OnInit {
       
         
           "airQualityDataId":null,
+        
+      
+        
+          "dataFrom":null,
         
       
         
@@ -293,6 +313,12 @@ export class AirQualityDataComponent implements OnInit {
       $class: "org.acme.biznet.AirQualityData",
       
         
+          
+        
+    
+        
+          
+            "dataFrom":this.dataFrom.value,
           
         
     
@@ -402,6 +428,10 @@ export class AirQualityDataComponent implements OnInit {
           
         
           
+            "dataFrom":null,
+          
+        
+          
             "location":null,
           
         
@@ -444,6 +474,14 @@ export class AirQualityDataComponent implements OnInit {
           
         }else{
           formObject.airQualityDataId = null;
+        }
+      
+        if(result.dataFrom){
+          
+            formObject.dataFrom = result.dataFrom;
+          
+        }else{
+          formObject.dataFrom = null;
         }
       
         if(result.location){
@@ -533,6 +571,10 @@ export class AirQualityDataComponent implements OnInit {
       
         
           "airQualityDataId":null,
+        
+      
+        
+          "dataFrom":null,
         
       
         
