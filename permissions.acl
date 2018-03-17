@@ -30,11 +30,20 @@ rule SellerReadAccessExchanges {
     action: ALLOW
 }
 
+//Seller to have read access to all air pollution data assets
+rule SellerAccessAirPollutionDataRecord {
+    description: "Allow sellers read access to all air pollution data assets"
+    participant: "org.acme.biznet.Seller"
+    operation: READ, UPDATE, CREATE
+    resource: "org.acme.biznet.AirPollutionData"
+    action: ALLOW
+}
+
 //Buyers to have access to their own account
 rule BuyerAccessOwnRecord {
     description: "Allow buyer to access only their profile"
     participant(p): "org.acme.biznet.Buyer"
-    operation: ALL
+    operation: READ, UPDATE, DELETE
     resource(r): "org.acme.biznet.Buyer"
     condition: (r.getIdentifier() === p.getIdentifier())
     action: ALLOW
@@ -58,23 +67,13 @@ rule BuyerReadAccessExchanges {
     action: ALLOW
 }
 
-//Buyers to have read access to all sensor data assets
+//Buyers to have access to all forecast data assets
 rule BuyerAccessWeatherForecastRecord {
     description: "Allow buyers create access to all forecast data assets"
     participant(p): "org.acme.biznet.Buyer"
-    operation: ALL
+    operation: CREATE, READ, UPDATE, DELETE
     resource(r): "org.acme.biznet.WeatherForecast"
   	condition: (r.owner.getIdentifier() == p.getIdentifier())
-    action: ALLOW
-}
-
-//Buyers to have read access to all sensor data assets
-rule BuyerReadAccessWeatherForecastRecord {
-    description: "Allow buyers create access to all forecast data assets"
-    participant(p): "org.acme.biznet.Buyer"
-    operation: READ
-    resource(r): "org.acme.biznet.WeatherForecast"
-  	condition: (r.owner.getIdentifier() != p.getIdentifier())
     action: ALLOW
 }
 
@@ -122,6 +121,16 @@ rule DataConsumerReadAccessBuyers {
     participant: "org.acme.biznet.DataConsumer"
     operation: READ
     resource: "org.acme.biznet.Buyer"
+    action: ALLOW
+}
+
+//Data Consumers to have read access to all air quality data assets
+rule DataConsumerReadAccessAirQualityDataRecord {
+    description: "Allow data consumers read access to all air quality data assets"
+    participant(p): "org.acme.biznet.DataConsumer"
+    operation: READ
+    resource(r): "org.acme.biznet.AirQualityData"
+  	condition: (r.owner.getIdentifier() == p.getIdentifier())
     action: ALLOW
 }
 

@@ -163,6 +163,7 @@ asset WeatherForecast identified by weatherForecastId {
  */
 asset AirQualityData identified by airQualityDataId {
  o String airQualityDataId
+ o String dataFrom default="airPollutionDataId"
  o String location
  o DateTime datetime
  o String AQIndex
