@@ -23,6 +23,16 @@
 
             
               <div class="form-group text-left">
+                <label for="dataFrom">dataFrom</label>
+                
+                  <input formControlName="dataFrom" type="text" class="form-control">
+                
+              </div>
+            
+          
+
+            
+              <div class="form-group text-left">
                 <label for="location">location</label>
                 
                   <input formControlName="location" type="text" class="form-control">
@@ -257,6 +267,15 @@
 
               
                 <input [ngModel]="airQualityDataId"formControlName="airQualityDataId" type="text" class="form-control">
+              
+
+            </div>
+          
+            <div class="form-group text-left">
+              <label for="dataFrom">dataFrom</label>
+
+              
+                <input [ngModel]="dataFrom"formControlName="dataFrom" type="text" class="form-control">
               
 
             </div>
@@ -550,6 +569,8 @@
             
                 <th class="info">airQualityDataId</th>
             
+                <th class="info">dataFrom</th>
+            
                 <th class="info">location</th>
             
                 <th class="info">datetime</th>
@@ -574,6 +595,8 @@
 
             
                 <td>{{asset.airQualityDataId}}</td>
+            
+                <td>{{asset.dataFrom}}</td>
             
                 <td>{{asset.location}}</td>
             

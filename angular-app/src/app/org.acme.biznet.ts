@@ -117,6 +117,7 @@ import {Member} from './composer.base';
    }
    export class AirQualityData extends Asset {
       airQualityDataId: string;
+      dataFrom: string;
       location: string;
       datetime: Date;
       AQIndex: string;

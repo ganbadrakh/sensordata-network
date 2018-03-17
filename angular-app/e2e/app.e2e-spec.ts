@@ -97,10 +97,10 @@ describe('Starting tests for angular-app', function() {
       expect(assetName.getText()).toBe('AirQualityData');
     });
 
-    it('AirQualityData table should have 10 columns',() => {
+    it('AirQualityData table should have 11 columns',() => {
       page.navigateTo('/AirQualityData');
       element.all(by.css('.thead-cols th')).then(function(arr) {
-        expect(arr.length).toEqual(10); // Addition of 1 for 'Action' column
+        expect(arr.length).toEqual(11); // Addition of 1 for 'Action' column
       });
     });
 
