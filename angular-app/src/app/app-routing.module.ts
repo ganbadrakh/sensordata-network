@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-// import { TransactionComponent } from './Transaction/Transaction.component'
+//import { TransactionComponent } from './Transaction/Transaction.component'
 import { HomeComponent } from './home/home.component';
+import { AboutComponent } from './about/about.component';
 
 import { WalletComponent } from './Wallet/Wallet.component';
 import { AccountComponent } from './Account/Account.component';
@@ -10,9 +11,14 @@ import { AirPollutionDataComponent } from './AirPollutionData/AirPollutionData.c
 import { WeatherForecastComponent } from './WeatherForecast/WeatherForecast.component';
 import { AirQualityDataComponent } from './AirQualityData/AirQualityData.component';
 
+import { SellerComponent } from './Seller/Seller.component';
+
 const routes: Routes = [
-    // { path: 'transaction', component: TransactionComponent },
+    //{ path: 'transaction', component: TransactionComponent },
     {path: '', component: HomeComponent},
+	{path: 'About', component: AboutComponent},
+
+		{ path: 'Seller', component: SellerComponent},
 		
 		{ path: 'Wallet', component: WalletComponent},
 		
