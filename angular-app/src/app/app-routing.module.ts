@@ -18,7 +18,7 @@ import { AllTransactionsComponent } from './AllTransactions/AllTransactions.comp
 const routes: Routes = [
     	//{ path: 'transaction', component: TransactionComponent },
     	{path: '', component: HomeComponent},
-	//{path: 'About', component: AboutComponent},
+	{path: 'About', component: AboutComponent},
 		
 		{ path: 'Wallet', component: WalletComponent},
 		
