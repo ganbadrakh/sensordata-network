@@ -101,7 +101,7 @@ asset AirPollutionData identified by airPollutionDataId {
   o Double O3 default=0.0
   o Double SO2 default=0.0 
   o TransferStatus status default = "FOR_SALE"
-  o OwnerEntity ownerEntity
+  o OwnerEntity ownerEntity default="Seller"
   --> Member owner
 }
 
@@ -118,7 +118,7 @@ asset AirQualityData identified by airQualityDataId {
  o String healthImplications
  o String cautionaryStatement
  o TransferStatus status default="PROCESSED"
- o OwnerEntity ownerEntity 
+ o OwnerEntity ownerEntity default="Buyer" 
  --> Member owner
 }
 
