@@ -34,7 +34,7 @@ rule SellerReadAccessExchanges {
 rule SellerAccessAirPollutionDataRecord {
     description: "Allow sellers read access to all air pollution data assets"
     participant: "org.acme.biznet.Seller"
-    operation: READ, UPDATE, CREATE
+    operation: CREATE, READ
     resource: "org.acme.biznet.AirPollutionData"
     action: ALLOW
 }
@@ -68,12 +68,12 @@ rule BuyerReadAccessExchanges {
 }
 
 //Buyers to have access to all forecast data assets
-rule BuyerAccessWeatherForecastRecord {
+rule BuyerAccessAirQualityDataRecord {
     description: "Allow buyers create access to all forecast data assets"
     participant(p): "org.acme.biznet.Buyer"
-    operation: CREATE, READ, UPDATE, DELETE
-    resource(r): "org.acme.biznet.WeatherForecast"
-  	condition: (r.owner.getIdentifier() == p.getIdentifier())
+    operation: CREATE, READ
+    resource(r): "org.acme.biznet.AirPollutionData"
+  	condition: (r.owner.getIdentifier() === p.getIdentifier())
     action: ALLOW
 }
 
@@ -130,7 +130,7 @@ rule DataConsumerReadAccessAirQualityDataRecord {
     participant(p): "org.acme.biznet.DataConsumer"
     operation: READ
     resource(r): "org.acme.biznet.AirQualityData"
-  	condition: (r.owner.getIdentifier() == p.getIdentifier())
+  	condition: (r.owner.getIdentifier() === p.getIdentifier())
     action: ALLOW
 }
 

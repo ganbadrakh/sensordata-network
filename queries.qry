@@ -26,22 +26,10 @@ query selectExchanges {
   	SELECT org.acme.biznet.Exchange 
 }
 
-query selectWeatherData {
-  description: "Select all Weather Data assets"
-  statement:
-  	SELECT org.acme.biznet.WeatherData 
-}
-
 query selectAirPollutionData {
   description: "Select all Air Pollution Data assets"
   statement:
   	SELECT org.acme.biznet.AirPollutionData 
-}
-
-query selectWeatherForecast {
-  description: "Select all Weather Forecast Data assets"
-  statement:
-  	SELECT org.acme.biznet.WeatherForecast 
 }
 
 query selectAirQualityData {

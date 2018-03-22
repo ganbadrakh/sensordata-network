@@ -22,35 +22,11 @@ enum APLevel {
   o HAZARDOUS  
 }
 
-enum TempUnit {
-  o CELSIUS
-  o FAHRENHEIT 
-}
-
-enum CurrentCondition {
-  o SUNNY
-  o CLOUDY
-  o MOSTLY_CLOUDY
-  o PARTLY_CLOUDY
-  o RAINY
-  o SNOWY
-  o WINDY
-  o THUNDER
-  o BLIZZARD
-  o STORM
-}
-
-enum ConditionTomorrow {
-  o SUNNY
-  o CLOUDY
-  o MOSTLY_CLOUDY
-  o PARTLY_CLOUDY
-  o RAINY
-  o SNOWY
-  o WINDY
-  o THUNDER
-  o BLIZZARD
-  o STORM
+enum OwnerEntity {
+  o Seller
+  o Buyer
+  o Exchange
+  o DataConsumer 
 }
 
 /**
@@ -65,7 +41,7 @@ participant Seller identified by sellerId extends Member {
 }
 
 /**
- * Sensordatenabnehmer, z.B Dienstleister, Forschungszentren, Behörden etc.
+ * Sensordatenabnehmer, z.B unabhängige Dienstleister, Forschungszentren etc.
  */
 participant Buyer identified by buyerId extends Member {
   o String buyerId
@@ -85,7 +61,7 @@ participant Exchange identified by exchangeId extends Member {
 }
 
 /**
- * Konsument, der die aufbereitete Sensordaten kauft, z.B Regierung, WHO.
+ * Konsument, der die aufbereitete Sensordaten kauft, z.B Behörden, Regierung, WHO etc.
  */
 participant DataConsumer identified by dataConsumerId extends Member {
  o String dataConsumerId
@@ -112,21 +88,6 @@ asset Account identified by accountId {
 }
 
 /**
- * Wetterdaten, die von Seller verkauft werden.
- */
-asset WeatherData identified by weatherDataId {
-  o String weatherDataId
-  o String location
-  o DateTime datetime
-  o CurrentCondition currentCondition
-  o TempUnit tempUnit
-  o Double currentTemp
-  o Integer currentHumidity
-  o TransferStatus status default = 'FOR_SALE'
-  --> Member owner 
-}
-
-/**
  * Luftverschmutzungsdaten, die von Seller verkauft werden.
  */
 asset AirPollutionData identified by airPollutionDataId {
@@ -134,28 +95,14 @@ asset AirPollutionData identified by airPollutionDataId {
   o String location
   o DateTime datetime
   o Double[] PM25
-  o Double[] PM10
+  o Double PM10 default=0.0
   o Double CO default=0.0
   o Double NO2 default=0.0
   o Double O3 default=0.0
   o Double SO2 default=0.0 
   o TransferStatus status default = "FOR_SALE"
+  o OwnerEntity ownerEntity
   --> Member owner
-}
-
-/**
- * Aufbereitete Wetterprognosen, die von Buyer dem Konsumenten zur Verfügung gestellt werden.
- */
-asset WeatherForecast identified by weatherForecastId {
- o String weatherForecastId
- o String location
- o DateTime datetime
- o TempUnit tempUnit
- o Double tempTomorrow
- o Integer humidityTomorrow
- o ConditionTomorrow conditionTomorrow
- o TransferStatus status default="PROCESSED"
- --> Member owner
 }
 
 /**
@@ -170,20 +117,9 @@ asset AirQualityData identified by airQualityDataId {
  o APLevel level
  o String healthImplications
  o String cautionaryStatement
- o TransferStatus status default="PROCESSED" 
+ o TransferStatus status default="PROCESSED"
+ o OwnerEntity ownerEntity 
  --> Member owner
-}
-
-/**
- * Aktuelle Wetterdaten werden gegen Coins verkauft.
- */
-transaction TradeWeatherDataToTokens {
-  o Double amount
-  --> WeatherData weatherdata 
-  --> Seller owner
-  --> Buyer newOwner
-  --> Wallet fromWallet
-  --> Wallet toWallet
 }
 
 /**
@@ -196,18 +132,6 @@ transaction TradeAirPollutionDataToTokens {
   --> Buyer newOwner
   --> Wallet fromWallet
   --> Wallet toWallet
-}
-
-/**
- * Aufbereitete Wetterprognosen werden dem Konsumenten zur Verfügung gestellt.
- */
-transaction ForwardWeatherForecast {
- o Double amount
- --> WeatherForecast weatherforecast
- --> Buyer owner
- --> DataConsumer newOwner
- --> Account fromAccount
- --> Account toAccount
 }
 
 /**
@@ -246,25 +170,11 @@ transaction ExchangeTokensToCash {
     --> Account toAccount
 }
 
-/**
- * Wenn aktuelle Wetterdaten verkauft werden, wird eine Benachrichtigung erzeugt.
- */
-event TradeWeatherDataNotification {
-    --> WeatherData weatherdata
-}
-
   /**
  * Wenn Luftverschmutzungsdaten verkauft werden, wird eine Benachrichtigung erzeugt.
  */
 event TradeAirPollutionDataNotification {
     --> AirPollutionData airpollutiondata
-}
-
-/**
- * Wenn Wetterprognosen an Konsumenten weitergeleitet werden, wird eine Benachrichtigung erzeugt.
- */
-event ForwardWeatherForecastNotification {
-    --> WeatherForecast weatherforecast
 }
 
 /**
