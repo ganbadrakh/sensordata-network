@@ -125,7 +125,7 @@ asset AirQualityData identified by airQualityDataId {
 /**
  * Aktuelle Luftverschmtzungsdaten werden gegen Coins verkauft.
  */
-transaction TradeAirPollutionDataToTokens {
+transaction TradeAirPollutionData {
   o Double amount
   --> AirPollutionData airpollutiondata 
   --> Seller owner
@@ -137,7 +137,7 @@ transaction TradeAirPollutionDataToTokens {
 /**
  * Aufbereitete Luftqualitäsdaten werden dem Konsumenten zur Verfügung gestellt.
  */
-transaction ForwardAirQualityData {
+transaction ProvideAirQualityData {
  o Double amount
  --> AirQualityData airqualitydata
  --> Buyer owner
