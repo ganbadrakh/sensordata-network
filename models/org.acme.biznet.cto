@@ -75,6 +75,7 @@ participant DataConsumer identified by dataConsumerId extends Member {
 asset Wallet identified by walletId {
   o String walletId
   o String ownerId
+  o String token default="SDT"
   o Double balance default=0.0
 }
 
@@ -83,6 +84,7 @@ asset Wallet identified by walletId {
  */
 asset Account identified by accountId {
   o String accountId
+  o String currency default="EUR"
   o String ownerId
   o Double balance default=0.0
 }
