@@ -30,9 +30,27 @@ rule SellerReadAccessExchanges {
     action: ALLOW
 }
 
-//Seller to have read access to all air pollution data assets
+//Sellers to have read access to all Wallet assets
+rule SellerReadAccessWalletsRecord {
+    description: "Allow sellers read access to all Wallet assets"
+    participant: "org.acme.biznet.Seller"
+    operation: READ
+    resource: "org.acme.biznet.Wallet"
+    action: ALLOW
+}
+
+//Sellers to have read access to all Account assets
+rule SellerReadAccessAccountsRecord {
+    description: "Allow sellers read access to all Account assets"
+    participant: "org.acme.biznet.Seller"
+    operation: READ
+    resource: "org.acme.biznet.Account"
+    action: ALLOW
+}
+
+//Seller to have read/write access to all air pollution data assets
 rule SellerAccessAirPollutionDataRecord {
-    description: "Allow sellers read access to all air pollution data assets"
+    description: "Allow sellers read/write access to all air pollution data assets"
     participant: "org.acme.biznet.Seller"
     operation: CREATE, READ
     resource: "org.acme.biznet.AirPollutionData"
@@ -67,9 +85,29 @@ rule BuyerReadAccessExchanges {
     action: ALLOW
 }
 
-//Buyers to have access to all forecast data assets
+//Buyers to have read access to all Wallet assets
+rule BuyerReadAccessWalletsRecord {
+    description: "Allow buyers read access to all Wallet assets"
+    participant(p): "org.acme.biznet.Buyer"
+    operation: READ
+    resource(r): "org.acme.biznet.Wallet"
+    condition: (r.owner.getIdentifier() === p.getIdentifier())
+    action: ALLOW
+}
+
+//Buyers to have read access to all Account assets
+rule BuyerReadAccessAccountsRecord {
+    description: "Allow buyers read access to all Account assets"
+    participant(p): "org.acme.biznet.Buyer"
+    operation: READ
+    resource(r): "org.acme.biznet.Account"
+    condition: (r.owner.getIdentifier() === p.getIdentifier())
+    action: ALLOW
+}
+
+//Buyers to have access to all air quality data assets
 rule BuyerAccessAirQualityDataRecord {
-    description: "Allow buyers create access to all forecast data assets"
+    description: "Allow buyers create access to all air quality data assets"
     participant(p): "org.acme.biznet.Buyer"
     operation: CREATE, READ
     resource(r): "org.acme.biznet.AirPollutionData"
