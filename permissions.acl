@@ -98,6 +98,15 @@ rule BuyerReadAccessExchanges {
     action: ALLOW
 }
 
+//Buyers to have read only access to other Data Consumers
+rule BuyerReadAccessDataConsumers {
+    description: "Allow buyers read access to other data consumers"
+    participant: "org.acme.biznet.Buyer"
+    operation: READ
+    resource: "org.acme.biznet.DataConsumer"
+    action: ALLOW
+}
+
 //Buyers to have read access to own Wallet assets
 rule BuyerReadAccessOwnWalletRecord {
     description: "Allow buyers read access to own Wallet assets"
@@ -128,9 +137,9 @@ rule BuyerReadAccessAirPollutionDataRecord {
     action: ALLOW
 }
 
-//Buyers to have write access to own air quality data assets
-rule BuyerAccessAirQualityDataRecord {
-    description: "Allow buyers access to own air quality data assets"
+//Buyers to have write access to own extended data assets
+rule BuyerAccessExtendedDataRecord {
+    description: "Allow buyers access to own extended data assets"
     participant(p): "org.acme.biznet.Buyer"
     operation: CREATE, READ, UPDATE
     resource(r): "org.acme.biznet.ExtendedData"
@@ -138,9 +147,9 @@ rule BuyerAccessAirQualityDataRecord {
     action: ALLOW
 }
 
-//Buyers to have read access to sold air quality data assets
-rule BuyerReadAccessAirQualityDataRecord {
-    description: "Allow buyers read access to sold air quality data assets"
+//Buyers to have read access to forwarded extended data assets
+rule BuyerReadAccessExtendedDataRecord {
+    description: "Allow buyers read access to forwarded enhanced data assets"
     participant(p): "org.acme.biznet.Buyer"
     operation: READ
     resource(r): "org.acme.biznet.ExtendedData"
@@ -182,7 +191,7 @@ rule ExchangeReadAccessOwnWalletRecord {
     participant(p): "org.acme.biznet.Exchange"
     operation: READ
     resource(r): "org.acme.biznet.Wallet"
-    condition: (r.owner.Id == p.getIdentifier())
+    condition: (r.ownerId == p.getIdentifier())
     action: ALLOW
 }
 

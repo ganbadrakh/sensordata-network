@@ -152,7 +152,7 @@ transaction ProvideExtendedData {
  * Geld gegen Tokens getauscht.
  */
 transaction ExchangeCashToTokens {
-  o Double cashRate
+  o Double cashRate default=2.0
   o Double cashValue
   --> Wallet fromWallet 
   --> Wallet toWallet
@@ -164,7 +164,7 @@ transaction ExchangeCashToTokens {
  * Tokens gegen Geld getauscht.
  */
 transaction ExchangeTokensToCash {
-    o Double tokenRate       
+    o Double tokenRate default=2.0       
     o Double tokenValue    
     --> Wallet fromWallet
     --> Wallet toWallet
