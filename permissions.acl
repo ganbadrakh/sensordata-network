@@ -30,22 +30,23 @@ rule SellerReadAccessExchanges {
     action: ALLOW
 }
 
-//Sellers to have read access to all Wallet assets
-rule SellerReadAccessWalletsRecord {
-    description: "Allow sellers read access to all Wallet assets"
+//Sellers to have read access to own Wallet assets
+rule SellerReadAccessOwnWalletRecord {
+    description: "Allow sellers read access to own Wallet assets"
     participant: "org.acme.biznet.Seller"
     operation: READ
     resource: "org.acme.biznet.Wallet"
+    condition: (r.ownerId == p.getIdentifier())
     action: ALLOW
 }
 
-//Sellers to have read access to all Account assets
-rule SellerReadAccessAccountsRecord {
-    description: "Allow sellers read access to all Account assets"
+//Sellers to have read access to own Account assets
+rule SellerReadAccessOwnAccountRecord {
+    description: "Allow sellers read access to own Account assets"
     participant(p): "org.acme.biznet.Seller"
     operation: READ
     resource(r): "org.acme.biznet.Account"
-    condition: (r.owner.getIdentifier() == p.getIdentifier())
+    condition: (r.ownerId == p.getIdentifier())
     action: ALLOW
 }
 
@@ -86,23 +87,23 @@ rule BuyerReadAccessExchanges {
     action: ALLOW
 }
 
-//Buyers to have read access to all Wallet assets
-rule BuyerReadAccessWalletsRecord {
-    description: "Allow buyers read access to all Wallet assets"
+//Buyers to have read access to own Wallet assets
+rule BuyerReadAccessOwnWalletRecord {
+    description: "Allow buyers read access to own Wallet assets"
     participant(p): "org.acme.biznet.Buyer"
     operation: READ
     resource(r): "org.acme.biznet.Wallet"
-    condition: (r.owner.getIdentifier() === p.getIdentifier())
+    condition: (r.owner.Id == p.getIdentifier())
     action: ALLOW
 }
 
-//Buyers to have read access to all Account assets
-rule BuyerReadAccessAccountsRecord {
-    description: "Allow buyers read access to all Account assets"
+//Buyers to have read access to own Account assets
+rule BuyerReadAccessOwnAccountRecord {
+    description: "Allow buyers read access to own Account assets"
     participant(p): "org.acme.biznet.Buyer"
     operation: READ
     resource(r): "org.acme.biznet.Account"
-    condition: (r.owner.getIdentifier() === p.getIdentifier())
+    condition: (r.ownerId == p.getIdentifier())
     action: ALLOW
 }
 
@@ -141,6 +142,26 @@ rule ExchangeReadAccessSellers {
     participant: "org.acme.biznet.Exchange"
     operation: READ
     resource: "org.acme.biznet.Seller"
+    action: ALLOW
+}
+
+//Exchanges to have read access to own Wallet assets
+rule ExchangeReadAccessOwnWalletRecord {
+    description: "Allow exchanges read access to own Wallet assets"
+    participant(p): "org.acme.biznet.Exchange"
+    operation: READ
+    resource(r): "org.acme.biznet.Wallet"
+    condition: (r.owner.Id == p.getIdentifier())
+    action: ALLOW
+}
+
+//Exchanges to have read access to own Account assets
+rule ExchangeReadAccessOwnAccountRecord {
+    description: "Allow exchanges read access to own Account assets"
+    participant(p): "org.acme.biznet.Exchange"
+    operation: READ
+    resource(r): "org.acme.biznet.Account"
+    condition: (r.ownerId == p.getIdentifier())
     action: ALLOW
 }
 
