@@ -84,8 +84,8 @@ asset Wallet identified by walletId {
  */
 asset Account identified by accountId {
   o String accountId
-  o String currency default="EUR"
   o String ownerId
+  o String currency default="EUR"
   o Double balance default=0.0
 }
 
@@ -108,14 +108,14 @@ asset AirPollutionData identified by airPollutionDataId {
 }
 
 /**
- * Aufbereitete Luftverschmutzungsprognosen, die von Buyer dem Konsumenten zur Verfügung gestellt werden.
+ * Aufgewertete Luftqualitäsdaten, die von Buyer dem Konsumenten zur Verfügung gestellt werden.
  */
-asset AirQualityData identified by airQualityDataId {
- o String airQualityDataId
- o String dataFrom default="airPollutionDataId"
- o String location
+asset ExtendedData identified by extendedDataId {
+ o String extendedDataId
+ o String dataFrom default="ProvideAirPollutionDataId"
+ o String location default="locationFromAPD"
  o DateTime datetime
- o String AQIndex
+ o String AQIndex default="0-50"
  o APLevel level
  o String healthImplications
  o String cautionaryStatement
@@ -137,11 +137,11 @@ transaction TradeAirPollutionData {
 }
 
 /**
- * Aufbereitete Luftqualitäsdaten werden dem Konsumenten zur Verfügung gestellt.
+ * Aufgewertete Luftqualitäsdaten werden dem Konsumenten zur Verfügung gestellt.
  */
-transaction ProvideAirQualityData {
+transaction ProvideExtendedData {
  o Double amount
- --> AirQualityData airqualitydata
+ --> ExtendedData extendeddata
  --> Buyer owner
  --> DataConsumer newOwner
  --> Account fromAccount
@@ -173,16 +173,16 @@ transaction ExchangeTokensToCash {
 }
 
   /**
- * Wenn Luftverschmutzungsdaten verkauft werden, wird eine Benachrichtigung erzeugt.
+ * Wenn Luftqualitätsdaten verkauft werden, wird eine Benachrichtigung erzeugt.
  */
 event TradeAirPollutionDataNotification {
     --> AirPollutionData airpollutiondata
 }
 
 /**
- * Wenn Luftqualitätsdaten an Konsumenten weitergeleitet werden, wird eine Benachrichtigung erzeugt.
+ * Wenn aufgewertete Luftqualitätsdaten an Konsumenten weitergeleitet werden, wird eine Benachrichtigung erzeugt.
  */
-event ForwardAirQualityDataNotification {
-    --> AirQualityData airqualitydata
+event ProvideExtendedDataNotification {
+    --> ExtendedData extendeddata
 }
 
