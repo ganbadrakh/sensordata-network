@@ -32,8 +32,8 @@ query selectAirPollutionData {
   	SELECT org.acme.biznet.AirPollutionData 
 }
 
-query selectAirQualityData {
-  description: "Select all Air Quality Data assets"
+query selectExtendedData {
+  description: "Select all Extended Data assets"
   statement:
-  	SELECT org.acme.biznet.AirQualityData 
+  	SELECT org.acme.biznet.ExtendedData 
 }
