@@ -42,9 +42,10 @@ rule SellerReadAccessWalletsRecord {
 //Sellers to have read access to all Account assets
 rule SellerReadAccessAccountsRecord {
     description: "Allow sellers read access to all Account assets"
-    participant: "org.acme.biznet.Seller"
+    participant(p): "org.acme.biznet.Seller"
     operation: READ
-    resource: "org.acme.biznet.Account"
+    resource(r): "org.acme.biznet.Account"
+    condition: (r.owner.getIdentifier() == p.getIdentifier())
     action: ALLOW
 }
 
