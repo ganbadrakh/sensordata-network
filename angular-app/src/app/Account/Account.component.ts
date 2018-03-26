@@ -27,6 +27,10 @@ export class AccountComponent implements OnInit {
         
   
       
+          currency = new FormControl("", Validators.required);
+        
+  
+      
           balance = new FormControl("", Validators.required);
         
   
@@ -41,6 +45,10 @@ export class AccountComponent implements OnInit {
     
         
           ownerId:this.ownerId,
+        
+    
+        
+          currency:this.currency,
         
     
         
@@ -116,6 +124,10 @@ export class AccountComponent implements OnInit {
         
       
         
+          "currency":this.currency.value,
+        
+      
+        
           "balance":this.balance.value
         
       
@@ -129,6 +141,10 @@ export class AccountComponent implements OnInit {
       
         
           "ownerId":null,
+        
+      
+        
+          "currency":null,
         
       
         
@@ -149,6 +165,10 @@ export class AccountComponent implements OnInit {
       
         
           "ownerId":null,
+        
+      
+        
+          "currency":null,
         
       
         
@@ -179,6 +199,12 @@ export class AccountComponent implements OnInit {
         
           
             "ownerId":this.ownerId.value,
+          
+        
+    
+        
+          
+            "currency":this.currency.value,
           
         
     
@@ -250,6 +276,10 @@ export class AccountComponent implements OnInit {
           
         
           
+            "currency":null,
+          
+        
+          
             "balance":null 
           
         
@@ -272,6 +302,14 @@ export class AccountComponent implements OnInit {
           
         }else{
           formObject.ownerId = null;
+        }
+      
+        if(result.currency){
+          
+            formObject.currency = result.currency;
+          
+        }else{
+          formObject.currency = null;
         }
       
         if(result.balance){
@@ -309,6 +347,10 @@ export class AccountComponent implements OnInit {
       
         
           "ownerId":null,
+        
+      
+        
+          "currency":null,
         
       
         

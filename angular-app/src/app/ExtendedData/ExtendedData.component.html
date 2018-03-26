@@ -1,0 +1,762 @@
+<div class="modal fade" id="addAssetModal" tabindex="-1" role="dialog" aria-labelledby="addAssetModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="addAssetModalLabel">Add Asset</h4>
+      </div>
+      <form [formGroup]="myForm">
+        <div class="modal-body">
+
+
+          
+
+            
+              <div class="form-group text-left">
+                <label for="extendedDataId">extendedDataId</label>
+                
+                  <input formControlName="extendedDataId" type="text" class="form-control">
+                
+              </div>
+            
+          
+
+            
+              <div class="form-group text-left">
+                <label for="dataFrom">dataFrom</label>
+                
+                  <input formControlName="dataFrom" type="text" class="form-control">
+                
+              </div>
+            
+          
+
+            
+              <div class="form-group text-left">
+                <label for="location">location</label>
+                
+                  <input formControlName="location" type="text" class="form-control">
+                
+              </div>
+            
+          
+
+            
+              <div class="form-group text-left">
+                <label for="datetime">datetime</label>
+                
+                  <input formControlName="datetime" type="text" class="form-control">
+                
+              </div>
+            
+          
+
+            
+              <div class="form-group text-left">
+                <label for="AQIndex">AQIndex</label>
+                
+                  <input formControlName="AQIndex" type="text" class="form-control">
+                
+              </div>
+            
+          
+
+            
+              <label for="level">level</label>
+              <div class="checkbox">
+                
+                  <label>
+                    <input
+                      
+                        formControlName="level"
+                      
+                      name="level"
+                      value="GOOD"
+                      type="radio"
+                      
+                    />
+                    GOOD
+                  </label>
+                
+                  <label>
+                    <input
+                      
+                        formControlName="level"
+                      
+                      name="level"
+                      value="MODERATE"
+                      type="radio"
+                      
+                    />
+                    MODERATE
+                  </label>
+                
+                  <label>
+                    <input
+                      
+                        formControlName="level"
+                      
+                      name="level"
+                      value="UNHEALTHY_FOR_SENSITIVE_GROUPS"
+                      type="radio"
+                      
+                    />
+                    UNHEALTHY_FOR_SENSITIVE_GROUPS
+                  </label>
+                
+                  <label>
+                    <input
+                      
+                        formControlName="level"
+                      
+                      name="level"
+                      value="UNHEALTHY"
+                      type="radio"
+                      
+                    />
+                    UNHEALTHY
+                  </label>
+                
+                  <label>
+                    <input
+                      
+                        formControlName="level"
+                      
+                      name="level"
+                      value="VERY_UNHEALTHY"
+                      type="radio"
+                      
+                    />
+                    VERY_UNHEALTHY
+                  </label>
+                
+                  <label>
+                    <input
+                      
+                        formControlName="level"
+                      
+                      name="level"
+                      value="HAZARDOUS"
+                      type="radio"
+                      
+                    />
+                    HAZARDOUS
+                  </label>
+                
+              </div>
+            
+          
+
+            
+              <div class="form-group text-left">
+                <label for="healthImplications">healthImplications</label>
+                
+                  <input formControlName="healthImplications" type="text" class="form-control">
+                
+              </div>
+            
+          
+
+            
+              <div class="form-group text-left">
+                <label for="cautionaryStatement">cautionaryStatement</label>
+                
+                  <input formControlName="cautionaryStatement" type="text" class="form-control">
+                
+              </div>
+            
+          
+
+            
+              <label for="status">status</label>
+              <div class="checkbox">
+                
+                  <label>
+                    <input
+                      
+                        formControlName="status"
+                      
+                      name="status"
+                      value="FOR_SALE"
+                      type="radio"
+                      
+                    />
+                    FOR_SALE
+                  </label>
+                
+                  <label>
+                    <input
+                      
+                        formControlName="status"
+                      
+                      name="status"
+                      value="SOLD"
+                      type="radio"
+                      
+                    />
+                    SOLD
+                  </label>
+                
+                  <label>
+                    <input
+                      
+                        formControlName="status"
+                      
+                      name="status"
+                      value="PROCESSED"
+                      type="radio"
+                      
+                    />
+                    PROCESSED
+                  </label>
+                
+                  <label>
+                    <input
+                      
+                        formControlName="status"
+                      
+                      name="status"
+                      value="FORWARDED"
+                      type="radio"
+                      
+                    />
+                    FORWARDED
+                  </label>
+                
+              </div>
+            
+          
+
+            
+              <label for="ownerEntity">ownerEntity</label>
+              <div class="checkbox">
+                
+                  <label>
+                    <input
+                      
+                        formControlName="ownerEntity"
+                      
+                      name="ownerEntity"
+                      value="Seller"
+                      type="radio"
+                      
+                    />
+                    Seller
+                  </label>
+                
+                  <label>
+                    <input
+                      
+                        formControlName="ownerEntity"
+                      
+                      name="ownerEntity"
+                      value="Buyer"
+                      type="radio"
+                      
+                    />
+                    Buyer
+                  </label>
+                
+                  <label>
+                    <input
+                      
+                        formControlName="ownerEntity"
+                      
+                      name="ownerEntity"
+                      value="Exchange"
+                      type="radio"
+                      
+                    />
+                    Exchange
+                  </label>
+                
+                  <label>
+                    <input
+                      
+                        formControlName="ownerEntity"
+                      
+                      name="ownerEntity"
+                      value="DataConsumer"
+                      type="radio"
+                      
+                    />
+                    DataConsumer
+                  </label>
+                
+              </div>
+            
+          
+
+            
+              <div class="form-group text-left">
+                <label for="owner">owner</label>
+                
+                    <textarea formControlName="owner" class="form-control" rows="3"></textarea>
+                
+              </div>
+            
+          
+
+        </div>
+        <div class="modal-footer">
+          <button (click)="addAsset(myForm);" type="submit" class="btn btn-success" data-dismiss="modal">Submit</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+
+
+<div class="modal fade" id="updateAssetModal" tabindex="-1" role="dialog" aria-labelledby="updateAssetModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="updateAssetModalLabel">Update Asset</h4>
+      </div>
+      <form [formGroup]="myForm">
+        <div class="modal-body">
+
+
+          
+            <div class="form-group text-left">
+              <label for="extendedDataId">extendedDataId</label>
+
+              
+                <input [ngModel]="extendedDataId"formControlName="extendedDataId" type="text" class="form-control">
+              
+
+            </div>
+          
+            <div class="form-group text-left">
+              <label for="dataFrom">dataFrom</label>
+
+              
+                <input [ngModel]="dataFrom"formControlName="dataFrom" type="text" class="form-control">
+              
+
+            </div>
+          
+            <div class="form-group text-left">
+              <label for="location">location</label>
+
+              
+                <input [ngModel]="location"formControlName="location" type="text" class="form-control">
+              
+
+            </div>
+          
+            <div class="form-group text-left">
+              <label for="datetime">datetime</label>
+
+              
+                <input [ngModel]="datetime"formControlName="datetime" type="text" class="form-control">
+              
+
+            </div>
+          
+            <div class="form-group text-left">
+              <label for="AQIndex">AQIndex</label>
+
+              
+                <input [ngModel]="AQIndex"formControlName="AQIndex" type="text" class="form-control">
+              
+
+            </div>
+          
+            <div class="form-group text-left">
+              <label for="level">level</label>
+
+              
+                
+                  <div class="row">
+                    <div class="col-xs-12 checkbox">
+                    
+                      <label>
+                        <input
+                          
+                            formControlName="level"
+                            [ngModel]="level"
+                          
+                          name="level"
+                          value="GOOD"
+                          type="radio"
+                          
+                        />
+                        GOOD
+                      </label>
+                    
+                      <label>
+                        <input
+                          
+                            formControlName="level"
+                            [ngModel]="level"
+                          
+                          name="level"
+                          value="MODERATE"
+                          type="radio"
+                          
+                        />
+                        MODERATE
+                      </label>
+                    
+                      <label>
+                        <input
+                          
+                            formControlName="level"
+                            [ngModel]="level"
+                          
+                          name="level"
+                          value="UNHEALTHY_FOR_SENSITIVE_GROUPS"
+                          type="radio"
+                          
+                        />
+                        UNHEALTHY_FOR_SENSITIVE_GROUPS
+                      </label>
+                    
+                      <label>
+                        <input
+                          
+                            formControlName="level"
+                            [ngModel]="level"
+                          
+                          name="level"
+                          value="UNHEALTHY"
+                          type="radio"
+                          
+                        />
+                        UNHEALTHY
+                      </label>
+                    
+                      <label>
+                        <input
+                          
+                            formControlName="level"
+                            [ngModel]="level"
+                          
+                          name="level"
+                          value="VERY_UNHEALTHY"
+                          type="radio"
+                          
+                        />
+                        VERY_UNHEALTHY
+                      </label>
+                    
+                      <label>
+                        <input
+                          
+                            formControlName="level"
+                            [ngModel]="level"
+                          
+                          name="level"
+                          value="HAZARDOUS"
+                          type="radio"
+                          
+                        />
+                        HAZARDOUS
+                      </label>
+                    
+                    </div>
+                  </div>
+                
+              
+
+            </div>
+          
+            <div class="form-group text-left">
+              <label for="healthImplications">healthImplications</label>
+
+              
+                <input [ngModel]="healthImplications"formControlName="healthImplications" type="text" class="form-control">
+              
+
+            </div>
+          
+            <div class="form-group text-left">
+              <label for="cautionaryStatement">cautionaryStatement</label>
+
+              
+                <input [ngModel]="cautionaryStatement"formControlName="cautionaryStatement" type="text" class="form-control">
+              
+
+            </div>
+          
+            <div class="form-group text-left">
+              <label for="status">status</label>
+
+              
+                
+                  <div class="row">
+                    <div class="col-xs-12 checkbox">
+                    
+                      <label>
+                        <input
+                          
+                            formControlName="status"
+                            [ngModel]="status"
+                          
+                          name="status"
+                          value="FOR_SALE"
+                          type="radio"
+                          
+                        />
+                        FOR_SALE
+                      </label>
+                    
+                      <label>
+                        <input
+                          
+                            formControlName="status"
+                            [ngModel]="status"
+                          
+                          name="status"
+                          value="SOLD"
+                          type="radio"
+                          
+                        />
+                        SOLD
+                      </label>
+                    
+                      <label>
+                        <input
+                          
+                            formControlName="status"
+                            [ngModel]="status"
+                          
+                          name="status"
+                          value="PROCESSED"
+                          type="radio"
+                          
+                        />
+                        PROCESSED
+                      </label>
+                    
+                      <label>
+                        <input
+                          
+                            formControlName="status"
+                            [ngModel]="status"
+                          
+                          name="status"
+                          value="FORWARDED"
+                          type="radio"
+                          
+                        />
+                        FORWARDED
+                      </label>
+                    
+                    </div>
+                  </div>
+                
+              
+
+            </div>
+          
+            <div class="form-group text-left">
+              <label for="ownerEntity">ownerEntity</label>
+
+              
+                
+                  <div class="row">
+                    <div class="col-xs-12 checkbox">
+                    
+                      <label>
+                        <input
+                          
+                            formControlName="ownerEntity"
+                            [ngModel]="ownerEntity"
+                          
+                          name="ownerEntity"
+                          value="Seller"
+                          type="radio"
+                          
+                        />
+                        Seller
+                      </label>
+                    
+                      <label>
+                        <input
+                          
+                            formControlName="ownerEntity"
+                            [ngModel]="ownerEntity"
+                          
+                          name="ownerEntity"
+                          value="Buyer"
+                          type="radio"
+                          
+                        />
+                        Buyer
+                      </label>
+                    
+                      <label>
+                        <input
+                          
+                            formControlName="ownerEntity"
+                            [ngModel]="ownerEntity"
+                          
+                          name="ownerEntity"
+                          value="Exchange"
+                          type="radio"
+                          
+                        />
+                        Exchange
+                      </label>
+                    
+                      <label>
+                        <input
+                          
+                            formControlName="ownerEntity"
+                            [ngModel]="ownerEntity"
+                          
+                          name="ownerEntity"
+                          value="DataConsumer"
+                          type="radio"
+                          
+                        />
+                        DataConsumer
+                      </label>
+                    
+                    </div>
+                  </div>
+                
+              
+
+            </div>
+          
+            <div class="form-group text-left">
+              <label for="owner">owner</label>
+
+              
+                
+                  <textarea [ngModel]="owner" formControlName="owner" class="form-control" rows="3"></textarea>
+                
+              
+
+            </div>
+          
+
+
+        </div>
+        <div class="modal-footer">
+          <button (click)="updateAsset(myForm)" type="submit" class="btn btn-success" data-dismiss="modal">Submit</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="modal fade" id="deleteAssetModal" tabindex="-1" role="dialog" aria-labelledby="deleteAssetModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="deleteAssetModalLabel">Delete Asset</h4>
+      </div>
+      <form [formGroup]="myForm" (ngSubmit)="deleteAsset()">
+        <div class="modal-body">
+          Are you sure you want to delete this asset?
+        </div>
+        <div class="modal-footer">
+          <button (click)="deleteAsset()" type="submit" class="btn btn-danger" data-dismiss="modal">Yes</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+<div class="container">
+	<div *ngIf="errorMessage" class="alert alert-danger" role="alert">
+		<strong>Error:</strong> {{errorMessage}}
+	</div>
+  <h1 id='assetName'>ExtendedData</h1>
+  <div class="row">
+    <div class="col-md-12 text-right">
+      <button (click)="resetForm()" type="button" class="btn btn-primary" data-toggle="modal" data-target="#addAssetModal">Add Asset</button>
+    </div>
+  </div>
+  <br>
+  <div class="row">
+    <div class="col-md-12">
+      <table class="table table-bordered table-responsive table-striped">
+        <thead class="thead">
+          <tr class="thead-cols">
+            
+                <th class="info">extendedDataId</th>
+            
+                <th class="info">dataFrom</th>
+            
+                <th class="info">location</th>
+            
+                <th class="info">datetime</th>
+            
+                <th class="info">AQIndex</th>
+            
+                <th class="info">level</th>
+            
+                <th class="info">healthImplications</th>
+            
+                <th class="info">cautionaryStatement</th>
+            
+                <th class="info">status</th>
+            
+                <th class="info">ownerEntity</th>
+            
+                <th class="info">owner</th>
+            
+              <th class="info">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let asset of allAssets">
+
+            
+                <td>{{asset.extendedDataId}}</td>
+            
+                <td>{{asset.dataFrom}}</td>
+            
+                <td>{{asset.location}}</td>
+            
+                <td>{{asset.datetime}}</td>
+            
+                <td>{{asset.AQIndex}}</td>
+            
+                <td>{{asset.level}}</td>
+            
+                <td>{{asset.healthImplications}}</td>
+            
+                <td>{{asset.cautionaryStatement}}</td>
+            
+                <td>{{asset.status}}</td>
+            
+                <td>{{asset.ownerEntity}}</td>
+            
+                <td>{{asset.owner}}</td>
+            
+            <td>
+              <button (click)="getForm(asset.extendedDataId);" type="button" class="btn btn-success" data-toggle="modal" data-target="#updateAssetModal">Update Asset</button>
+
+              <button (click)="setId(asset.extendedDataId);" type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteAssetModal">Delete Asset</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

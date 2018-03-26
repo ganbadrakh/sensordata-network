@@ -27,6 +27,10 @@ export class WalletComponent implements OnInit {
         
   
       
+          token = new FormControl("", Validators.required);
+        
+  
+      
           balance = new FormControl("", Validators.required);
         
   
@@ -41,6 +45,10 @@ export class WalletComponent implements OnInit {
     
         
           ownerId:this.ownerId,
+        
+    
+        
+          token:this.token,
         
     
         
@@ -116,6 +124,10 @@ export class WalletComponent implements OnInit {
         
       
         
+          "token":this.token.value,
+        
+      
+        
           "balance":this.balance.value
         
       
@@ -129,6 +141,10 @@ export class WalletComponent implements OnInit {
       
         
           "ownerId":null,
+        
+      
+        
+          "token":null,
         
       
         
@@ -149,6 +165,10 @@ export class WalletComponent implements OnInit {
       
         
           "ownerId":null,
+        
+      
+        
+          "token":null,
         
       
         
@@ -179,6 +199,12 @@ export class WalletComponent implements OnInit {
         
           
             "ownerId":this.ownerId.value,
+          
+        
+    
+        
+          
+            "token":this.token.value,
           
         
     
@@ -250,6 +276,10 @@ export class WalletComponent implements OnInit {
           
         
           
+            "token":null,
+          
+        
+          
             "balance":null 
           
         
@@ -272,6 +302,14 @@ export class WalletComponent implements OnInit {
           
         }else{
           formObject.ownerId = null;
+        }
+      
+        if(result.token){
+          
+            formObject.token = result.token;
+          
+        }else{
+          formObject.token = null;
         }
       
         if(result.balance){
@@ -309,6 +347,10 @@ export class WalletComponent implements OnInit {
       
         
           "ownerId":null,
+        
+      
+        
+          "token":null,
         
       
         

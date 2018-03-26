@@ -7,34 +7,56 @@ import { Configuration }     from './configuration';
 import { DataService }     from './data.service';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
-import { AboutComponent } from './about/about.component';
 // import { TransactionComponent } from './Transaction/Transaction.component'
 
 import { WalletComponent } from './Wallet/Wallet.component';
 import { AccountComponent } from './Account/Account.component';
-import { WeatherDataComponent } from './WeatherData/WeatherData.component';
 import { AirPollutionDataComponent } from './AirPollutionData/AirPollutionData.component';
-import { WeatherForecastComponent } from './WeatherForecast/WeatherForecast.component';
-import { AirQualityDataComponent } from './AirQualityData/AirQualityData.component';
-
-import { AllTransactionsComponent } from './AllTransactions/AllTransactions.component';
-import { SellerComponent } from './Seller/Seller.component';
+import { ExtendedDataComponent } from './ExtendedData/ExtendedData.component';
+import { ExchangeComponent } from './exchange/exchange.component';
+import { SellerComponent } from './seller/seller.component';
+import { BuyerComponent } from './buyer/buyer.component';
+import { DataConsumerComponent } from './data-consumer/data-consumer.component';
+//import { TransactionBSComponent } from './transaction-bs/transaction-bs.component';
+import { TransactionBDCComponent } from './transaction-bdc/transaction-bdc.component';
+//import { TransactionSEComponent } from './transaction-se/transaction-se.component';
+//import { TransactionBEComponent } from './transaction-be/transaction-be.component';
+import { TransactionCTComponent } from './transaction-ct/transaction-ct.component';
+import { TransactionTCComponent } from './transaction-tc/transaction-tc.component';
+import { TransactionSBComponent } from './transaction-sb/transaction-sb.component';
 
 @NgModule({
   declarations: [
     AppComponent,
 		HomeComponent,
-	AboutComponent,
     // TransactionComponent,
     WalletComponent,
 		AccountComponent,
-		WeatherDataComponent,
 		AirPollutionDataComponent,
-		WeatherForecastComponent,
 		
-    AirQualityDataComponent,
-	AllTransactionsComponent,
-	SellerComponent
+    ExtendedDataComponent,
+		
+    ExchangeComponent,
+		
+    SellerComponent,
+		
+    BuyerComponent,
+		
+    DataConsumerComponent,
+		
+    //TransactionBSComponent,
+		
+    TransactionBDCComponent,
+		
+    //TransactionSEComponent,
+		
+    //TransactionBEComponent,
+		
+    TransactionCTComponent,
+		
+    TransactionTCComponent,
+		
+    TransactionSBComponent
 		
   ],
   imports: [

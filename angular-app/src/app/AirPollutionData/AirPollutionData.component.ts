@@ -59,6 +59,10 @@ export class AirPollutionDataComponent implements OnInit {
         
   
       
+          ownerEntity = new FormControl("", Validators.required);
+        
+  
+      
           owner = new FormControl("", Validators.required);
         
   
@@ -105,6 +109,10 @@ export class AirPollutionDataComponent implements OnInit {
     
         
           status:this.status,
+        
+    
+        
+          ownerEntity:this.ownerEntity,
         
     
         
@@ -212,6 +220,10 @@ export class AirPollutionDataComponent implements OnInit {
         
       
         
+          "ownerEntity":this.ownerEntity.value,
+        
+      
+        
           "owner":this.owner.value
         
       
@@ -257,6 +269,10 @@ export class AirPollutionDataComponent implements OnInit {
       
         
           "status":null,
+        
+      
+        
+          "ownerEntity":null,
         
       
         
@@ -309,6 +325,10 @@ export class AirPollutionDataComponent implements OnInit {
       
         
           "status":null,
+        
+      
+        
+          "ownerEntity":null,
         
       
         
@@ -387,6 +407,12 @@ export class AirPollutionDataComponent implements OnInit {
         
           
             "status":this.status.value,
+          
+        
+    
+        
+          
+            "ownerEntity":this.ownerEntity.value,
           
         
     
@@ -490,6 +516,10 @@ export class AirPollutionDataComponent implements OnInit {
           
         
           
+            "ownerEntity":null,
+          
+        
+          
             "owner":null 
           
         
@@ -578,6 +608,14 @@ export class AirPollutionDataComponent implements OnInit {
           formObject.status = null;
         }
       
+        if(result.ownerEntity){
+          
+            formObject.ownerEntity = result.ownerEntity;
+          
+        }else{
+          formObject.ownerEntity = null;
+        }
+      
         if(result.owner){
           
             formObject.owner = result.owner;
@@ -645,6 +683,10 @@ export class AirPollutionDataComponent implements OnInit {
       
         
           "status":null,
+        
+      
+        
+          "ownerEntity":null,
         
       
         

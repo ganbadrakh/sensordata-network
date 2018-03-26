@@ -18,33 +18,11 @@ import {Member} from './composer.base';
       VERY_UNHEALTHY,
       HAZARDOUS,
    }
-   export enum TempUnit {
-      CELSIUS,
-      FAHRENHEIT,
-   }
-   export enum CurrentCondition {
-      SUNNY,
-      CLOUDY,
-      MOSTLY_CLOUDY,
-      PARTLY_CLOUDY,
-      RAINY,
-      SNOWY,
-      WINDY,
-      THUNDER,
-      BLIZZARD,
-      STORM,
-   }
-   export enum ConditionTomorrow {
-      SUNNY,
-      CLOUDY,
-      MOSTLY_CLOUDY,
-      PARTLY_CLOUDY,
-      RAINY,
-      SNOWY,
-      WINDY,
-      THUNDER,
-      BLIZZARD,
-      STORM,
+   export enum OwnerEntity {
+      Seller,
+      Buyer,
+      Exchange,
+      DataConsumer,
    }
    export class Seller extends Member {
       sellerId: string;
@@ -73,50 +51,31 @@ import {Member} from './composer.base';
    export class Wallet extends Asset {
       walletId: string;
       ownerId: string;
+      token: string;
       balance: number;
    }
    export class Account extends Asset {
       accountId: string;
       ownerId: string;
+      currency: string;
       balance: number;
-   }
-   export class WeatherData extends Asset {
-      weatherDataId: string;
-      location: string;
-      datetime: Date;
-      currentCondition: CurrentCondition;
-      tempUnit: TempUnit;
-      currentTemp: number;
-      currentHumidity: number;
-      status: TransferStatus;
-      owner: Member;
    }
    export class AirPollutionData extends Asset {
       airPollutionDataId: string;
       location: string;
       datetime: Date;
       PM25: number[];
-      PM10: number[];
+      PM10: number;
       CO: number;
       NO2: number;
       O3: number;
       SO2: number;
       status: TransferStatus;
+      ownerEntity: OwnerEntity;
       owner: Member;
    }
-   export class WeatherForecast extends Asset {
-      weatherForecastId: string;
-      location: string;
-      datetime: Date;
-      tempUnit: TempUnit;
-      tempTomorrow: number;
-      humidityTomorrow: number;
-      conditionTomorrow: ConditionTomorrow;
-      status: TransferStatus;
-      owner: Member;
-   }
-   export class AirQualityData extends Asset {
-      airQualityDataId: string;
+   export class ExtendedData extends Asset {
+      extendedDataId: string;
       dataFrom: string;
       location: string;
       datetime: Date;
@@ -125,17 +84,10 @@ import {Member} from './composer.base';
       healthImplications: string;
       cautionaryStatement: string;
       status: TransferStatus;
+      ownerEntity: OwnerEntity;
       owner: Member;
    }
-   export class TradeWeatherDataToTokens extends Transaction {
-      amount: number;
-      weatherdata: WeatherData;
-      owner: Seller;
-      newOwner: Buyer;
-      fromWallet: Wallet;
-      toWallet: Wallet;
-   }
-   export class TradeAirPollutionDataToTokens extends Transaction {
+   export class TradeAirPollutionData extends Transaction {
       amount: number;
       airpollutiondata: AirPollutionData;
       owner: Seller;
@@ -143,17 +95,9 @@ import {Member} from './composer.base';
       fromWallet: Wallet;
       toWallet: Wallet;
    }
-   export class ForwardWeatherForecast extends Transaction {
+   export class ProvideExtendedData extends Transaction {
       amount: number;
-      weatherforecast: WeatherForecast;
-      owner: Buyer;
-      newOwner: DataConsumer;
-      fromAccount: Account;
-      toAccount: Account;
-   }
-   export class ForwardAirQualityData extends Transaction {
-      amount: number;
-      airqualitydata: AirQualityData;
+      extendeddata: ExtendedData;
       owner: Buyer;
       newOwner: DataConsumer;
       fromAccount: Account;
@@ -175,16 +119,10 @@ import {Member} from './composer.base';
       fromAccount: Account;
       toAccount: Account;
    }
-   export class TradeWeatherDataNotification extends Event {
-      weatherdata: WeatherData;
-   }
    export class TradeAirPollutionDataNotification extends Event {
       airpollutiondata: AirPollutionData;
    }
-   export class ForwardWeatherForecastNotification extends Event {
-      weatherforecast: WeatherForecast;
-   }
-   export class ForwardAirQualityDataNotification extends Event {
-      airqualitydata: AirQualityData;
+   export class ProvideExtendedDataNotification extends Event {
+      extendeddata: ExtendedData;
    }
 // }

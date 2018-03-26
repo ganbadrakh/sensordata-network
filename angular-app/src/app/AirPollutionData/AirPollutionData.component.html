@@ -162,6 +162,66 @@
           
 
             
+              <label for="ownerEntity">ownerEntity</label>
+              <div class="checkbox">
+                
+                  <label>
+                    <input
+                      
+                        formControlName="ownerEntity"
+                      
+                      name="ownerEntity"
+                      value="Seller"
+                      type="radio"
+                      
+                    />
+                    Seller
+                  </label>
+                
+                  <label>
+                    <input
+                      
+                        formControlName="ownerEntity"
+                      
+                      name="ownerEntity"
+                      value="Buyer"
+                      type="radio"
+                      
+                    />
+                    Buyer
+                  </label>
+                
+                  <label>
+                    <input
+                      
+                        formControlName="ownerEntity"
+                      
+                      name="ownerEntity"
+                      value="Exchange"
+                      type="radio"
+                      
+                    />
+                    Exchange
+                  </label>
+                
+                  <label>
+                    <input
+                      
+                        formControlName="ownerEntity"
+                      
+                      name="ownerEntity"
+                      value="DataConsumer"
+                      type="radio"
+                      
+                    />
+                    DataConsumer
+                  </label>
+                
+              </div>
+            
+          
+
+            
               <div class="form-group text-left">
                 <label for="owner">owner</label>
                 
@@ -349,6 +409,77 @@
             </div>
           
             <div class="form-group text-left">
+              <label for="ownerEntity">ownerEntity</label>
+
+              
+                
+                  <div class="row">
+                    <div class="col-xs-12 checkbox">
+                    
+                      <label>
+                        <input
+                          
+                            formControlName="ownerEntity"
+                            [ngModel]="ownerEntity"
+                          
+                          name="ownerEntity"
+                          value="Seller"
+                          type="radio"
+                          
+                        />
+                        Seller
+                      </label>
+                    
+                      <label>
+                        <input
+                          
+                            formControlName="ownerEntity"
+                            [ngModel]="ownerEntity"
+                          
+                          name="ownerEntity"
+                          value="Buyer"
+                          type="radio"
+                          
+                        />
+                        Buyer
+                      </label>
+                    
+                      <label>
+                        <input
+                          
+                            formControlName="ownerEntity"
+                            [ngModel]="ownerEntity"
+                          
+                          name="ownerEntity"
+                          value="Exchange"
+                          type="radio"
+                          
+                        />
+                        Exchange
+                      </label>
+                    
+                      <label>
+                        <input
+                          
+                            formControlName="ownerEntity"
+                            [ngModel]="ownerEntity"
+                          
+                          name="ownerEntity"
+                          value="DataConsumer"
+                          type="radio"
+                          
+                        />
+                        DataConsumer
+                      </label>
+                    
+                    </div>
+                  </div>
+                
+              
+
+            </div>
+          
+            <div class="form-group text-left">
               <label for="owner">owner</label>
 
               
@@ -440,6 +571,8 @@
             
                 <th class="info">status</th>
             
+                <th class="info">ownerEntity</th>
+            
                 <th class="info">owner</th>
             
               <th class="info">Actions</th>
@@ -468,6 +601,8 @@
                 <td>{{asset.SO2}}</td>
             
                 <td>{{asset.status}}</td>
+            
+                <td>{{asset.ownerEntity}}</td>
             
                 <td>{{asset.owner}}</td>
             
