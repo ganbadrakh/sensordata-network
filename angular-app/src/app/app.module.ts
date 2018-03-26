@@ -18,7 +18,7 @@ import { WeatherForecastComponent } from './WeatherForecast/WeatherForecast.comp
 import { AirQualityDataComponent } from './AirQualityData/AirQualityData.component';
 
 import { AllTransactionsComponent } from './AllTransactions/AllTransactions.component';
-import { SellerComponent } from './seller/seller.component';
+import { SellerComponent } from './Seller/Seller.component';
 
 @NgModule({
   declarations: [
