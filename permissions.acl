@@ -66,7 +66,7 @@ rule SellerReadAccessAirPollutionDataRecord {
     participant(p): "org.acme.biznet.Seller"
     operation: READ
     resource(r): "org.acme.biznet.AirPollutionData"
-  	condition: (r.owner.getIdentifier() != p.getIdentifier())
+  	condition: (r.owner.getIdentifier() !== p.getIdentifier())
     action: ALLOW
 }
 
@@ -153,7 +153,7 @@ rule BuyerReadAccessExtendedDataRecord {
     participant(p): "org.acme.biznet.Buyer"
     operation: READ
     resource(r): "org.acme.biznet.ExtendedData"
-  	condition: (r.owner.getIdentifier() != p.getIdentifier())
+  	condition: (r.owner.getIdentifier() !== p.getIdentifier())
     action: ALLOW
 }
 
@@ -217,7 +217,7 @@ rule DataConsumerAccessOwnRecord {
 
 //Data Consumers to have read only access to other Buyers
 rule DataConsumerReadAccessBuyers {
-    description: "Allow data consumerss read access to other Buyers"
+    description: "Allow data consumers read access to other Buyers"
     participant: "org.acme.biznet.DataConsumer"
     operation: READ
     resource: "org.acme.biznet.Buyer"
