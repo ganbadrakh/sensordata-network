@@ -18,6 +18,7 @@ import { WeatherForecastComponent } from './WeatherForecast/WeatherForecast.comp
 import { AirQualityDataComponent } from './AirQualityData/AirQualityData.component';
 
 import { AllTransactionsComponent } from './AllTransactions/AllTransactions.component';
+import { SellerComponent } from './seller/seller.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { AllTransactionsComponent } from './AllTransactions/AllTransactions.comp
 		WeatherForecastComponent,
 		
     AirQualityDataComponent,
-	AllTransactionsComponent
+	AllTransactionsComponent,
+	SellerComponent
 		
   ],
   imports: [
