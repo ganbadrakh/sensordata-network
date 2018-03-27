@@ -1,3 +1,185 @@
 <p>
   seller works!
 </p>
+
+<div class="modal fade" id="addSellerModal" tabindex="-1" role="dialog" aria-labelledby="addSellerModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="addSellerModalLabel">Add Seller</h4>
+      </div>
+      <form [formGroup]="myForm">
+        <div class="modal-body">
+            <div class="form-group text-left">
+              <label for="SellerID">Seller ID</label>
+                <input formControlName="sellerID" type="text" class="form-control">
+                </div>
+            <div class="form-group text-left">
+              <label for="firstName">First Name</label>
+                <input formControlName="firstName" type="text" class="form-control">
+            </div>
+
+            <div class="form-group text-left">
+              <label for="lastName">Last Name</label>
+                <input formControlName="lastName" type="text" class="form-control">
+            </div>
+
+            <div class="form-group text-left">
+              <label for="walletId">Wallet ID</label>
+                <input formControlName="walletId" type="text" class="form-control">
+            </div>
+
+            <div class="form-group text-left">
+              <label for="accountId">Account ID</label>
+                <input formControlName="accountId" type="text" class="form-control">
+            </div>
+
+            <div class="form-group text-left">
+              <label for="memberId">Network Member ID</label>
+                <input formControlName="memberId" type="text" class="form-control">
+            </div>
+
+            <div class="form-group text-left">
+              <label for="email">E-Mail</label>
+                <input formControlName="email" type="text" class="form-control">
+            </div>
+
+        </div>
+        <div class="modal-footer">
+          <button (click)="addSeller(myForm);" type="submit" class="btn btn-success" data-dismiss="modal">Submit</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="updateSellerModal" tabindex="-1" role="dialog" aria-labelledby="updateSellerModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="updateSellerModalLabel">Update Asset</h4>
+      </div>
+      <form [formGroup]="myForm">
+        <div class="modal-body">
+            <div class="form-group text-left">
+              <label for="SellerID">ID</label>
+                <input [ngModel]="SellerID"formControlName="SellerID" type="text" class="form-control">
+            </div>
+            <div class="form-group text-left">
+              <label for="firstName">First Name</label>
+                <input [ngModel]="firstName"formControlName="firstName" type="text" class="form-control">
+            </div>
+            <div class="form-group text-left">
+              <label for="lastName">Last Name</label>
+                  <textarea [ngModel]="lastName" formControlName="lastName" class="form-control" rows="3"></textarea>
+            </div>
+
+        </div>
+        <div class="modal-footer">
+          <button (click)="updateSeller(myForm)" type="submit" class="btn btn-success" data-dismiss="modal">Submit</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="modal fade" id="deleteSellerModal" tabindex="-1" role="dialog" aria-labelledby="deleteSellerModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="deleteSellerModalLabel">Delete Asset</h4>
+      </div>
+      <form [formGroup]="myForm" (ngSubmit)="deleteSeller()">
+        <div class="modal-body">
+          Are you sure you want to delete this asset?
+        </div>
+        <div class="modal-footer">
+          <button (click)="deleteSeller()" type="submit" class="btn btn-danger" data-dismiss="modal">Yes</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+<div class="container">
+  <div *ngIf="errorMessage" class="alert alert-danger" role="alert">
+		<strong>Error:</strong> {{errorMessage}}
+	</div>
+  <div class="row">
+
+      <h1 class="heading">Sellers </h1>
+  </div>
+
+ <div class="row">
+    <div class="col-md-12 text-right">
+      <button (click)="resetForm()" type="button" class="btn btn-primary" data-toggle="modal" data-target="#addSellerModal">Add Seller</button>
+    </div>
+  </div>
+  <br>
+  <div class="row">
+    <div class="col-md-12">
+      <table class="table table-bordered table-responsive table-hover">
+        <thead class="thead">
+          <tr class="thead-cols">
+
+                <th class="bc">ID</th>
+
+                <th class="bc">First Name</th>
+
+                <th class="bc">Last Name</th>
+
+                <th class="bc">Wallet ID</th>
+
+                <th class="bc">Account ID</th>
+
+                <th class="bc">Network Member ID</th>
+
+                <th class="bc">E-Mail</th>
+
+                <th class="bc">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let Seller of allSellers">
+
+                <td>{{Seller.SellerID}}</td>
+
+                <td>{{Seller.firstName}}</td>
+
+                <td>{{Seller.lastName}}</td>
+
+                <td>{{Seller.wallet}}</td>
+
+                <td>{{Seller.account}}</td>
+
+                <td>{{Seller.member}}</td>
+
+                <td>{{Seller.email}}</td>
+
+            <td>
+
+              <button (click)="getForm(Seller.SellerID);" type="button" class="btn btn-success" data-toggle="modal" data-target="#updateSellerModal">Update</button>
+
+              <button (click)="setId(Seller.SellerID);" type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteSellerModal">Delete</button>
+
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>

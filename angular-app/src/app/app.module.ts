@@ -15,14 +15,14 @@ import { AirPollutionDataComponent } from './AirPollutionData/AirPollutionData.c
 import { ExtendedDataComponent } from './ExtendedData/ExtendedData.component';
 import { SellerComponent } from './seller/seller.component';
 import { BuyerComponent } from './buyer/buyer.component';
-import { DataConsumerComponent } from './data-consumer/data-consumer.component';
+import { ConsumerComponent } from './consumer/consumer.component';
 import { ExchangeComponent } from './exchange/exchange.component';
 import { AboutComponent } from './about/about.component';
 import { TransactionSbComponent } from './transaction-sb/transaction-sb.component';
 import { TransactionBdComponent } from './transaction-bd/transaction-bd.component';
 import { TransactionTcComponent } from './transaction-tc/transaction-tc.component';
 import { TransactionCtComponent } from './transaction-ct/transaction-ct.component';
-import { AllTransactionsComponent } from './all-transactions/all-transactions.component';
+import { AllTransactionsComponent } from './AllTransactions/AllTransactions.component';
 
 @NgModule({
   declarations: [
@@ -32,29 +32,29 @@ import { AllTransactionsComponent } from './all-transactions/all-transactions.co
     WalletComponent,
 		AccountComponent,
 		AirPollutionDataComponent,
-		
+
     ExtendedDataComponent,
-		
+
     SellerComponent,
-		
+
     BuyerComponent,
-		
-    DataConsumerComponent,
-		
+
+    ConsumerComponent,
+
     ExchangeComponent,
-		
+
     AboutComponent,
-		
+
     TransactionSbComponent,
-		
+
     TransactionBdComponent,
-		
+
     TransactionTcComponent,
-		
+
     TransactionCtComponent,
-		
+
     AllTransactionsComponent
-		
+
   ],
   imports: [
     BrowserModule,

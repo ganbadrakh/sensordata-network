@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DataConsumerComponent } from './data-consumer.component';
+import { ConsumerComponent } from './consumer.component';
 
-describe('DataConsumerComponent', () => {
-  let component: DataConsumerComponent;
-  let fixture: ComponentFixture<DataConsumerComponent>;
+describe('ConsumerComponent', () => {
+  let component: ConsumerComponent;
+  let fixture: ComponentFixture<ConsumerComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ DataConsumerComponent ]
+      declarations: [ ConsumerComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(DataConsumerComponent);
+    fixture = TestBed.createComponent(ConsumerComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
