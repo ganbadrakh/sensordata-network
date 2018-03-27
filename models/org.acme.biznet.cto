@@ -115,6 +115,7 @@ asset ExtendedData identified by extendedDataId {
  o String dataFrom default="ProvideAirPollutionDataId"
  o String location default="locationFromAPD"
  o DateTime datetime
+ o String PM25_Concentration
  o String AQIndex default="0-50"
  o APLevel level
  o String healthImplications
