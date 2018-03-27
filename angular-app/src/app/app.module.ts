@@ -13,6 +13,7 @@ import { WalletComponent } from './Wallet/Wallet.component';
 import { AccountComponent } from './Account/Account.component';
 import { AirPollutionDataComponent } from './AirPollutionData/AirPollutionData.component';
 import { ExtendedDataComponent } from './ExtendedData/ExtendedData.component';
+import { SellerComponent } from './seller/seller.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,9 @@ import { ExtendedDataComponent } from './ExtendedData/ExtendedData.component';
 		AccountComponent,
 		AirPollutionDataComponent,
 		
-    ExtendedDataComponent
+    ExtendedDataComponent,
+		
+    SellerComponent
 		
   ],
   imports: [
