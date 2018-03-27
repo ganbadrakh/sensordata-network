@@ -24,6 +24,7 @@ import { TransactionBDCComponent } from './transaction-bdc/transaction-bdc.compo
 import { TransactionCTComponent } from './transaction-ct/transaction-ct.component';
 import { TransactionTCComponent } from './transaction-tc/transaction-tc.component';
 import { TransactionSBComponent } from './transaction-sb/transaction-sb.component';
+import { AboutComponent } from './about/about.component';
 
 @NgModule({
   declarations: [
@@ -56,7 +57,9 @@ import { TransactionSBComponent } from './transaction-sb/transaction-sb.componen
 		
     TransactionTCComponent,
 		
-    TransactionSBComponent
+    TransactionSBComponent,
+		
+    AboutComponent
 		
   ],
   imports: [
