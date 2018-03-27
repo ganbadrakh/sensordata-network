@@ -53,6 +53,16 @@
 
             
               <div class="form-group text-left">
+                <label for="PM25_Concentration">PM25_Concentration</label>
+                
+                  <input formControlName="PM25_Concentration" type="text" class="form-control">
+                
+              </div>
+            
+          
+
+            
+              <div class="form-group text-left">
                 <label for="AQIndex">AQIndex</label>
                 
                   <input formControlName="AQIndex" type="text" class="form-control">
@@ -354,6 +364,15 @@
 
               
                 <input [ngModel]="datetime"formControlName="datetime" type="text" class="form-control">
+              
+
+            </div>
+          
+            <div class="form-group text-left">
+              <label for="PM25_Concentration">PM25_Concentration</label>
+
+              
+                <input [ngModel]="PM25_Concentration"formControlName="PM25_Concentration" type="text" class="form-control">
               
 
             </div>
@@ -706,6 +725,8 @@
             
                 <th class="info">datetime</th>
             
+                <th class="info">PM25_Concentration</th>
+            
                 <th class="info">AQIndex</th>
             
                 <th class="info">level</th>
@@ -734,6 +755,8 @@
                 <td>{{asset.location}}</td>
             
                 <td>{{asset.datetime}}</td>
+            
+                <td>{{asset.PM25_Concentration}}</td>
             
                 <td>{{asset.AQIndex}}</td>
             

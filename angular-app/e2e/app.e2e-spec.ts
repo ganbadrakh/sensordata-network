@@ -69,10 +69,10 @@ describe('Starting tests for angular-app', function() {
       expect(assetName.getText()).toBe('ExtendedData');
     });
 
-    it('ExtendedData table should have 12 columns',() => {
+    it('ExtendedData table should have 13 columns',() => {
       page.navigateTo('/ExtendedData');
       element.all(by.css('.thead-cols th')).then(function(arr) {
-        expect(arr.length).toEqual(12); // Addition of 1 for 'Action' column
+        expect(arr.length).toEqual(13); // Addition of 1 for 'Action' column
       });
     });
 

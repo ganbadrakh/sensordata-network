@@ -13,18 +13,6 @@ import { WalletComponent } from './Wallet/Wallet.component';
 import { AccountComponent } from './Account/Account.component';
 import { AirPollutionDataComponent } from './AirPollutionData/AirPollutionData.component';
 import { ExtendedDataComponent } from './ExtendedData/ExtendedData.component';
-import { ExchangeComponent } from './exchange/exchange.component';
-import { SellerComponent } from './seller/seller.component';
-import { BuyerComponent } from './buyer/buyer.component';
-import { DataConsumerComponent } from './data-consumer/data-consumer.component';
-//import { TransactionBSComponent } from './transaction-bs/transaction-bs.component';
-import { TransactionBDCComponent } from './transaction-bdc/transaction-bdc.component';
-//import { TransactionSEComponent } from './transaction-se/transaction-se.component';
-//import { TransactionBEComponent } from './transaction-be/transaction-be.component';
-import { TransactionCTComponent } from './transaction-ct/transaction-ct.component';
-import { TransactionTCComponent } from './transaction-tc/transaction-tc.component';
-import { TransactionSBComponent } from './transaction-sb/transaction-sb.component';
-import { AboutComponent } from './about/about.component';
 
 @NgModule({
   declarations: [
@@ -35,31 +23,7 @@ import { AboutComponent } from './about/about.component';
 		AccountComponent,
 		AirPollutionDataComponent,
 		
-    ExtendedDataComponent,
-		
-    ExchangeComponent,
-		
-    SellerComponent,
-		
-    BuyerComponent,
-		
-    DataConsumerComponent,
-		
-    //TransactionBSComponent,
-		
-    TransactionBDCComponent,
-		
-    //TransactionSEComponent,
-		
-    //TransactionBEComponent,
-		
-    TransactionCTComponent,
-		
-    TransactionTCComponent,
-		
-    TransactionSBComponent,
-		
-    AboutComponent
+    ExtendedDataComponent
 		
   ],
   imports: [

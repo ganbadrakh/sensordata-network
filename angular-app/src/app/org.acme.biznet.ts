@@ -79,6 +79,7 @@ import {Member} from './composer.base';
       dataFrom: string;
       location: string;
       datetime: Date;
+      PM25_Concentration: string;
       AQIndex: string;
       level: APLevel;
       healthImplications: string;

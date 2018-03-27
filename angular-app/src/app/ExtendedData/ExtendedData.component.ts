@@ -35,6 +35,10 @@ export class ExtendedDataComponent implements OnInit {
         
   
       
+          PM25_Concentration = new FormControl("", Validators.required);
+        
+  
+      
           AQIndex = new FormControl("", Validators.required);
         
   
@@ -81,6 +85,10 @@ export class ExtendedDataComponent implements OnInit {
     
         
           datetime:this.datetime,
+        
+    
+        
+          PM25_Concentration:this.PM25_Concentration,
         
     
         
@@ -188,6 +196,10 @@ export class ExtendedDataComponent implements OnInit {
         
       
         
+          "PM25_Concentration":this.PM25_Concentration.value,
+        
+      
+        
           "AQIndex":this.AQIndex.value,
         
       
@@ -233,6 +245,10 @@ export class ExtendedDataComponent implements OnInit {
       
         
           "datetime":null,
+        
+      
+        
+          "PM25_Concentration":null,
         
       
         
@@ -285,6 +301,10 @@ export class ExtendedDataComponent implements OnInit {
       
         
           "datetime":null,
+        
+      
+        
+          "PM25_Concentration":null,
         
       
         
@@ -351,6 +371,12 @@ export class ExtendedDataComponent implements OnInit {
         
           
             "datetime":this.datetime.value,
+          
+        
+    
+        
+          
+            "PM25_Concentration":this.PM25_Concentration.value,
           
         
     
@@ -466,6 +492,10 @@ export class ExtendedDataComponent implements OnInit {
           
         
           
+            "PM25_Concentration":null,
+          
+        
+          
             "AQIndex":null,
           
         
@@ -528,6 +558,14 @@ export class ExtendedDataComponent implements OnInit {
           
         }else{
           formObject.datetime = null;
+        }
+      
+        if(result.PM25_Concentration){
+          
+            formObject.PM25_Concentration = result.PM25_Concentration;
+          
+        }else{
+          formObject.PM25_Concentration = null;
         }
       
         if(result.AQIndex){
@@ -621,6 +659,10 @@ export class ExtendedDataComponent implements OnInit {
       
         
           "datetime":null,
+        
+      
+        
+          "PM25_Concentration":null,
         
       
         
