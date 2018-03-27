@@ -1,5 +1,92 @@
 <div class="container">
-	<div class="jumbotron">
-		<h1>angular-app Application</h1>
-	</div>
+	<div class="row">  
+      <!--h1 class="heading">decentralized sensor data trading </h1--> 
+     <h1 class="heading">Decentralized sensor data trading network using Hyperledger Composer</h1>
+  </div> 
+
+  <div class="row">
+    <br>
+  </div> 
+
+  <div class="row bodytext">      
+      <!--h3>Welcome to Decentralized Sensor data Trading using Hyperledger Composer!</h3-->      
+      <div class="col-md-12">
+        <p class=""> This Blockchain application demonstrates sensor data sharing on a network among 'Sellers' on a grid. The sensor data trade is based on exchanging utility tokens for sensor data provided. The network also includes 'Buyers' to trade sensor data with or obtain sensor data from, and 'Exchange' to exchange cash (fiat money) for utility tokens.  </p>
+        <p class=""> Find more detail <a [routerLink]="['/About']" > about the application. </a> </p>
+
+      </div>
+    </div> 
+	
+	<div class="row">
+    <br>
+  </div> 
+
+  <div class="row">
+    <h4> Step1 - Create and Update Participants </h4>
+  </div> 
+    <!-- div class="col-md-9" -->
+    <div class="row">
+    <!-- /div -->
+    <div class="participant col-md-4">
+      <p> <strong>Sellers</strong> own three assets: raw sensor data, Utility tokens and Cash. They can trade with fellow sellers, exchanges, and buyer(s).</p>
+      <a [routerLink]="['/seller']" class=participantButton>Sellers</a> 
+    </div>      
+    
+    <div class="participant col-md-4">
+      <p> <strong>Exchanges</strong> on the network own two assets: Cash and Utility tokens. They can trade with sellers, who can buy or sell tokens for cash. </p>
+      <a [routerLink]="['/exchange']" class="participantButton">Exchanges</a>
+    </div>   
+
+    <div class="participant col-md-4">
+      <p> <strong>Buyer</strong> own three assets: enhanced sensor data, Utility tokens and Cash. They can trade with data consumer, who can buy enhanced sensor data for cash. </p>
+      <a [routerLink]="['/buyer']" class="participantButton">Buyer</a>
+    </div> 
+	
+	<div class="participant col-md-4">
+      <p> <strong>Data Consumer</strong> own one asset: Cash. They can trade with buyer, who can provide enhanced sensor data for cash. </p>
+      <a [routerLink]="['/data-consumer']" class="participantButton">Data Consumer</a>
+    </div> 
+  
+  </div> 
+
+  <div class="row">
+    <br>
+  </div> 
+
+
+  <div class="row">
+    <h4> Step2 - Execute Transactions </h4>
+  </div> 
+
+  <div class="row"> 
+        
+    <div class="participant col-md-4">
+      <p> Execute a transaction between Seller and Buyer by selling raw sensor data for Coins </p>
+      <a [routerLink]="['/transaction-sb']" class=participantButton>Seller to Buyer</a> 
+    </div>           
+
+    <div class="participant col-md-4">
+      <p> Execute a transaction between a Buyer and a Data Consumer by providing enhanced sensor data for Cash </p>
+      <a [routerLink]="['/transaction-bd']" class="participantButton">Buyer to Data Consumer</a>
+    </div> 
+    
+    <div class="participant col-md-4">
+      <p> Execute a transaction between participants by exchanging Cash for Tokens </p>
+      <a [routerLink]="['/transaction-ct']" class="participantButton">Exchange Cash to Utility Token</a>
+    </div> 
+
+	<div class="participant col-md-4">
+      <p> Execute a transaction between participants by exchanging Tokens for Cash </p>
+      <a [routerLink]="['/transaction-tc']" class="participantButton">Exchange Utility Token to Cash</a>
+    </div>
+    
+  </div> 
+
+  <div class="row">
+    <br>
+  </div> 
+  <div class="row">
+    <br>
+  </div> 
+  
 </div>

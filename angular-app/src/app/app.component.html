@@ -1,14 +1,56 @@
 <nav class="navbar navbar-inverse">
   <div class="container-fluid">
     <div class="navbar-header">
-      <a class="navbar-brand" href="#">sensordata-network@0.0.1</a>
+      <a class="navbar-brand" href="#">Decentralized sensor data trading network</a>
     </div>
     <ul class="nav navbar-nav navbar-right">
-      <li class=""><a [routerLink]="['/']">Home</a></li>
+	
+      <!--<li class=""><a [routerLink]="['/']">Home</a></li> -->
+	  
+	  <li class="dropdown navfontAbout">
+            <a class="dropdown-toggle navfont" data-toggle="dropdown" href="#">Info
+              <span class="caret navfont"></span></a>
+            <ul class="dropdown-menu">
+              
+              <li><a [routerLink]="['/about']">About</a></li>
+              <li><a [routerLink]="['/all-transactions']">Blockchain</a></li>              
+            </ul>
+          </li>
+
+      <li class="dropdown">
+        <a class="dropdown-toggle navfont" data-toggle="dropdown" href="#">Participants
+          <span class="caret navfont"></span></a>
+        <ul class="dropdown-menu">
+          
+          <li><a [routerLink]="['/seller']">Sellers</a></li>
+          <li><a [routerLink]="['/buyer']">Buyer</a></li>
+          <li><a [routerLink]="['/exchange']">Exchanges</a></li>
+		  <li><a [routerLink]="['/data-consumer']">Data Consumer</a></li>
+ 
+        </ul>
+      </li>
+
+
+      <li class="dropdown">
+        <a class="dropdown-toggle navfont" data-toggle="dropdown" href="#">Transactions
+          <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          
+          <li><a [routerLink]="['/transaction-sb']"></a>Seller to Buyer</li>
+          <li><a [routerLink]="['/transaction-bd']">Buyer to Data Consumer</a></li>
+          <li><a [routerLink]="['/transaction-ct']">Exchange Cash to Token</a></li>
+		  <li><a [routerLink]="['/transaction-tc']">Exchange Token to Cash</a></li>
+ 
+        </ul>
+      </li>
+	  
+	  
+	  
+	  
       <li class="dropdown">
         <a class="dropdown-toggle" data-toggle="dropdown" href="#">Assets
           <span class="caret"></span></a>
-        <ul class="dropdown-menu">
+        <ul class="dropdown-menu"> 
           
           <li><a [routerLink]="['/Wallet']">Wallet</a></li>
           
@@ -23,5 +65,6 @@
     </ul>
   </div>
 </nav>
-
+<div class = "bodybackground">
 <router-outlet></router-outlet>
+</div>
