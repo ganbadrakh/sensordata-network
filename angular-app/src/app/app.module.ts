@@ -32,15 +32,11 @@ import { AllTransactionsComponent } from './AllTransactions/AllTransactions.comp
     WalletComponent,
 		AccountComponent,
 		AirPollutionDataComponent,
-
     ExtendedDataComponent,
 
     SellerComponent,
-
     BuyerComponent,
-
     ConsumerComponent,
-
     ExchangeComponent,
 
     AboutComponent,

@@ -21,18 +21,14 @@ const routes: Routes = [
     {path: '', component: HomeComponent},
 		{path: 'About', component: AboutComponent},
 
-
 		{ path: 'Seller', component: SellerComponent},
 		{ path: 'Buyer', component: BuyerComponent},
 		{ path: 'Exchange', component: ExchangeComponent},
 		{ path: 'Consumer', component: ConsumerComponent},
 
 		{ path: 'Wallet', component: WalletComponent},
-
 		{ path: 'Account', component: AccountComponent},
-
 		{ path: 'AirPollutionData', component: AirPollutionDataComponent},
-
 		{ path: 'ExtendedData', component: ExtendedDataComponent},
 
 		{ path: 'AllTransactions', component: AllTransactionsComponent },
