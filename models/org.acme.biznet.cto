@@ -85,7 +85,7 @@ asset RawData identified by RawDataId {
   o Double SO2 default=0.0 
   o TransferStatus status default = "FOR_SALE"
   o OwnerEntity ownerEntity default="SensorOwner"
-  --> SensorOwner owner
+  --> SensorOwner owner 
 }
 
 
@@ -138,7 +138,6 @@ transaction BuyRawData {
   --> Wallet toWallet
 }
 
-
 //Aufgewertete Luftqualitäsdaten werden dem Konsumenten zur Verfügung gestellt.
 transaction ProvideEnhancedData {
  o Double amount
@@ -151,7 +150,7 @@ transaction ProvideEnhancedData {
 
 // Geld gegen Tokens getauscht.
 transaction ExchangeCashToTokens {
-  o Double cashRate default=2.0
+  o Double cashRate default=0.5
   o Double cashValue
   --> Wallet fromWallet 
   --> Wallet toWallet
@@ -161,7 +160,7 @@ transaction ExchangeCashToTokens {
 
 // Tokens gegen Geld getauscht.
 transaction ExchangeTokensToCash {
-    o Double tokenRate default=2.0       
+    o Double tokenRate default=0.5       
     o Double tokenValue    
     --> Wallet fromWallet
     --> Wallet toWallet
@@ -169,16 +168,12 @@ transaction ExchangeTokensToCash {
     --> Account toAccount
 }
 
-  /**
- * Wenn Luftqualitätsdaten verkauft werden, wird eine Benachrichtigung erzeugt.
- */
+// Wenn Luftqualitätsdaten verkauft werden, wird eine Benachrichtigung erzeugt.
 event TradeRawDataNotification {
     --> RawData RawData
 }
 
-/**
- * Wenn aufgewertete Luftqualitätsdaten an Konsumenten weitergeleitet werden, wird eine Benachrichtigung erzeugt.
- */
+// Wenn aufgewertete Luftqualitätsdaten an Konsumenten weitergeleitet werden, wird eine Benachrichtigung erzeugt
 event ProvideEnhancedDataNotification {
     --> EnhancedData EnhancedData
 }

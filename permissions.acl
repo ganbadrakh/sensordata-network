@@ -6,10 +6,49 @@
 rule SensorOwnerAccessOwnRecord {
     description: "Allow sensor owners to access only their profile"
     participant(p): "org.acme.biznet.SensorOwner"
-    operation: READ, UPDATE, DELETE
+    operation: READ, UPDATE
     resource(r): "org.acme.biznet.SensorOwner"
-    condition: (r.getIdentifier() === p.getIdentifier())
+    condition: (r.getIdentifier() == p.getIdentifier())
     action: ALLOW
+}
+
+//SensorOwners to have read access to own Wallet asset
+rule SensorOwnerReadAccessOwnWalletRecord {
+    description: "Allow.SensorOwners read access to own Wallet assets"
+    participant(p): "org.acme.biznet.SensorOwner"
+    operation: READ
+    resource(r): "org.acme.biznet.Wallet"
+    condition: (r.ownerId == p.getIdentifier())
+    action: ALLOW
+}
+
+//SensorOwners have read access to own Account asset
+rule SensorOwnerReadAccessOwnAccountRecord {
+    description: "Allow.SensorOwners read access to own Account assets"
+    participant(p): "org.acme.biznet.SensorOwner"
+    operation: READ
+    resource(r): "org.acme.biznet.Account"
+    condition: (r.ownerId == p.getIdentifier())
+    action: ALLOW
+}
+
+//SensorOwner to have read/write/update access to own air pollution data assets
+rule SensorOwnerAccessRawDataRecord {
+    description: "Allow.SensorOwners read/write/update access to own air pollution data assets"
+    participant(p): "org.acme.biznet.SensorOwner"
+    operation: CREATE, READ, UPDATE
+    resource(r): "org.acme.biznet.RawData"
+  	condition: (r.owner.getIdentifier() == p.getIdentifier())
+    action: ALLOW
+}
+
+rule SensorOwnerSeeOwnHistoryOnly {
+  description: "Sensor Owners should be able to see the history of their own transactions only"
+  participant(t): "org.acme.biznet.SensorOwner"
+  operation: READ
+  resource(r): "org.hyperledger.composer.system.HistorianRecord"
+  condition: (r.participantInvoking.getIdentifier() != t.getIdentifier())
+  action: DENY
 }
 
 //SensorOwners to have read only access to other DataProcessors
@@ -21,52 +60,26 @@ rule SensorOwnerReadAccessDataProcessors {
     action: ALLOW
 }
 
+
+
+
+
+// SensorOwner to have read access to sold air pollution data assets
+rule SensorOwnerReadAccessRawDataRecord {
+    description: "Allow.SensorOwners read access to sold air pollution data assets"
+    participant(p): "org.acme.biznet.SensorOwner"
+    operation: READ
+    resource(r): "org.acme.biznet.RawData"
+  	condition: (r.owner.getIdentifier() !== p.getIdentifier())
+    action: ALLOW
+}
+
 //SensorOwners to have read only access to other Exchanges
 rule SensorOwnerReadAccessExchanges {
     description: "Allow.SensorOwners read access to other exchanges"
     participant: "org.acme.biznet.SensorOwner"
     operation: READ
     resource: "org.acme.biznet.Exchange"
-    action: ALLOW
-}
-
-//SensorOwners to have read access to own Wallet assets
-rule SensorOwnerReadAccessOwnWalletRecord {
-    description: "Allow.SensorOwners read access to own Wallet assets"
-    participant(p): "org.acme.biznet.SensorOwner"
-    operation: READ
-    resource(r): "org.acme.biznet.Wallet"
-    condition: (r.ownerId == p.getIdentifier())
-    action: ALLOW
-}
-
-//SensorOwners to have read access to own Account assets
-rule SensorOwnerReadAccessOwnAccountRecord {
-    description: "Allow.SensorOwners read access to own Account assets"
-    participant(p): "org.acme.biznet.SensorOwner"
-    operation: READ
-    resource(r): "org.acme.biznet.Account"
-    condition: (r.ownerId == p.getIdentifier())
-    action: ALLOW
-}
-
-//SensorOwner to have read/write/update access to own air pollution data assets
-rule SensorOwnerAccessAirPollutionDataRecord {
-    description: "Allow.SensorOwners read/write/update access to own air pollution data assets"
-    participant(p): "org.acme.biznet.SensorOwner"
-    operation: CREATE, UPDATE, READ
-    resource(r): "org.acme.biznet.AirPollutionData"
-  	condition: (r.owner.getIdentifier() == p.getIdentifier())
-    action: ALLOW
-}
-
-// SensorOwner to have read access to sold air pollution data assets
-rule SensorOwnerReadAccessAirPollutionDataRecord {
-    description: "Allow.SensorOwners read access to sold air pollution data assets"
-    participant(p): "org.acme.biznet.SensorOwner"
-    operation: READ
-    resource(r): "org.acme.biznet.AirPollutionData"
-  	condition: (r.owner.getIdentifier() !== p.getIdentifier())
     action: ALLOW
 }
 
@@ -128,31 +141,31 @@ rule DataProcessorReadAccessOwnAccountRecord {
 }
 
 //DataProcessor to have read access to purchased air pollution data assets
-rule DataProcessorReadAccessAirPollutionDataRecord {
+rule DataProcessorReadAccessRawDataRecord {
     description: "Allow DataProcessors read access to purchased air pollution data assets"
     participant(p): "org.acme.biznet.DataProcessor"
     operation: READ
-    resource(r): "org.acme.biznet.AirPollutionData"
+    resource(r): "org.acme.biznet.RawData"
   	condition: (r.owner.getIdentifier() == p.getIdentifier())
     action: ALLOW
 }
 
 //DataProcessors to have write access to own extended data assets
-rule DataProcessorAccessExtendedDataRecord {
+rule DataProcessorAccessEnhancedDataRecord {
     description: "Allow DataProcessors access to own extended data assets"
     participant(p): "org.acme.biznet.DataProcessor"
     operation: CREATE, READ, UPDATE
-    resource(r): "org.acme.biznet.ExtendedData"
+    resource(r): "org.acme.biznet.EnhancedData"
   	condition: (r.owner.getIdentifier() == p.getIdentifier())
     action: ALLOW
 }
 
 //DataProcessors to have read access to forwarded extended data assets
-rule DataProcessorReadAccessExtendedDataRecord {
+rule DataProcessorReadAccessEnhancedDataRecord {
     description: "Allow DataProcessors read access to forwarded enhanced data assets"
     participant(p): "org.acme.biznet.DataProcessor"
     operation: READ
-    resource(r): "org.acme.biznet.ExtendedData"
+    resource(r): "org.acme.biznet.EnhancedData"
   	condition: (r.owner.getIdentifier() !== p.getIdentifier())
     action: ALLOW
 }
@@ -239,7 +252,7 @@ rule DataConsumerReadAccessAirQualityDataRecord {
     description: "Allow data consumers read access to purchased air quality data assets"
     participant(p): "org.acme.biznet.DataConsumer"
     operation: READ
-    resource(r): "org.acme.biznet.ExtendedData"
+    resource(r): "org.acme.biznet.EnhancedData"
   	condition: (r.owner.getIdentifier() == p.getIdentifier())
     action: ALLOW
 }

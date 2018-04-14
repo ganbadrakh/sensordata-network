@@ -26,14 +26,14 @@ query selectExchanges {
   	SELECT org.acme.biznet.Exchange 
 }
 
-query selectAirPollutionData {
-  description: "Select all Air Pollution Data assets"
+query selectRawData {
+  description: "Select all Raw Data assets"
   statement:
-  	SELECT org.acme.biznet.AirPollutionData 
+  	SELECT org.acme.biznet.RawData 
 }
 
-query selectExtendedData {
-  description: "Select all Extended Data assets"
+query selectEnhancedData {
+  description: "Select all Enhanced Data assets"
   statement:
-  	SELECT org.acme.biznet.ExtendedData 
+  	SELECT org.acme.biznet.EnhancedData 
 }
