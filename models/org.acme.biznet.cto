@@ -4,12 +4,90 @@
 
 namespace org.acme.biznet
 
+concept Address {
+  o String country
+  o String city 
+  o String street 
+  o String street2 optional
+  o String postalCode 
+}
+
+
+// Sensorenbesitzer, z.B private Personen, Haushalte etc.
+participant SensorOwner identified by sensorOwnerId {
+  o String sensorOwnerId
+  o String name
+  o String email
+  o Address address 
+  --> Wallet wallet
+  --> Account account
+}
+
+// Sensordatenabnehmer, z.B unabhängige Dienstleister, Forschungszentren etc.
+participant DataProcessor identified by dataProcessorId {
+  o String dataProcessorId
+  o String name
+  o String email
+  --> Wallet wallet
+  --> Account account
+}
+
+// Datenkonsument, der die aufbereitete Sensordaten kauft, z.B Behörden, Regierung etc.
+participant DataConsumer identified by dataConsumerId {
+ o String dataConsumerId
+ o String name
+ o String email
+ --> Account account
+}
+
+// dem Ökosystem involvierte Exchange.
+participant Exchange identified by exchangeId {
+ o String exchangeId
+ o String name
+ o String email 
+ --> Wallet wallet
+ --> Account account
+}
+
+// Wallet von den Netzwerkteilnehmern.
+asset Wallet identified by walletId {
+  o String walletId
+  o String ownerId
+  o String token default="SDT"
+  o Double balance default=0.0
+}
+
+// Geldkonto von den Netzwerkteilnehmern.
+asset Account identified by accountId {
+  o String accountId
+  o String ownerId
+  o String currency default="EUR"
+  o Double balance default=0.0
+}
+
 enum TransferStatus {
  o FOR_SALE
  o SOLD
  o PROCESSED
  o FORWARDED
 }
+
+// Luftverschmutzungsdaten, die von Sensor Owner verkauft werden.
+asset RawData identified by RawDataId {
+  o String RawDataId
+  o Address address
+  o DateTime createdTime
+  o Double[] PM25
+  o Double PM10 default=0.0
+  o Double CO default=0.0
+  o Double NO2 default=0.0
+  o Double O3 default=0.0
+  o Double SO2 default=0.0 
+  o TransferStatus status default = "FOR_SALE"
+  o OwnerEntity ownerEntity default="SensorOwner"
+  --> SensorOwner owner
+}
+
 
 enum AirPollutionLevel {
   o GOOD
@@ -28,98 +106,15 @@ enum OwnerEntity {
   
 }
 
-/**
- * Sensorenbesitzer, z.B private Personen, Haushalte etc.
- */
-participant SensorOwner identified by sensorOwnerId {
-  o String sensorOwnerId
-  o String name
-  o String address
-  o String email
-  --> Wallet wallet
-  --> Account account
-}
-
-/**
- * Sensordatenabnehmer, z.B unabhängige Dienstleister, Forschungszentren etc.
- */
-participant DataProcessor identified by dataProcessorId {
-  o String dataProcessorId
-  o String name
-  o String email
-  --> Wallet wallet
-  --> Account account
-}
-
-/**
- * dem Ökosystem involvierte Exchanges.
- */
-participant Exchange identified by exchangeId {
- o String exchangeId
- o String name
- o String email 
- --> Wallet wallet
- --> Account account
-}
-
-/**
- * Konsument, der die aufbereitete Sensordaten kauft, z.B Behörden, Regierung, WHO etc.
- */
-participant DataConsumer identified by dataConsumerId {
- o String dataConsumerId
- o String name
- o String email
- --> Account account
-}
-
-/**
- * Wallets von den Netzwerkteilnehmern.
- */
-asset Wallet identified by walletId {
-  o String walletId
-  o String ownerId
-  o String token default="SDT"
-  o Double balance default=0.0
-}
-
-/**
- * Geldkonten von den Netzwerkteilnehmern.
- */
-asset Account identified by accountId {
-  o String accountId
-  o String ownerId
-  o String currency default="EUR"
-  o Double balance default=0.0
-}
-
 concept Location {
   o String latitude
   o String longitude
 }
-/**
- * Luftverschmutzungsdaten, die von Sensor Owner verkauft werden.
- */
-asset AirPollutionData identified by airPollutionDataId {
-  o String airPollutionDataId
-  o String location
-  o DateTime createdTime
-  o Double[] PM25
-  o Double PM10 default=0.0
-  o Double CO default=0.0
-  o Double NO2 default=0.0
-  o Double O3 default=0.0
-  o Double SO2 default=0.0 
-  o TransferStatus status default = "FOR_SALE"
-  o OwnerEntity ownerEntity default="SensorOwner"
-  --> SensorOwner owner
-}
 
-/**
- * Aufgewertete Luftqualitäsdaten, die von Buyer dem Konsumenten zur Verfügung gestellt werden.
- */
-asset ExtendedData identified by extendedDataId {
- o String extendedDataId
- o String rawDataFrom default="ProvideAirPollutionDataId"
+// Aufgewertete Luftqualitäsdaten, die von Data Processor dem Konsumenten zur Verfügung gestellt werden.
+asset EnhancedData identified by EnhancedDataId {
+ o String EnhancedDataId
+ o String FromRaData default="RawDataId"
  o Location[] location
  o String country
  o DateTime deliveredTime
@@ -133,33 +128,28 @@ asset ExtendedData identified by extendedDataId {
  --> DataProcessor owner
 }
 
-/**
- * Aktuelle Luftverschmtzungsdaten werden gegen Coins verkauft.
- */
-transaction TradeAirPollutionData {
+// Sensordaten über Luftverschmtzung werden gegen Coins verkauft.
+transaction BuyRawData {
   o Double amount
-  --> AirPollutionData airpollutiondata 
+  --> RawData RawData 
   --> SensorOwner owner
   --> DataProcessor newOwner
   --> Wallet fromWallet
   --> Wallet toWallet
 }
 
-/**
- * Aufgewertete Luftqualitäsdaten werden dem Konsumenten zur Verfügung gestellt.
- */
-transaction ProvideExtendedData {
+
+//Aufgewertete Luftqualitäsdaten werden dem Konsumenten zur Verfügung gestellt.
+transaction ProvideEnhancedData {
  o Double amount
- --> ExtendedData extendeddata
+ --> EnhancedData EnhancedData
  --> DataProcessor owner
  --> DataConsumer newOwner
  --> Account fromAccount
  --> Account toAccount
 }
 
-/**
- * Geld gegen Tokens getauscht.
- */
+// Geld gegen Tokens getauscht.
 transaction ExchangeCashToTokens {
   o Double cashRate default=2.0
   o Double cashValue
@@ -169,9 +159,7 @@ transaction ExchangeCashToTokens {
   --> Account toAccount
 }
 
-/**
- * Tokens gegen Geld getauscht.
- */
+// Tokens gegen Geld getauscht.
 transaction ExchangeTokensToCash {
     o Double tokenRate default=2.0       
     o Double tokenValue    
@@ -184,14 +172,14 @@ transaction ExchangeTokensToCash {
   /**
  * Wenn Luftqualitätsdaten verkauft werden, wird eine Benachrichtigung erzeugt.
  */
-event TradeAirPollutionDataNotification {
-    --> AirPollutionData airpollutiondata
+event TradeRawDataNotification {
+    --> RawData RawData
 }
 
 /**
  * Wenn aufgewertete Luftqualitätsdaten an Konsumenten weitergeleitet werden, wird eine Benachrichtigung erzeugt.
  */
-event ProvideExtendedDataNotification {
-    --> ExtendedData extendeddata
+event ProvideEnhancedDataNotification {
+    --> EnhancedData EnhancedData
 }
 
