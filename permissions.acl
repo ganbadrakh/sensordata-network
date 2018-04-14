@@ -2,155 +2,155 @@
  * Access control rules for sensordata-network
  */
 
-//Sellers to have access only to their own account
-rule SellerAccessOwnRecord {
-    description: "Allow sellers to access only their profile"
-    participant(p): "org.acme.biznet.Seller"
+//Sensor Owner has access only to their own account
+rule SensorOwnerAccessOwnRecord {
+    description: "Allow sensor owners to access only their profile"
+    participant(p): "org.acme.biznet.SensorOwner"
     operation: READ, UPDATE, DELETE
-    resource(r): "org.acme.biznet.Seller"
+    resource(r): "org.acme.biznet.SensorOwner"
     condition: (r.getIdentifier() === p.getIdentifier())
     action: ALLOW
 }
 
-//Sellers to have read only access to other Buyers
-rule SellerReadAccessBuyers {
-    description: "Allow sellers read access to other buyers"
-    participant: "org.acme.biznet.Seller"
+//SensorOwners to have read only access to other DataProcessors
+rule SensorOwnerReadAccessDataProcessors {
+    description: "Allow.SensorOwners read access to other DataProcessors"
+    participant: "org.acme.biznet.SensorOwner"
     operation: READ
-    resource: "org.acme.biznet.Buyer"
+    resource: "org.acme.biznet.DataProcessor"
     action: ALLOW
 }
 
-//Sellers to have read only access to other Exchanges
-rule SellerReadAccessExchanges {
-    description: "Allow sellers read access to other exchanges"
-    participant: "org.acme.biznet.Seller"
+//SensorOwners to have read only access to other Exchanges
+rule SensorOwnerReadAccessExchanges {
+    description: "Allow.SensorOwners read access to other exchanges"
+    participant: "org.acme.biznet.SensorOwner"
     operation: READ
     resource: "org.acme.biznet.Exchange"
     action: ALLOW
 }
 
-//Sellers to have read access to own Wallet assets
-rule SellerReadAccessOwnWalletRecord {
-    description: "Allow sellers read access to own Wallet assets"
-    participant(p): "org.acme.biznet.Seller"
+//SensorOwners to have read access to own Wallet assets
+rule SensorOwnerReadAccessOwnWalletRecord {
+    description: "Allow.SensorOwners read access to own Wallet assets"
+    participant(p): "org.acme.biznet.SensorOwner"
     operation: READ
     resource(r): "org.acme.biznet.Wallet"
     condition: (r.ownerId == p.getIdentifier())
     action: ALLOW
 }
 
-//Sellers to have read access to own Account assets
-rule SellerReadAccessOwnAccountRecord {
-    description: "Allow sellers read access to own Account assets"
-    participant(p): "org.acme.biznet.Seller"
+//SensorOwners to have read access to own Account assets
+rule SensorOwnerReadAccessOwnAccountRecord {
+    description: "Allow.SensorOwners read access to own Account assets"
+    participant(p): "org.acme.biznet.SensorOwner"
     operation: READ
     resource(r): "org.acme.biznet.Account"
     condition: (r.ownerId == p.getIdentifier())
     action: ALLOW
 }
 
-//Seller to have read/write/update access to own air pollution data assets
-rule SellerAccessAirPollutionDataRecord {
-    description: "Allow sellers read/write/update access to own air pollution data assets"
-    participant(p): "org.acme.biznet.Seller"
+//SensorOwner to have read/write/update access to own air pollution data assets
+rule SensorOwnerAccessAirPollutionDataRecord {
+    description: "Allow.SensorOwners read/write/update access to own air pollution data assets"
+    participant(p): "org.acme.biznet.SensorOwner"
     operation: CREATE, UPDATE, READ
     resource(r): "org.acme.biznet.AirPollutionData"
   	condition: (r.owner.getIdentifier() == p.getIdentifier())
     action: ALLOW
 }
 
-//Seller to have read access to sold air pollution data assets
-rule SellerReadAccessAirPollutionDataRecord {
-    description: "Allow sellers read access to sold air pollution data assets"
-    participant(p): "org.acme.biznet.Seller"
+// SensorOwner to have read access to sold air pollution data assets
+rule SensorOwnerReadAccessAirPollutionDataRecord {
+    description: "Allow.SensorOwners read access to sold air pollution data assets"
+    participant(p): "org.acme.biznet.SensorOwner"
     operation: READ
     resource(r): "org.acme.biznet.AirPollutionData"
   	condition: (r.owner.getIdentifier() !== p.getIdentifier())
     action: ALLOW
 }
 
-//Buyers to have access to their own account
-rule BuyerAccessOwnRecord {
-    description: "Allow buyer to access only their profile"
-    participant(p): "org.acme.biznet.Buyer"
+//DataProcessors to have access to their own account
+rule DataProcessorAccessOwnRecord {
+    description: "Allow DataProcessor to access only their profile"
+    participant(p): "org.acme.biznet.DataProcessor"
     operation: READ, UPDATE, DELETE
-    resource(r): "org.acme.biznet.Buyer"
+    resource(r): "org.acme.biznet.DataProcessor"
     condition: (r.getIdentifier() === p.getIdentifier())
     action: ALLOW
 }
 
-//Buyers to have read only access to other Sellers
-rule BuyerReadAccessSellers {
-    description: "Allow buyers read access to other Sellers"
-    participant: "org.acme.biznet.Buyer"
+//DataProcessors to have read only access to other SensorOwners
+rule DataProcessorReadAccessSensorOwners {
+    description: "Allow DataProcessors read access to other SensorOwners"
+    participant: "org.acme.biznet.DataProcessor"
     operation: READ
-    resource: "org.acme.biznet.Seller"
+    resource: "org.acme.biznet.SensorOwner"
     action: ALLOW
 }
 
-//Buyers to have read only access to other Exchanges
-rule BuyerReadAccessExchanges {
-    description: "Allow buyers read access to other exchanges"
-    participant: "org.acme.biznet.Buyer"
+//DataProcessors to have read only access to other Exchanges
+rule DataProcessorReadAccessExchanges {
+    description: "Allow DataProcessors read access to other exchanges"
+    participant: "org.acme.biznet.DataProcessor"
     operation: READ
     resource: "org.acme.biznet.Exchange"
     action: ALLOW
 }
 
-//Buyers to have read only access to other Data Consumers
-rule BuyerReadAccessDataConsumers {
-    description: "Allow buyers read access to other data consumers"
-    participant: "org.acme.biznet.Buyer"
+//DataProcessors to have read only access to other Data Consumers
+rule DataProcessorReadAccessDataConsumers {
+    description: "Allow DataProcessors read access to other data consumers"
+    participant: "org.acme.biznet.DataProcessor"
     operation: READ
     resource: "org.acme.biznet.DataConsumer"
     action: ALLOW
 }
 
-//Buyers to have read access to own Wallet assets
-rule BuyerReadAccessOwnWalletRecord {
-    description: "Allow buyers read access to own Wallet assets"
-    participant(p): "org.acme.biznet.Buyer"
+//DataProcessors to have read access to own Wallet assets
+rule DataProcessorReadAccessOwnWalletRecord {
+    description: "Allow DataProcessors read access to own Wallet assets"
+    participant(p): "org.acme.biznet.DataProcessor"
     operation: READ
     resource(r): "org.acme.biznet.Wallet"
     condition: (r.ownerId == p.getIdentifier())
     action: ALLOW
 }
 
-//Buyers to have read access to own Account assets
-rule BuyerReadAccessOwnAccountRecord {
-    description: "Allow buyers read access to own Account assets"
-    participant(p): "org.acme.biznet.Buyer"
+//DataProcessors to have read access to own Account assets
+rule DataProcessorReadAccessOwnAccountRecord {
+    description: "Allow DataProcessors read access to own Account assets"
+    participant(p): "org.acme.biznet.DataProcessor"
     operation: READ
     resource(r): "org.acme.biznet.Account"
     condition: (r.ownerId == p.getIdentifier())
     action: ALLOW
 }
 
-//Buyer to have read access to purchased air pollution data assets
-rule BuyerReadAccessAirPollutionDataRecord {
-    description: "Allow buyers read access to purchased air pollution data assets"
-    participant(p): "org.acme.biznet.Buyer"
+//DataProcessor to have read access to purchased air pollution data assets
+rule DataProcessorReadAccessAirPollutionDataRecord {
+    description: "Allow DataProcessors read access to purchased air pollution data assets"
+    participant(p): "org.acme.biznet.DataProcessor"
     operation: READ
     resource(r): "org.acme.biznet.AirPollutionData"
   	condition: (r.owner.getIdentifier() == p.getIdentifier())
     action: ALLOW
 }
 
-//Buyers to have write access to own extended data assets
-rule BuyerAccessExtendedDataRecord {
-    description: "Allow buyers access to own extended data assets"
-    participant(p): "org.acme.biznet.Buyer"
+//DataProcessors to have write access to own extended data assets
+rule DataProcessorAccessExtendedDataRecord {
+    description: "Allow DataProcessors access to own extended data assets"
+    participant(p): "org.acme.biznet.DataProcessor"
     operation: CREATE, READ, UPDATE
     resource(r): "org.acme.biznet.ExtendedData"
   	condition: (r.owner.getIdentifier() == p.getIdentifier())
     action: ALLOW
 }
 
-//Buyers to have read access to forwarded extended data assets
-rule BuyerReadAccessExtendedDataRecord {
-    description: "Allow buyers read access to forwarded enhanced data assets"
-    participant(p): "org.acme.biznet.Buyer"
+//DataProcessors to have read access to forwarded extended data assets
+rule DataProcessorReadAccessExtendedDataRecord {
+    description: "Allow DataProcessors read access to forwarded enhanced data assets"
+    participant(p): "org.acme.biznet.DataProcessor"
     operation: READ
     resource(r): "org.acme.biznet.ExtendedData"
   	condition: (r.owner.getIdentifier() !== p.getIdentifier())
@@ -167,21 +167,21 @@ rule ExchangeAccessOwnRecord {
     action: ALLOW
 }
 
-//Exchanges to have read only access to other Buyers
-rule ExchangeReadAccessBuyers {
-    description: "Allow exchanges read access to other Buyers"
+//Exchanges to have read only access to other DataProcessors
+rule ExchangeReadAccessDataProcessors {
+    description: "Allow exchanges read access to other DataProcessors"
     participant: "org.acme.biznet.Exchange"
     operation: READ
-    resource: "org.acme.biznet.Buyer"
+    resource: "org.acme.biznet.DataProcessor"
     action: ALLOW
 }
 
-//Exchanges to have read only access to other Sellers
-rule ExchangeReadAccessSellers {
-    description: "Allow exchanges read access to other Sellers"
+//Exchanges to have read only access to other SensorOwners
+rule ExchangeReadAccesSensorOwners {
+    description: "Allow exchanges read access to other SensorOwners"
     participant: "org.acme.biznet.Exchange"
     operation: READ
-    resource: "org.acme.biznet.Seller"
+    resource: "org.acme.biznet.SensorOwner"
     action: ALLOW
 }
 
@@ -215,12 +215,12 @@ rule DataConsumerAccessOwnRecord {
     action: ALLOW
 }
 
-//Data Consumers to have read only access to other Buyers
-rule DataConsumerReadAccessBuyers {
-    description: "Allow data consumers read access to other Buyers"
+//Data Consumers to have read only access to other DataProcessors
+rule DataConsumerReadAccessDataProcessors {
+    description: "Allow data consumers read access to other DataProcessors"
     participant: "org.acme.biznet.DataConsumer"
     operation: READ
-    resource: "org.acme.biznet.Buyer"
+    resource: "org.acme.biznet.DataProcessor"
     action: ALLOW
 }
 

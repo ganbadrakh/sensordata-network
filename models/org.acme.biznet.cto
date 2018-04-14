@@ -4,8 +4,6 @@
 
 namespace org.acme.biznet
 
-import composer.base.*
-
 enum TransferStatus {
  o FOR_SALE
  o SOLD
@@ -13,7 +11,7 @@ enum TransferStatus {
  o FORWARDED
 }
 
-enum APLevel {
+enum AirPollutionLevel {
   o GOOD
   o MODERATE
   o UNHEALTHY_FOR_SENSITIVE_GROUPS
@@ -23,19 +21,21 @@ enum APLevel {
 }
 
 enum OwnerEntity {
-  o Seller
-  o Buyer
-  o Exchange
+  o SensorOwner
+  o DataProcessor
   o DataConsumer 
+  o Exchange
+  
 }
 
 /**
  * Sensorenbesitzer, z.B private Personen, Haushalte etc.
  */
-participant Seller identified by sellerId extends Member {
-  o String sellerId
-  o String firstName
-  o String lastName
+participant SensorOwner identified by sensorOwnerId {
+  o String sensorOwnerId
+  o String name
+  o String address
+  o String email
   --> Wallet wallet
   --> Account account
 }
@@ -43,9 +43,10 @@ participant Seller identified by sellerId extends Member {
 /**
  * Sensordatenabnehmer, z.B unabhängige Dienstleister, Forschungszentren etc.
  */
-participant Buyer identified by buyerId extends Member {
-  o String buyerId
+participant DataProcessor identified by dataProcessorId {
+  o String dataProcessorId
   o String name
+  o String email
   --> Wallet wallet
   --> Account account
 }
@@ -53,9 +54,10 @@ participant Buyer identified by buyerId extends Member {
 /**
  * dem Ökosystem involvierte Exchanges.
  */
-participant Exchange identified by exchangeId extends Member {
+participant Exchange identified by exchangeId {
  o String exchangeId
  o String name
+ o String email 
  --> Wallet wallet
  --> Account account
 }
@@ -63,9 +65,10 @@ participant Exchange identified by exchangeId extends Member {
 /**
  * Konsument, der die aufbereitete Sensordaten kauft, z.B Behörden, Regierung, WHO etc.
  */
-participant DataConsumer identified by dataConsumerId extends Member {
+participant DataConsumer identified by dataConsumerId {
  o String dataConsumerId
  o String name
+ o String email
  --> Account account
 }
 
@@ -89,13 +92,17 @@ asset Account identified by accountId {
   o Double balance default=0.0
 }
 
+concept Location {
+  o String latitude
+  o String longitude
+}
 /**
- * Luftverschmutzungsdaten, die von Seller verkauft werden.
+ * Luftverschmutzungsdaten, die von Sensor Owner verkauft werden.
  */
 asset AirPollutionData identified by airPollutionDataId {
   o String airPollutionDataId
   o String location
-  o DateTime datetime
+  o DateTime createdTime
   o Double[] PM25
   o Double PM10 default=0.0
   o Double CO default=0.0
@@ -103,8 +110,8 @@ asset AirPollutionData identified by airPollutionDataId {
   o Double O3 default=0.0
   o Double SO2 default=0.0 
   o TransferStatus status default = "FOR_SALE"
-  o OwnerEntity ownerEntity default="Seller"
-  --> Member owner
+  o OwnerEntity ownerEntity default="SensorOwner"
+  --> SensorOwner owner
 }
 
 /**
@@ -112,17 +119,18 @@ asset AirPollutionData identified by airPollutionDataId {
  */
 asset ExtendedData identified by extendedDataId {
  o String extendedDataId
- o String dataFrom default="ProvideAirPollutionDataId"
- o String location default="locationFromAPD"
- o DateTime datetime
+ o String rawDataFrom default="ProvideAirPollutionDataId"
+ o Location[] location
+ o String country
+ o DateTime deliveredTime
  o String PM25_Concentration
  o String AQIndex default="0-50"
- o APLevel level
+ o AirPollutionLevel level
  o String healthImplications
  o String cautionaryStatement
  o TransferStatus status default="PROCESSED"
- o OwnerEntity ownerEntity default="Buyer" 
- --> Member owner
+ o OwnerEntity ownerEntity default="DataProcessor" 
+ --> DataProcessor owner
 }
 
 /**
@@ -131,8 +139,8 @@ asset ExtendedData identified by extendedDataId {
 transaction TradeAirPollutionData {
   o Double amount
   --> AirPollutionData airpollutiondata 
-  --> Seller owner
-  --> Buyer newOwner
+  --> SensorOwner owner
+  --> DataProcessor newOwner
   --> Wallet fromWallet
   --> Wallet toWallet
 }
@@ -143,7 +151,7 @@ transaction TradeAirPollutionData {
 transaction ProvideExtendedData {
  o Double amount
  --> ExtendedData extendeddata
- --> Buyer owner
+ --> DataProcessor owner
  --> DataConsumer newOwner
  --> Account fromAccount
  --> Account toAccount

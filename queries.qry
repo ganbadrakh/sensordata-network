@@ -2,16 +2,16 @@
  * Simple queries
  */
 
-query selectBuyers {
-  description: "Select all Buyers"
+query selectDataProcessors {
+  description: "Select all DataProcessors"
   statement:
-  	SELECT org.acme.biznet.Buyer 
+  	SELECT org.acme.biznet.DataProcessor 
 }
 
-query selectSellers {
-  description: "Select all Sellers"
+query selectSensorOwners {
+  description: "Select all SensorOwners"
   statement:
-  	SELECT org.acme.biznet.Seller 
+  	SELECT org.acme.biznet.SensorOwner 
 }
 
 query selectDataConsumers {
