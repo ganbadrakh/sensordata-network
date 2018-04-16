@@ -8,10 +8,8 @@ concept Address {
   o String country
   o String city 
   o String street 
-  o String street2 optional
-  o String postalCode 
+  o Integer postalCode 
 }
-
 
 // Sensorenbesitzer, z.B private Personen, Haushalte etc.
 participant SensorOwner identified by sensorOwnerId {
@@ -19,7 +17,7 @@ participant SensorOwner identified by sensorOwnerId {
   o String name
   o String email
   o Address address 
-  --> Wallet wallet
+  --> Wallet[] wallet
   --> Account account
 }
 
@@ -45,7 +43,7 @@ participant Exchange identified by exchangeId {
  o String exchangeId
  o String name
  o String email 
- --> Wallet wallet
+ --> Wallet[] wallet
  --> Account account
 }
 
@@ -53,16 +51,16 @@ participant Exchange identified by exchangeId {
 asset Wallet identified by walletId {
   o String walletId
   o String ownerId
-  o String token default="SDT"
-  o Double balance default=0.0
+  o String token default = "SDT"
+  o Double balance default = 0.0
 }
 
 // Geldkonto von den Netzwerkteilnehmern.
 asset Account identified by accountId {
   o String accountId
   o String ownerId
-  o String currency default="EUR"
-  o Double balance default=0.0
+  o String currency default = "EUR"
+  o Double balance default = 0.0
 }
 
 enum TransferStatus {
@@ -72,22 +70,31 @@ enum TransferStatus {
  o FORWARDED
 }
 
+asset Sensor identified by sensorId {
+ o String sensorId
+ o String sensorType default = "PM2.5" 
+ o String ownerId 
+ o String sensorName default = "NOVA_SDS011"
+ o String manufacturer default = "Nova Fitness"
+ o String firmware default = "v1.0.8" 
+}
+  
 // Luftverschmutzungsdaten, die von Sensor Owner verkauft werden.
 asset RawData identified by RawDataId {
   o String RawDataId
-  o Address address
+  o String fromSensor default = "sensorId"
+  o Address position
   o DateTime createdTime
   o Double[] PM25
-  o Double PM10 default=0.0
-  o Double CO default=0.0
-  o Double NO2 default=0.0
-  o Double O3 default=0.0
-  o Double SO2 default=0.0 
+  o Double PM10 default = 0.0
+  o Double CO default = 0.0
+  o Double NO2 default = 0.0
+  o Double O3 default = 0.0
+  o Double SO2 default = 0.0
   o TransferStatus status default = "FOR_SALE"
-  o OwnerEntity ownerEntity default="SensorOwner"
+  o OwnerEntity ownerEntity default = "SensorOwner"
   --> SensorOwner owner 
 }
-
 
 enum AirPollutionLevel {
   o GOOD
@@ -102,36 +109,35 @@ enum OwnerEntity {
   o SensorOwner
   o DataProcessor
   o DataConsumer 
-  o Exchange
-  
+  o Exchange  
 }
 
 concept Location {
-  o String latitude
-  o String longitude
+  o Double latitude
+  o Double longitude
 }
 
 // Aufgewertete Luftqualitäsdaten, die von Data Processor dem Konsumenten zur Verfügung gestellt werden.
 asset EnhancedData identified by EnhancedDataId {
  o String EnhancedDataId
- o String FromRaData default="RawDataId"
- o Location[] location
+ o String FromRawData default = "RawDataId"
+ o Location location
  o String country
- o DateTime deliveredTime
- o String PM25_Concentration
- o String AQIndex default="0-50"
- o AirPollutionLevel level
- o String healthImplications
- o String cautionaryStatement
- o TransferStatus status default="PROCESSED"
- o OwnerEntity ownerEntity default="DataProcessor" 
+ o DateTime createdTime
+ o Double PM25_Concentration default = 0.0
+ o String AQIndex default = "0-50"
+ o AirPollutionLevel APLevel
+ o String healthImplications default = "none"
+ o String cautionaryStatement default = "none"
+ o TransferStatus status default = "PROCESSED"
+ o OwnerEntity ownerEntity default = "DataProcessor" 
  --> DataProcessor owner
 }
 
 // Sensordaten über Luftverschmtzung werden gegen Coins verkauft.
-transaction BuyRawData {
+transaction TransferRawData {
   o Double amount
-  --> RawData RawData 
+  --> RawData rawData 
   --> SensorOwner owner
   --> DataProcessor newOwner
   --> Wallet fromWallet
@@ -139,9 +145,9 @@ transaction BuyRawData {
 }
 
 //Aufgewertete Luftqualitäsdaten werden dem Konsumenten zur Verfügung gestellt.
-transaction ProvideEnhancedData {
+transaction TransferEnhancedData {
  o Double amount
- --> EnhancedData EnhancedData
+ --> EnhancedData enhancedData
  --> DataProcessor owner
  --> DataConsumer newOwner
  --> Account fromAccount
@@ -150,8 +156,8 @@ transaction ProvideEnhancedData {
 
 // Geld gegen Tokens getauscht.
 transaction ExchangeCashToTokens {
-  o Double cashRate default=0.5
-  o Double cashValue
+  o Double cashRate default = 0.5
+  o Double cashValue default = 0.0
   --> Wallet fromWallet 
   --> Wallet toWallet
   --> Account fromAccount
@@ -160,21 +166,37 @@ transaction ExchangeCashToTokens {
 
 // Tokens gegen Geld getauscht.
 transaction ExchangeTokensToCash {
-    o Double tokenRate default=0.5       
-    o Double tokenValue    
+    o Double tokenRate default = 0.5       
+    o Double tokenValue default = 0.0    
     --> Wallet fromWallet
     --> Wallet toWallet
     --> Account fromAccount
     --> Account toAccount
 }
 
+// Tokens gegen BTC getauscht
+transaction ExchangeTokensToBTC {
+  o Double tokenRate default = 0.5
+  o Double tokenValue default = 0.0
+  --> Wallet fromWallet
+  --> Wallet toWallet
+}
+
+// BTC gegen Tokens getauscht
+transaction BTCToTokens {
+  o Double BTCRate default = 0.5
+  o Double BTCValue default = 0.0
+  --> Wallet fromWallet
+  --> Wallet toWallet
+}
+
 // Wenn Luftqualitätsdaten verkauft werden, wird eine Benachrichtigung erzeugt.
-event TradeRawDataNotification {
-    --> RawData RawData
+event TransferRawDataNotification {
+    --> RawData rawData
 }
 
 // Wenn aufgewertete Luftqualitätsdaten an Konsumenten weitergeleitet werden, wird eine Benachrichtigung erzeugt
-event ProvideEnhancedDataNotification {
-    --> EnhancedData EnhancedData
+event TransferEnhancedDataNotification {
+    --> EnhancedData enhancedData
 }
 
