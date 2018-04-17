@@ -12,12 +12,12 @@ rule SensorOwnerAccessOwnRecord {
     action: ALLOW
 }
 
-//SensorOwners to have read access to own Wallet asset
-rule SensorOwnerReadAccessOwnWalletRecord {
-    description: "Allow.SensorOwners read access to own Wallet assets"
+//SensorOwner has read access to own Token Wallet asset
+rule SensorOwnerReadAccessOwnTokenWalletRecord {
+    description: "Allow SensorOwner to read access to own Token Wallet assets"
     participant(p): "org.acme.biznet.SensorOwner"
     operation: READ
-    resource(r): "org.acme.biznet.Wallet"
+    resource(r): "org.acme.biznet.TokenWallet"
     condition: (r.ownerId == p.getIdentifier())
     action: ALLOW
 }
