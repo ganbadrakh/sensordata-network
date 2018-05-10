@@ -4,104 +4,90 @@
 
 namespace org.acme.biznet
 
-concept Address {
-  o String country
-  o String city 
-  o String street 
-  o Integer postalCode 
+abstract participant Member identified by memberId {
+    o String memberId
+    o String name
+    o String email
 }
 
-// Sensorenbesitzer, z.B private Personen, Haushalte etc.
-participant SensorOwner identified by sensorOwnerId {
-  o String sensorOwnerId
-  o String name
-  o String email
-  o Address address 
-  --> TokenWallet tokenWallet
+// Sensorbesitzer, z.B private Personen, Haushalte etc.
+participant Provider identified by providerId extends Member {
+  o String providerId
+  --> SDTWallet sdtWallet
   --> BTCWallet btcWallet
   --> Account account
-  --> Sensor sensor
 }
 
-// Sensordatenabnehmer, z.B unabhängige Dienstleister, Forschungszentren etc.
-participant DataProcessor identified by dataProcessorId {
-  o String dataProcessorId
-  o String name
-  o String email
-  --> TokenWallet tokenWallet
+// Sensordatenabnehmer, z.B unabhängiger Dienstleister
+participant Requester identified by requesterId extends Member {
+  o String requesterId
+  --> SDTWallet sdtWallet
   --> Account account
 }
 
 // Datenkonsument, der die aufbereitete Sensordaten kauft, z.B Behörden, Regierung etc.
-participant DataConsumer identified by dataConsumerId {
- o String dataConsumerId
- o String name
- o String email
+participant Consumer identified by consumerId extends Member {
+ o String consumerId
  --> Account account
 }
 
 // dem Ökosystem involvierte Exchange.
-participant Exchange identified by exchangeId {
- o String exchangeId
- o String name
- o String email 
- --> TokenWallet tokenWallet
+participant Exchange identified by exchangeId extends Member {
+ o String exchangeId 
+ --> SDTWallet sdtWallet
  --> BTCWallet btcWallet
  --> Account account
 }
 
-// Token Wallet von den Netzwerkteilnehmern.
-asset TokenWallet identified by tokenWalletId {
-  o String tokenWalletId
-  o String ownerId
-  o String token default = "SDT"
+// SDT Token Wallet von den Netzwerkteilnehmern.
+asset SDTWallet identified by sdtWalletId {
+  o String sdtWalletId
   o Double balance default = 0.0
+  --> Member owner 
 }
 
-// BTC Wallet von den Netzwerkteilnehmern.
+ // BTC Wallet von den Netzwerkteilnehmern.
 asset BTCWallet identified by btcWalletId {
   o String btcWalletId
-  o String ownerId
-  o String coin default = "BTC"
   o Double balance default = 0.0
+  --> Member owner 
 }
-
+  
 // Geldkonto von den Netzwerkteilnehmern.
 asset Account identified by accountId {
   o String accountId
-  o String ownerId
-  o String currency default = "EUR"
   o Double balance default = 0.0
+  --> Member owner 
 }
 
-// Sensoren, die ans Netzwerk angeschlossen werden.
-asset Sensor identified by sensorId {
+// Sensor von Provider
+ asset Sensor identified by sensorId {
  o String sensorId
+ o Address position 
  o String sensorType default = "PM2.5" 
- o String ownerId 
  o String sensorName default = "NOVA_SDS011"
  o String manufacturer default = "Nova Fitness"
- o String firmware default = "v1.0.8" 
+ o String firmware default = "v1.0.8"
+  --> Provider owner 
 }
-
+  
 enum TransferStatus {
  o FOR_SALE
  o SOLD
  o PROCESSED
  o FORWARDED
 }
-
-enum OwnerEntity {
-  o SensorOwner
-  o DataProcessor
-  o DataConsumer 
-  o Exchange  
+ 
+ concept Address {
+  o String country
+  o String city 
+  o String street 
+  o Integer postalCode 
 }
-  
-// Luftverschmutzungsdaten, die von Sensor Owner verkauft werden.
+       
+// Rohdaten, die von Provider erzeugt werden.
 asset RawData identified by RawDataId {
   o String RawDataId
-  o String fromSensor default = "sensorId"
   o Address position
   o DateTime createdTime
   o Double[] PM25
@@ -109,10 +95,10 @@ asset RawData identified by RawDataId {
   o Double CO default = 0.0
   o Double NO2 default = 0.0
   o Double O3 default = 0.0
-  o Double SO2 default = 0.0
+  o Double SO2 default = 0.0 
   o TransferStatus status default = "FOR_SALE"
-  o OwnerEntity ownerEntity default = "SensorOwner"
-  --> SensorOwner owner 
+  --> Member owner
+  --> Sensor fromSensor
 }
 
 enum AirPollutionLevel {
@@ -129,10 +115,9 @@ concept Location {
   o Double longitude
 }
 
-// Aufgewertete Luftqualitäsdaten, die von Data Processor dem Konsumenten zur Verfügung gestellt werden.
-asset EnhancedData identified by EnhancedDataId {
- o String EnhancedDataId
- o String FromRawData default = "RawDataId"
+// Aufgewertete Luftqualitäsdaten, die von Data Processor erzeugt werden.
+asset EnrichedData identified by EnrichedDataId {
+ o String EnrichedDataId
  o Location location
  o String country
  o DateTime createdTime
@@ -142,93 +127,96 @@ asset EnhancedData identified by EnhancedDataId {
  o String healthImplications default = "none"
  o String cautionaryStatement default = "none"
  o TransferStatus status default = "PROCESSED"
- o OwnerEntity ownerEntity default = "DataProcessor" 
- --> DataProcessor owner
+ --> Member owner
+ --> RawData fromRawData
 }
 
-// Sensordaten über Luftverschmtzung werden gegen Coins verkauft.
+// Rohdaten über Luftverschmtzung werden gegen Tokens verkauft.
 transaction TransferRawData {
-  o Double amount
-  --> RawData rawData 
-  --> SensorOwner owner
-  --> DataProcessor newOwner
-  --> TokenWallet fromTokenWallet
-  --> TokenWallet toTokenWallet
+  o Double price default = 2.0
+  --> RawData rawdata 
+  --> Requester newOwner
+  --> SDTWallet fromSDT
+  --> SDTWallet toSDT
 }
 
-//Aufgewertete Luftqualitäsdaten werden dem Konsumenten zur Verfügung gestellt.
-transaction TransferEnhancedData {
- o Double amount
- --> EnhancedData enhancedData
- --> DataProcessor owner
- --> DataConsumer newOwner
- --> Account fromAccount
- --> Account toAccount
+//Angereicherte Daten werden gegen Cash verkauft.
+transaction TransferEnrichedData {
+ o Double price default = 2.0
+ --> EnrichedData enricheddata
+ --> Consumer newOwner
+ --> Account fromCash
+ --> Account toCash
 }
 
-// Geld gegen Tokens getauscht.
-transaction ExchangeCashToTokens {
-  o Double cashRate default = 0.5
-  o Double cashValue default = 0.0
-  --> TokenWallet fromTokenWallet 
-  --> TokenWallet toTokenWallet
-  --> Account fromAccount
-  --> Account toAccount
+// Cash gegen Tokens getauscht.
+transaction TradeCashToTokens {
+  o Double cashRate default = 2.0
+  o Double cashValue default = 1.0 range = [1.0,]
+  --> Account fromCash
+  --> Account toCash
+  --> SDTWallet fromSDT 
+  --> SDTWallet toSDT
+}
+   
+// Cash gegen BTC getauscht.
+transaction TradeCashToBTC {
+  o Double cashRate default = 0.0001
+  o Double cashValue default = 50.0 range = [50.0,]
+  --> Account fromCash
+  --> Account toCash
+  --> BTCWallet fromBTC 
+  --> BTCWallet toBTC
+  
 }
 
-// Tokens gegen Geld getauscht.
-transaction ExchangeTokensToCash {
+// Tokens gegen Cash getauscht.
+transaction TradeTokensToCash {
     o Double tokenRate default = 0.5       
-    o Double tokenValue default = 0.0    
-    --> TokenWallet fromTokenWallet
-    --> TokenWallet toTokenWallet
-    --> Account fromAccount
-    --> Account toAccount
+    o Double tokenValue default = 2.0 range = [2.0,]    
+    --> SDTWallet fromSDT
+    --> SDTWallet toSDT
+    --> Account fromCash
+    --> Account toCash
 }
 
 // Tokens gegen BTC getauscht
-transaction ExchangeTokensToBTC {
-  o Double tokenRate default = 0.5
-  o Double tokenValue default = 0.0
-  --> TokenWallet fromTokenWallet
-  --> BTCWallet toBTCWallet
+transaction TradeTokensToBTC {
+  o Double tokenRate default = 0.00005
+  o Double tokenValue default = 100.0 range = [100.0,]
+  --> SDTWallet fromSDT
+  --> SDTWallet toSDT
+  --> BTCWallet fromBTC
+  --> BTCWallet toBTC
 }
 
 // BTC gegen Tokens getauscht
-transaction BTCToTokens {
-  o Double BTCRate default = 0.5
-  o Double BTCValue default = 0.0
-  --> BTCWallet fromBTCWallet
-  --> TokenWallet toTokenWallet
+transaction TradeBTCToTokens {
+  o Double BTCRate default = 20000.0
+  o Double BTCValue default = 0.005 range = [0.00500000,]
+  --> BTCWallet fromBTC
+  --> BTCWallet toBTC 
+  --> SDTWallet fromSDT 
+  --> SDTWallet toSDT
 }
 
-//BTC gegen Cash
-transaction ExchangeBTCToCash {
-    o Double BTCRate default = 0.5       
-    o Double BTCValue default = 0.0    
-    --> BTCWallet fromBTCWallet
-    --> BTCWallet toBTCWallet
-    --> Account fromAccount
-    --> Account toAccount
-}
-
-// Cash gegen BTC
-transaction ExchangeCashToBTC {
-  o Double cashRate default = 0.5
-  o Double cashValue default = 0.0
-  --> BTCWallet fromBTCWallet 
-  --> BTCWallet toBTCWallet
-  --> Account fromAccount
-  --> Account toAccount
+// BTC gegen Cash getauscht
+transaction TradeBTCToCash {
+  o Double BTCRate default = 10000.0
+  o Double BTCValue default = 0.005 range = [0.00500000,]
+  --> BTCWallet fromBTC
+  --> BTCWallet toBTC 
+  --> Account fromCash 
+  --> Account toCash
 }
 
 // Wenn Luftqualitätsdaten verkauft werden, wird eine Benachrichtigung erzeugt.
 event TransferRawDataNotification {
-    --> RawData rawData
+    --> RawData rawdata
 }
 
-// Wenn aufgewertete Luftqualitätsdaten an Konsumenten weitergeleitet werden, wird eine Benachrichtigung erzeugt
-event TransferEnhancedDataNotification {
-    --> EnhancedData enhancedData
+// Wenn aufgewertete Luftqualitätsdaten verkauft werden, wird eine Benachrichtigung erzeugt
+event TransferEnrichedDataNotification {
+    --> EnrichedData enricheddata
 }
 

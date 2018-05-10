@@ -2,22 +2,22 @@
  * Simple queries
  */
 
-query selectDataProcessors {
-  description: "Select all DataProcessors"
+query selectProviders {
+  description: "Select all Providers"
   statement:
-  	SELECT org.acme.biznet.DataProcessor 
+  	SELECT org.acme.biznet.Provider 
 }
 
-query selectSensorOwners {
-  description: "Select all SensorOwners"
+query selectRequesters {
+  description: "Select all Requesters"
   statement:
-  	SELECT org.acme.biznet.SensorOwner 
+  	SELECT org.acme.biznet.Requester
 }
 
-query selectDataConsumers {
-  description: "Select all Data Consumers"
+query selectConsumers {
+  description: "Select all Consumers"
   statement:
-  	SELECT org.acme.biznet.DataConsumer 
+  	SELECT org.acme.biznet.Consumer 
 }
 
 query selectExchanges {
@@ -26,14 +26,20 @@ query selectExchanges {
   	SELECT org.acme.biznet.Exchange 
 }
 
+query selectSensors {
+  description: "Select all Sensors"
+  statement:
+  	SELECT org.acme.biznet.Sensor 
+}
+
 query selectRawData {
   description: "Select all Raw Data assets"
   statement:
   	SELECT org.acme.biznet.RawData 
 }
 
-query selectEnhancedData {
-  description: "Select all Enhanced Data assets"
+query selectEnrichedData {
+  description: "Select all Enriched Data assets"
   statement:
-  	SELECT org.acme.biznet.EnhancedData 
+  	SELECT org.acme.biznet.EnrichedData 
 }

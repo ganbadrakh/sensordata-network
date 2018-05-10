@@ -25,6 +25,7 @@
    }
    export class Network extends Asset {
       networkId: string;
+      runtimeVersion: string;
    }
    export class NetworkAdmin extends Participant {
       participantId: string;
@@ -89,14 +90,10 @@
       identity: Identity;
    }
    export class StartBusinessNetwork extends Transaction {
-      businessNetworkArchive: string;
       logLevel: string;
       bootstrapTransactions: Transaction[];
    }
    export class ResetBusinessNetwork extends Transaction {
-   }
-   export class UpdateBusinessNetwork extends Transaction {
-      businessNetworkArchive: string;
    }
    export class SetLogLevel extends Transaction {
       newLogLevel: string;

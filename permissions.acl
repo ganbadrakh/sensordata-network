@@ -1,260 +1,807 @@
 /**
- * Access control rules for sensordata-network
+ * Access control rules for sensordata trading network
  */
 
-//Sensor Owner has access only to their own account
-rule SensorOwnerAccessOwnRecord {
-    description: "Allow sensor owners to access only their profile"
-    participant(p): "org.acme.biznet.SensorOwner"
+//****************PROVIDER_UPDATE_OWN_PROFILE**********************
+
+//Provider has access only to their own profile
+rule ProviderAccessOwnProfile {
+    description: "Allow providers to access only their profile"
+    participant(p): "org.acme.biznet.Provider"
     operation: READ, UPDATE
-    resource(r): "org.acme.biznet.SensorOwner"
-    condition: (r.getIdentifier() == p.getIdentifier())
-    action: ALLOW
-}
-
-//SensorOwner has read access to own Token Wallet asset
-rule SensorOwnerReadAccessOwnTokenWalletRecord {
-    description: "Allow SensorOwner to read access to own Token Wallet assets"
-    participant(p): "org.acme.biznet.SensorOwner"
-    operation: READ
-    resource(r): "org.acme.biznet.TokenWallet"
-    condition: (r.ownerId == p.getIdentifier())
-    action: ALLOW
-}
-
-//SensorOwners have read access to own Account asset
-rule SensorOwnerReadAccessOwnAccountRecord {
-    description: "Allow.SensorOwners read access to own Account assets"
-    participant(p): "org.acme.biznet.SensorOwner"
-    operation: READ
-    resource(r): "org.acme.biznet.Account"
-    condition: (r.ownerId == p.getIdentifier())
-    action: ALLOW
-}
-
-//SensorOwner to have read/write/update access to own air pollution data assets
-rule SensorOwnerAccessRawDataRecord {
-    description: "Allow.SensorOwners read/write/update access to own air pollution data assets"
-    participant(p): "org.acme.biznet.SensorOwner"
-    operation: CREATE, READ, UPDATE
-    resource(r): "org.acme.biznet.RawData"
-  	condition: (r.owner.getIdentifier() == p.getIdentifier())
-    action: ALLOW
-}
-
-rule SensorOwnerSeeOwnHistoryOnly {
-  description: "Sensor Owners should be able to see the history of their own transactions only"
-  participant(t): "org.acme.biznet.SensorOwner"
-  operation: READ
-  resource(r): "org.hyperledger.composer.system.HistorianRecord"
-  condition: (r.participantInvoking.getIdentifier() != t.getIdentifier())
-  action: DENY
-}
-
-//SensorOwners to have read only access to other DataProcessors
-rule SensorOwnerReadAccessDataProcessors {
-    description: "Allow.SensorOwners read access to other DataProcessors"
-    participant: "org.acme.biznet.SensorOwner"
-    operation: READ
-    resource: "org.acme.biznet.DataProcessor"
-    action: ALLOW
-}
-
-
-
-
-
-// SensorOwner to have read access to sold air pollution data assets
-rule SensorOwnerReadAccessRawDataRecord {
-    description: "Allow.SensorOwners read access to sold air pollution data assets"
-    participant(p): "org.acme.biznet.SensorOwner"
-    operation: READ
-    resource(r): "org.acme.biznet.RawData"
-  	condition: (r.owner.getIdentifier() !== p.getIdentifier())
-    action: ALLOW
-}
-
-//SensorOwners to have read only access to other Exchanges
-rule SensorOwnerReadAccessExchanges {
-    description: "Allow.SensorOwners read access to other exchanges"
-    participant: "org.acme.biznet.SensorOwner"
-    operation: READ
-    resource: "org.acme.biznet.Exchange"
-    action: ALLOW
-}
-
-//DataProcessors to have access to their own account
-rule DataProcessorAccessOwnRecord {
-    description: "Allow DataProcessor to access only their profile"
-    participant(p): "org.acme.biznet.DataProcessor"
-    operation: READ, UPDATE, DELETE
-    resource(r): "org.acme.biznet.DataProcessor"
+    resource(r): "org.acme.biznet.Provider"
     condition: (r.getIdentifier() === p.getIdentifier())
     action: ALLOW
 }
 
-//DataProcessors to have read only access to other SensorOwners
-rule DataProcessorReadAccessSensorOwners {
-    description: "Allow DataProcessors read access to other SensorOwners"
-    participant: "org.acme.biznet.DataProcessor"
+//****************PROVIDER_SEE_PARTICIPANTS**********************
+
+//Provider has read only access to other Providers
+rule ProviderReadAccessProviders {
+    description: "Allow provider read access to other providers"
+    participant: "org.acme.biznet.Provider"
     operation: READ
-    resource: "org.acme.biznet.SensorOwner"
+    resource: "org.acme.biznet.Provider"
     action: ALLOW
 }
-
-//DataProcessors to have read only access to other Exchanges
-rule DataProcessorReadAccessExchanges {
-    description: "Allow DataProcessors read access to other exchanges"
-    participant: "org.acme.biznet.DataProcessor"
+//Provider has read only access to other Exchanges
+rule ProviderReadAccessExchanges {
+    description: "Allow provider read access to other exchanges"
+    participant: "org.acme.biznet.Provider"
     operation: READ
     resource: "org.acme.biznet.Exchange"
     action: ALLOW
 }
 
-//DataProcessors to have read only access to other Data Consumers
-rule DataProcessorReadAccessDataConsumers {
-    description: "Allow DataProcessors read access to other data consumers"
-    participant: "org.acme.biznet.DataProcessor"
+//Provider has read only access to Requester
+rule ProviderReadAccessRequester {
+    description: "Allow provider read access to requester"
+    participant: "org.acme.biznet.Provider"
     operation: READ
-    resource: "org.acme.biznet.DataConsumer"
+    resource: "org.acme.biznet.Requester"
     action: ALLOW
 }
 
-//DataProcessors to have read access to own Wallet assets
-rule DataProcessorReadAccessOwnWalletRecord {
-    description: "Allow DataProcessors read access to own Wallet assets"
-    participant(p): "org.acme.biznet.DataProcessor"
-    operation: READ
-    resource(r): "org.acme.biznet.Wallet"
-    condition: (r.ownerId == p.getIdentifier())
-    action: ALLOW
-}
-
-//DataProcessors to have read access to own Account assets
-rule DataProcessorReadAccessOwnAccountRecord {
-    description: "Allow DataProcessors read access to own Account assets"
-    participant(p): "org.acme.biznet.DataProcessor"
+rule DenyProviderAccessToConsumer {
+    description: "Disallow Provider -> Consumer"
+    participant(p): "org.acme.biznet.Provider"
     operation: READ
     resource(r): "org.acme.biznet.Account"
-    condition: (r.ownerId == p.getIdentifier())
+    condition: (r.owner.getFullyQualifiedType() == "org.acme.biznet.Requester")   
+    action: DENY
+}
+
+//****************PROVIDER_CREATE_ASSETS**********************
+
+//Provider has create/read access to own sensor assets
+rule ProviderAccessOwnSensor {
+	description: "Allow provider read access to own sensors"
+	participant(p): "org.acme.biznet.Provider"
+	operation: CREATE, READ, DELETE
+	resource(r): "org.acme.biznet.Sensor"
+	condition: (r.owner.getIdentifier() == p.getIdentifier())
+	action: ALLOW
+	}
+
+//Provider has create/read access to own raw data assets
+rule ProviderAccessOwnRawDataAssets {
+	description: "Allow Provider read/write access to own raw data assets"
+	participant(p): "org.acme.biznet.Provider"
+	operation: CREATE, READ, UPDATE
+	resource(r): "org.acme.biznet.RawData"
+	condition: (r.owner.getIdentifier() == p.getIdentifier())
+	action: ALLOW
+}
+
+//****************PROVIDER_TEMPORARY_UPDATE_ACCESS_VIA_TRANSACTIONS**********************
+
+//Provider has temporary UPDATE access on SDT Wallets
+rule ProviderUpdateSDTWalletThroughRawDataTransfer {
+    description: "Allow provider to update SDTWallet via TransferRawData transactions"
+    participant(p): "org.acme.biznet.Provider"
+    operation: UPDATE, READ
+    resource(r): "org.acme.biznet.SDTWallet"
+    transaction(tx): "org.acme.biznet.TransferRawData"
+    condition: ( p.getIdentifier() === r.owner.getIdentifier()  || r.getIdentifier() ===  tx.fromSDT.getIdentifier() ) 
+    action: ALLOW
+}
+//Provider has temporary UPDATE access via TradeCashToTokens-Transaction
+rule ProviderUpdateAccountThroughCTTransaction {
+     description: "Allow provider to update Account via TradeCashToTokens transactions"
+     participant(p): "org.acme.biznet.Provider"
+     operation: UPDATE, READ
+     resource(r): "org.acme.biznet.Account"
+     transaction(tx): "org.acme.biznet.TradeCashToTokens"
+     condition: ( p.getIdentifier() === r.owner.getIdentifier()  || r.getIdentifier() ===  tx.toCash.getIdentifier() )
+     action: ALLOW
+}
+rule ProviderUpdateSDTWalletThroughCTTransaction {
+    description: "Allow provider to update SDTWallet via TradeCashToTokens transactions"
+    participant(p): "org.acme.biznet.Provider"
+    operation: UPDATE, READ
+    resource(r): "org.acme.biznet.SDTWallet"
+    transaction(tx): "org.acme.biznet.TradeCashToTokens"
+    condition: ( p.getIdentifier() === r.owner.getIdentifier()  || r.getIdentifier() ===  tx.fromSDT.getIdentifier() ) 
+    action: ALLOW
+}
+//Provider has temporary UPDATE access via TradeToBTC-Transaction
+rule ProviderUpdateAccountThroughCBTransaction {
+     description: "Allow provider to update Account via TradeCashToBTC transactions"
+     participant(p): "org.acme.biznet.Provider"
+     operation: UPDATE, READ
+     resource(r): "org.acme.biznet.Account"
+     transaction(tx): "org.acme.biznet.TradeCashToBTC"
+     condition: ( p.getIdentifier() === r.owner.getIdentifier()  || r.getIdentifier() ===  tx.toCash.getIdentifier() )
+     action: ALLOW
+}
+rule ProviderUpdateBTCWalletThroughCBTransaction {
+    description: "Allow provider to update BTCWallet via TradeCashToBTC transactions"
+    participant(p): "org.acme.biznet.Provider"
+    operation: UPDATE, READ
+    resource(r): "org.acme.biznet.BTCWallet"
+    transaction(tx): "org.acme.biznet.TradeCashToBTC"
+    condition: ( p.getIdentifier() === r.owner.getIdentifier()  || r.getIdentifier() ===  tx.fromBTC.getIdentifier() ) 
+    action: ALLOW
+}
+//Provider has temporary UPDATE access via TradeTokensToCash-Transaction
+rule ProviderUpdateSDTWalletThroughTCTransaction {
+    description: "Allow provider to update SDTWallet via TradeTokensToCash transactions"
+    participant(p): "org.acme.biznet.Provider"
+    operation: UPDATE, READ
+    resource(r): "org.acme.biznet.SDTWallet"
+    transaction(tx): "org.acme.biznet.TradeTokensToCash"
+    condition: ( p.getIdentifier() === r.owner.getIdentifier()  || r.getIdentifier() ===  tx.toSDT.getIdentifier() ) 
+    action: ALLOW
+}
+rule ProviderUpdateAccountThroughTCTransaction {
+     description: "Allow provider to update Account via TradeTokensToCash transactions"
+     participant(p): "org.acme.biznet.Provider"
+     operation: UPDATE, READ
+     resource(r): "org.acme.biznet.Account"
+     transaction(tx): "org.acme.biznet.TradeTokensToCash"
+     condition: ( p.getIdentifier() === r.owner.getIdentifier()  || r.getIdentifier() ===  tx.fromCash.getIdentifier() )
+     action: ALLOW
+}
+//Provider has temporary UPDATE access via TradeTokensToBTC-Transaction
+rule ProviderUpdateSDTWalletThroughTBTransaction {
+    description: "Allow provider to update SDTWallet via TradeTokensToBTC transactions"
+    participant(p): "org.acme.biznet.Provider"
+    operation: UPDATE, READ
+    resource(r): "org.acme.biznet.SDTWallet"
+    transaction(tx): "org.acme.biznet.TradeTokensToBTC"
+    condition: ( p.getIdentifier() === r.owner.getIdentifier()  || r.getIdentifier() ===  tx.toSDT.getIdentifier() ) 
+    action: ALLOW
+}
+rule ProviderUpdateBTCWalletThroughTBTransaction {
+    description: "Allow provider to update BTCWallet via TradeTokensToBTC transactions"
+    participant(p): "org.acme.biznet.Provider"
+    operation: UPDATE, READ
+    resource(r): "org.acme.biznet.BTCWallet"
+    transaction(tx): "org.acme.biznet.TradeTokensToBTC"
+    condition: ( p.getIdentifier() === r.owner.getIdentifier()  || r.getIdentifier() ===  tx.fromBTC.getIdentifier() ) 
+    action: ALLOW
+}
+//Provider has temporary UPDATE access via TradeBTCToCash-Transaction
+rule ProviderUpdateBTCWalletThroughBCTransaction {
+    description: "Allow provider to update BTCWallet via TradeBTCToCash transactions"
+    participant(p): "org.acme.biznet.Provider"
+    operation: UPDATE, READ
+    resource(r): "org.acme.biznet.BTCWallet"
+    transaction(tx): "org.acme.biznet.TradeBTCToCash"
+    condition: ( p.getIdentifier() === r.owner.getIdentifier()  || r.getIdentifier() ===  tx.toBTC.getIdentifier() ) 
+    action: ALLOW
+}
+rule ProviderUpdateAccountThroughBCTransaction {
+     description: "Allow provider to update Account via TradeBTCToCash transactions"
+     participant(p): "org.acme.biznet.Provider"
+     operation: UPDATE, READ
+     resource(r): "org.acme.biznet.Account"
+     transaction(tx): "org.acme.biznet.TradeBTCToCash"
+     condition: ( p.getIdentifier() === r.owner.getIdentifier()  || r.getIdentifier() ===  tx.fromCash.getIdentifier() )
+     action: ALLOW
+}
+//Provider has temporary UPDATE access via TradeBTCToTokens-Transaction
+rule ProviderUpdateBTCWalletThroughBTTransaction {
+    description: "Allow provider to update BTCWallet via TradeBTCToTokens transactions"
+    participant(p): "org.acme.biznet.Provider"
+    operation: UPDATE, READ
+    resource(r): "org.acme.biznet.BTCWallet"
+    transaction(tx): "org.acme.biznet.TradeBTCToTokens"
+    condition: ( p.getIdentifier() === r.owner.getIdentifier()  || r.getIdentifier() ===  tx.toBTC.getIdentifier() ) 
+    action: ALLOW
+}
+rule ProviderUpdateSDTWalletThroughBTTransaction {
+    description: "Allow provider to update SDTWallet via TradeBTCToTokens transactions"
+    participant(p): "org.acme.biznet.Provider"
+    operation: UPDATE, READ
+    resource(r): "org.acme.biznet.SDTWallet"
+    transaction(tx): "org.acme.biznet.TradeBTCToTokens"
+    condition: ( p.getIdentifier() === r.owner.getIdentifier()  || r.getIdentifier() ===  tx.fromSDT.getIdentifier() ) 
+    action: ALLOW
+}
+//****************PROVIDER_SEE_OWN_ASSETS**********************
+
+//Provider has read access to own Cash Account
+rule ProviderReadAccessOwnAccount {
+description: "Allow provider read access to their own Account only"
+participant(p): "org.acme.biznet.Provider"
+operation: READ
+resource(r) : "org.acme.biznet.Account" 
+condition: (p.getIdentifier() === r.owner.getIdentifier())   
+action: ALLOW
+}
+
+//Provider has read access to own SDT Wallet
+rule ProviderReadAccessOwnSDTWallet {
+description: "Allow provider read access to their own SDTWallet only"
+participant(p): "org.acme.biznet.Provider"
+operation: READ
+resource(r): "org.acme.biznet.SDTWallet"
+condition: (p.getIdentifier() === r.owner.getIdentifier())  
+action: ALLOW
+}
+
+//Provider has read access to own BTC Wallet
+rule ProviderReadAccessOwnBTCWallet {
+description: "Allow provider read access to their own BTCWallet only"
+participant(p): "org.acme.biznet.Provider"
+operation: READ
+resource(r): "org.acme.biznet.BTCWallet"
+condition: (p.getIdentifier() === r.owner.getIdentifier())  
+action: ALLOW
+}
+
+//****************PROVIDER_CREATE_TRANSACTIONS**********************
+
+//Provider can submit TransferRawData transaction
+rule ProviderSubmitTransferRawDataTransactions {
+    description: "Allow provider to submit TransferRawData transactions"
+    participant: "org.acme.biznet.Provider"
+    operation: CREATE, READ
+    resource: "org.acme.biznet.TransferRawData"
     action: ALLOW
 }
 
-//DataProcessor to have read access to purchased air pollution data assets
-rule DataProcessorReadAccessRawDataRecord {
-    description: "Allow DataProcessors read access to purchased air pollution data assets"
-    participant(p): "org.acme.biznet.DataProcessor"
+//Provider can submit CashToTokens transaction
+rule ProviderSubmitCashToTokensTransactions {
+    description: "Allow provider to submit CashToTokens transactions"
+    participant: "org.acme.biznet.Provider"
+    operation: CREATE, READ
+    resource: "org.acme.biznet.TradeCashToTokens"
+    action: ALLOW
+}
+
+//Provider can submit CashToBTC transaction
+rule ProviderSubmitCashToBTCTransactions {
+    description: "Allow provider to submit CashToBTC transactions"
+    participant: "org.acme.biznet.Provider"
+    operation: CREATE, READ
+    resource: "org.acme.biznet.TradeCashToBTC"
+    action: ALLOW
+}
+
+//Provider can submit TokensToCash transaction
+rule ProviderSubmitTokensToCashTransactions {
+    description: "Allow provider to submit TokensToCash transactions"
+    participant: "org.acme.biznet.Provider"
+    operation: CREATE, READ
+    resource: "org.acme.biznet.TradeTokensToCash"
+    action: ALLOW
+}
+
+//Provider can submit TokensToBTC transaction
+rule ProviderSubmitTokensToBTCTransactions {
+    description: "Allow provider to submit TokensToBTC transactions"
+    participant: "org.acme.biznet.Provider"
+    operation: CREATE, READ
+    resource: "org.acme.biznet.TradeTokensToBTC"
+    action: ALLOW
+}
+
+//Provider can submit BTCToTokens transaction
+rule ProviderSubmitBTCToTokenTransactions {
+    description: "Allow provider to submit BTCToTokens transactions"
+    participant: "org.acme.biznet.Provider"
+    operation: CREATE, READ
+    resource: "org.acme.biznet.TradeBTCToTokens"
+    action: ALLOW
+}
+
+//Provider can submit BTCToCash transaction
+rule ProviderSubmitBTCToCashTransactions {
+    description: "Allow provider to submit BTCToCash transactions"
+    participant: "org.acme.biznet.Provider"
+    operation: CREATE, READ
+    resource: "org.acme.biznet.TradeBTCToCash"
+    action: ALLOW
+}
+
+//****************PROVIDER_SEE_OWN_HISTORY**********************
+
+//Provider can see the history of own transactions only
+rule ProviderSeeOwnHistoryOnly {
+  	description: "Proviers should be able to see the history of their own transactions only"
+  	participant(p): "org.acme.biznet.Provider"
+  	operation: READ
+  	resource(r): "org.hyperledger.composer.system.HistorianRecord"
+  	condition: (r.participantInvoking.getIdentifier() != p.getIdentifier())
+  	action: DENY
+}
+
+//*************************************REQUESTER****************************************
+
+//****************REQUESTER_UPDATE_OWN_PROFILE**********************
+
+//Requester has access only to his own profile
+rule RequesterAccessOwnProfile {
+    description: "Allow requester to access only his own profile"
+    participant(p): "org.acme.biznet.Requester"
+    operation: READ, UPDATE
+    resource(r): "org.acme.biznet.Requester"
+    condition: (r.getIdentifier() === p.getIdentifier())
+    action: ALLOW
+}
+
+//****************REQUESTER_SEE_PARTICIPANTS**********************
+
+//Requester has read only access to Sensors
+rule RequesterReadAccessSensors {
+    description: "Allow requester read access to sensors"
+    participant: "org.acme.biznet.Requester"
     operation: READ
-    resource(r): "org.acme.biznet.RawData"
-  	condition: (r.owner.getIdentifier() == p.getIdentifier())
+    resource: "org.acme.biznet.Sensor"
     action: ALLOW
 }
 
-//DataProcessors to have write access to own extended data assets
-rule DataProcessorAccessEnhancedDataRecord {
-    description: "Allow DataProcessors access to own extended data assets"
-    participant(p): "org.acme.biznet.DataProcessor"
-    operation: CREATE, READ, UPDATE
-    resource(r): "org.acme.biznet.EnhancedData"
-  	condition: (r.owner.getIdentifier() == p.getIdentifier())
-    action: ALLOW
-}
-
-//DataProcessors to have read access to forwarded extended data assets
-rule DataProcessorReadAccessEnhancedDataRecord {
-    description: "Allow DataProcessors read access to forwarded enhanced data assets"
-    participant(p): "org.acme.biznet.DataProcessor"
+//Requester has read only access to other Exchanges
+rule RequesterReadAccessExchanges {
+    description: "Allow requester read access to other exchanges"
+    participant: "org.acme.biznet.Requester"
     operation: READ
-    resource(r): "org.acme.biznet.EnhancedData"
-  	condition: (r.owner.getIdentifier() !== p.getIdentifier())
+    resource: "org.acme.biznet.Exchange"
     action: ALLOW
 }
 
-//Exchanges to have access to their own account
-rule ExchangeAccessOwnRecord {
+//Requester has read only access to Consumer
+rule RequesterReadAccessConsumer {
+    description: "Allow requester read access to consumer"
+    participant: "org.acme.biznet.Requester"
+    operation: READ
+    resource: "org.acme.biznet.Consumer"
+    action: ALLOW
+}
+
+//****************REQUESTER_CREATE_ASSETS**********************
+
+//Requester has create/read access to own enriched data assets
+rule ProviderAccessOwnEnrichedDataAssets {
+	description: "Allow Requester read/write access to own enriched data assets"
+	participant(p): "org.acme.biznet.Requester"
+	operation: CREATE, READ, UPDATE
+	resource(r): "org.acme.biznet.EnrichedData"
+	condition: (r.owner.getIdentifier() == p.getIdentifier())
+	action: ALLOW
+}
+
+//****************REQUESTER_TEMPORARY_UPDATE_ACCESS_VIA_TRANSACTIONS**********************
+
+//Requester has temporary UPDATE access on Cash Account
+rule RequesterUpdateAccountThroughEnrichedDataTransfer {
+    description: "Allow requester to update Cash account via TransferEnrichedData transactions"
+    participant(p): "org.acme.biznet.Requester"
+    operation: UPDATE, READ
+    resource(r): "org.acme.biznet.Account"
+    transaction(tx): "org.acme.biznet.TransferEnrichedData"
+    condition: ( p.getIdentifier() === r.owner.getIdentifier()  || r.getIdentifier() ===  tx.fromCash.getIdentifier() ) 
+    action: ALLOW
+}
+//Requester has temporary UPDATE access via TradeCashToTokens-Transaction
+rule RequesterUpdateAccountThroughCTTransaction {
+     description: "Allow requester to update Account via TradeCashToTokens transactions"
+     participant(p): "org.acme.biznet.Requester"
+     operation: UPDATE, READ
+     resource(r): "org.acme.biznet.Account"
+     transaction(tx): "org.acme.biznet.TradeCashToTokens"
+     condition: ( p.getIdentifier() === r.owner.getIdentifier()  || r.getIdentifier() ===  tx.toCash.getIdentifier() )
+     action: ALLOW
+}
+rule RequesterUpdateSDTWalletThroughCTTransaction {
+    description: "Allow requester to update SDTWallet via TradeCashToTokens transactions"
+    participant(p): "org.acme.biznet.Requester"
+    operation: UPDATE, READ
+    resource(r): "org.acme.biznet.SDTWallet"
+    transaction(tx): "org.acme.biznet.TradeCashToTokens"
+    condition: ( p.getIdentifier() === r.owner.getIdentifier()  || r.getIdentifier() ===  tx.fromSDT.getIdentifier() ) 
+    action: ALLOW
+}
+
+//****************REQUESTER_CREATE_TRANSACTIONS**********************
+
+//Requester can submit TransferRawData transaction
+rule RequesterSubmitTransferEnrichedDataTransactions {
+    description: "Allow requester to submit TransferEnrichedData transactions"
+    participant: "org.acme.biznet.Requester"
+    operation: CREATE, READ
+    resource: "org.acme.biznet.TransferEnrichedData"
+    action: ALLOW
+}
+
+//Requester can submit CashToTokens transaction
+rule RequesterSubmitCashToTokensTransactions {
+    description: "Allow provider to submit CashToTokens transactions"
+    participant: "org.acme.biznet.Requester"
+    operation: CREATE, READ
+    resource: "org.acme.biznet.TradeCashToTokens"
+    action: ALLOW
+}
+//****************REQUESTER_SEE_OWN_ASSETS**********************
+
+//Requester has read access to own Cash Account
+rule RequesterReadAccessOwnAccount {
+description: "Allow requester read access to his own Account only"
+participant(p): "org.acme.biznet.Requester"
+operation: READ
+resource (r): "org.acme.biznet.Account"
+condition: (p.getIdentifier() === r.owner.getIdentifier())  
+action: ALLOW
+}
+
+//Requester has read access to own SDT Wallet
+rule RequesterReadAccessOwnSDTWallet {
+description: "Allow provider read access to his own SDTWallet only"
+participant(p): "org.acme.biznet.Requester"
+operation: READ
+resource(r): "org.acme.biznet.SDTWallet"
+condition: (p.getIdentifier() === r.owner.getIdentifier())  
+action: ALLOW
+}
+
+//Requester has read access to purchased raw data assets 
+rule RequesterReadAccessPurchasedRawDataAssets { 
+  	description: "Allow requester read access to purchased raw data assets" 
+  	participant(p): "org.acme.biznet.Requester" 
+  	operation: READ 
+    resource(r): "org.acme.biznet.RawData" 
+  	condition: (r.owner.getIdentifier() === p.getIdentifier()) 
+  	action: ALLOW 
+}
+
+//****************REQUESTER_SEE_OWN_HISTORY**********************
+
+//Requester can see the history of own transactions only
+rule RequesterSeeOwnHistoryOnly {
+  	description: "Requester should be able to see the history of his own transactions only"
+  	participant(p): "org.acme.biznet.Requester"
+  	operation: READ
+  	resource(r): "org.hyperledger.composer.system.HistorianRecord"
+  	condition: (r.participantInvoking.getIdentifier() != p.getIdentifier())
+  	action: DENY
+}
+
+//*************************************CONSUMER****************************************
+
+//****************CONSUMER_UPDATE_OWN_PROFILE**********************
+
+//Consumer has access only to his own profile
+rule ConsumerAccessOwnProfile {
+    description: "Allow consumer to access only his own profile"
+    participant(p): "org.acme.biznet.Consumer"
+    operation: READ, UPDATE
+    resource(r): "org.acme.biznet.Consumer"
+    condition: (r.getIdentifier() === p.getIdentifier())
+    action: ALLOW
+}
+
+//****************CONSUMER_SEE_PARTICIPANTS**********************
+
+//Consumer has read only access to other Requester
+rule ConsumerReadAccessRequester {
+    description: "Allow consumer read access to Requester"
+    participant: "org.acme.biznet.Consumer"
+    operation: READ
+    resource: "org.acme.biznet.Requester"
+    action: ALLOW
+}
+
+//****************CONSUMER_SEE_OWN_ASSETS**********************
+
+//Consumer has read access to own Cash Account
+rule ConsumerReadAccessOwnAccount {
+description: "Allow consumer read access to his own Account only"
+participant(p): "org.acme.biznet.Consumer"
+operation: READ
+resource (r): "org.acme.biznet.Account"
+condition: (p.getIdentifier() === r.owner.getIdentifier())  
+action: ALLOW
+}
+
+//Consumer has read access to purchased enriched data assets 
+rule ConsumerReadAccessPurchasedEnrichedDataAssets { 
+  	description: "Allow consumer read access to purchased enriched data assets" 
+  	participant(p): "org.acme.biznet.Consumer" 
+  	operation: READ 
+    resource(r): "org.acme.biznet.EnrichedData" 
+  	condition: (r.owner.getIdentifier() === p.getIdentifier()) 
+  	action: ALLOW 
+}
+
+//****************CONSUMER_SEE_OWN_HISTORY**********************
+
+//Consumer can see the history of own transactions only
+rule ConsumerSeeOwnHistoryOnly {
+  	description: "Consumer should be able to see the history of his own transactions only"
+  	participant(p): "org.acme.biznet.Consumer"
+  	operation: READ
+  	resource(r): "org.hyperledger.composer.system.HistorianRecord"
+  	condition: (r.participantInvoking.getIdentifier() != p.getIdentifier())
+  	action: DENY
+}
+
+//******************************************EXCHANGE*************************************
+
+//****************EXCHANGE_UPDATE_OWN_PROFILE**********************
+
+//Provider has access only to their own profile
+rule ExchangeAccessOwnProfile {
     description: "Allow exchanges to access only their profile"
     participant(p): "org.acme.biznet.Exchange"
-    operation: READ, UPDATE, DELETE
+    operation: READ, UPDATE
     resource(r): "org.acme.biznet.Exchange"
     condition: (r.getIdentifier() === p.getIdentifier())
     action: ALLOW
 }
 
-//Exchanges to have read only access to other DataProcessors
-rule ExchangeReadAccessDataProcessors {
-    description: "Allow exchanges read access to other DataProcessors"
+//****************EXCHANGE_SEE_PARTICIPANTS**********************
+
+//Exchange has read only access to other Providers
+rule ExchangeReadAccessProviders {
+    description: "Allow exchange read access to other providers"
     participant: "org.acme.biznet.Exchange"
     operation: READ
-    resource: "org.acme.biznet.DataProcessor"
+    resource: "org.acme.biznet.Provider"
     action: ALLOW
 }
-
-//Exchanges to have read only access to other SensorOwners
-rule ExchangeReadAccesSensorOwners {
-    description: "Allow exchanges read access to other SensorOwners"
+//Exchange has read only access to other Exchanges
+rule ExchangeReadAccessExchanges {
+    description: "Allow exchange read access to other exchanges"
     participant: "org.acme.biznet.Exchange"
     operation: READ
-    resource: "org.acme.biznet.SensorOwner"
+    resource: "org.acme.biznet.Exchange"
+    action: ALLOW
+}
+//Exchange has read only access to Requester
+rule ExchangeReadAccessRequester {
+    description: "Allow exchange read access to requester"
+    participant: "org.acme.biznet.Exchange"
+    operation: READ
+    resource: "org.acme.biznet.Requester"
     action: ALLOW
 }
 
-//Exchanges to have read access to own Wallet assets
-rule ExchangeReadAccessOwnWalletRecord {
-    description: "Allow exchanges read access to own Wallet assets"
+//****************EXCHANGE_TEMPORARY_UPDATE_ACCESS_VIA_TRANSACTIONS**********************
+
+//Exchange has temporary UPDATE access via TradeCashToTokens-Transaction
+rule ExchangeUpdateAccountThroughCTTransaction {
+     description: "Allow exchange to update Account via TradeCashToTokens transactions"
+     participant(p): "org.acme.biznet.Exchange"
+     operation: UPDATE, READ
+     resource(r): "org.acme.biznet.Account"
+     transaction(tx): "org.acme.biznet.TradeCashToTokens"
+     condition: ( p.getIdentifier() === r.owner.getIdentifier()  || r.getIdentifier() ===  tx.toCash.getIdentifier() )
+     action: ALLOW
+}
+rule ExchangeUpdateSDTWalletThroughCTTransaction {
+    description: "Allow exchange to update SDTWallet via TradeCashToTokens transactions"
     participant(p): "org.acme.biznet.Exchange"
-    operation: READ
-    resource(r): "org.acme.biznet.Wallet"
-    condition: (r.ownerId == p.getIdentifier())
+    operation: UPDATE, READ
+    resource(r): "org.acme.biznet.SDTWallet"
+    transaction(tx): "org.acme.biznet.TradeCashToTokens"
+    condition: ( p.getIdentifier() === r.owner.getIdentifier()  || r.getIdentifier() ===  tx.fromSDT.getIdentifier() ) 
     action: ALLOW
 }
-
-//Exchanges to have read access to own Account assets
-rule ExchangeReadAccessOwnAccountRecord {
-    description: "Allow exchanges read access to own Account assets"
+//Exchange has temporary UPDATE access via TradeToBTC-Transaction
+rule ExchangeUpdateAccountThroughCBTransaction {
+     description: "Allow exchange to update Account via TradeCashToBTC transactions"
+     participant(p): "org.acme.biznet.Exchange"
+     operation: UPDATE, READ
+     resource(r): "org.acme.biznet.Account"
+     transaction(tx): "org.acme.biznet.TradeCashToBTC"
+     condition: ( p.getIdentifier() === r.owner.getIdentifier()  || r.getIdentifier() ===  tx.toCash.getIdentifier() )
+     action: ALLOW
+}
+rule ExchangeUpdateBTCWalletThroughCBTransaction {
+    description: "Allow exchange to update BTCWallet via TradeCashToBTC transactions"
     participant(p): "org.acme.biznet.Exchange"
-    operation: READ
-    resource(r): "org.acme.biznet.Account"
-    condition: (r.ownerId == p.getIdentifier())
+    operation: UPDATE, READ
+    resource(r): "org.acme.biznet.BTCWallet"
+    transaction(tx): "org.acme.biznet.TradeCashToBTC"
+    condition: ( p.getIdentifier() === r.owner.getIdentifier()  || r.getIdentifier() ===  tx.fromBTC.getIdentifier() ) 
+    action: ALLOW
+}
+//Exchange has temporary UPDATE access via TradeTokensToCash-Transaction
+rule ExchangeUpdateSDTWalletThroughTCTransaction {
+    description: "Allow exchange to update SDTWallet via TradeTokensToCash transactions"
+    participant(p): "org.acme.biznet.Exchange"
+    operation: UPDATE, READ
+    resource(r): "org.acme.biznet.SDTWallet"
+    transaction(tx): "org.acme.biznet.TradeTokensToCash"
+    condition: ( p.getIdentifier() === r.owner.getIdentifier()  || r.getIdentifier() ===  tx.toSDT.getIdentifier() ) 
+    action: ALLOW
+}
+rule ExchangeUpdateAccountThroughTCTransaction {
+     description: "Allow exchange to update Account via TradeTokensToCash transactions"
+     participant(p): "org.acme.biznet.Exchange"
+     operation: UPDATE, READ
+     resource(r): "org.acme.biznet.Account"
+     transaction(tx): "org.acme.biznet.TradeTokensToCash"
+     condition: ( p.getIdentifier() === r.owner.getIdentifier()  || r.getIdentifier() ===  tx.fromCash.getIdentifier() )
+     action: ALLOW
+}
+//Exchange has temporary UPDATE access via TradeTokensToBTC-Transaction
+rule ExchangeUpdateSDTWalletThroughTBTransaction {
+    description: "Allow exchange to update SDTWallet via TradeTokensToBTC transactions"
+    participant(p): "org.acme.biznet.Exchange"
+    operation: UPDATE, READ
+    resource(r): "org.acme.biznet.SDTWallet"
+    transaction(tx): "org.acme.biznet.TradeTokensToBTC"
+    condition: ( p.getIdentifier() === r.owner.getIdentifier()  || r.getIdentifier() ===  tx.toSDT.getIdentifier() ) 
+    action: ALLOW
+}
+rule ExchangeUpdateBTCWalletThroughTBTransaction {
+    description: "Allow exchange to update BTCWallet via TradeTokensToBTC transactions"
+    participant(p): "org.acme.biznet.Exchange"
+    operation: UPDATE, READ
+    resource(r): "org.acme.biznet.BTCWallet"
+    transaction(tx): "org.acme.biznet.TradeTokensToBTC"
+    condition: ( p.getIdentifier() === r.owner.getIdentifier()  || r.getIdentifier() ===  tx.fromBTC.getIdentifier() ) 
+    action: ALLOW
+}
+//Exchange has temporary UPDATE access via TradeBTCToCash-Transaction
+rule ExchangeUpdateBTCWalletThroughBCTransaction {
+    description: "Allow exchange to update BTCWallet via TradeBTCToCash transactions"
+    participant(p): "org.acme.biznet.Exchange"
+    operation: UPDATE, READ
+    resource(r): "org.acme.biznet.BTCWallet"
+    transaction(tx): "org.acme.biznet.TradeBTCToCash"
+    condition: ( p.getIdentifier() === r.owner.getIdentifier()  || r.getIdentifier() ===  tx.toBTC.getIdentifier() ) 
+    action: ALLOW
+}
+rule ExchangeUpdateAccountThroughBCTransaction {
+     description: "Allow exchange to update Account via TradeBTCToCash transactions"
+     participant(p): "org.acme.biznet.Exchange"
+     operation: UPDATE, READ
+     resource(r): "org.acme.biznet.Account"
+     transaction(tx): "org.acme.biznet.TradeBTCToCash"
+     condition: ( p.getIdentifier() === r.owner.getIdentifier()  || r.getIdentifier() ===  tx.fromCash.getIdentifier() )
+     action: ALLOW
+}
+//Exchange has temporary UPDATE access via TradeBTCToTokens-Transaction
+rule ExchangeUpdateBTCWalletThroughBTTransaction {
+    description: "Allow exchange to update BTCWallet via TradeBTCToTokens transactions"
+    participant(p): "org.acme.biznet.Exchange"
+    operation: UPDATE, READ
+    resource(r): "org.acme.biznet.BTCWallet"
+    transaction(tx): "org.acme.biznet.TradeBTCToTokens"
+    condition: ( p.getIdentifier() === r.owner.getIdentifier()  || r.getIdentifier() ===  tx.toBTC.getIdentifier() ) 
+    action: ALLOW
+}
+rule ExchangeUpdateSDTWalletThroughBTTransaction {
+    description: "Allow exchange to update SDTWallet via TradeBTCToTokens transactions"
+    participant(p): "org.acme.biznet.Exchange"
+    operation: UPDATE, READ
+    resource(r): "org.acme.biznet.SDTWallet"
+    transaction(tx): "org.acme.biznet.TradeBTCToTokens"
+    condition: ( p.getIdentifier() === r.owner.getIdentifier()  || r.getIdentifier() ===  tx.fromSDT.getIdentifier() ) 
     action: ALLOW
 }
 
-//Data Consumers to have access only to their own account
-rule DataConsumerAccessOwnRecord {
-    description: "Allow data consumers to access only their profile"
-    participant(p): "org.acme.biznet.DataConsumer"
-    operation: READ, UPDATE, DELETE
-    resource(r): "org.acme.biznet.DataConsumer"
-    condition: (r.getIdentifier() === p.getIdentifier())
+//****************EXCHANGE_SEE_OWN_ASSETS**********************
+
+//Exchange has read access to own Cash Account
+rule ExchangeReadAccessOwnAccount {
+description: "Allow exchange read access to their own Account only"
+participant(p): "org.acme.biznet.Exchange"
+operation: READ
+resource (r): "org.acme.biznet.Account"
+condition: (p.getIdentifier() === r.owner.getIdentifier())  
+action: ALLOW
+}
+
+//Exchange has read access to own SDT Wallet
+rule ExchangeReadAccessOwnSDTWallet {
+description: "Allow exchange read access to their own SDTWallet only"
+participant(p): "org.acme.biznet.Exchange"
+operation: READ
+resource(r): "org.acme.biznet.SDTWallet"
+condition: (p.getIdentifier() === r.owner.getIdentifier())  
+action: ALLOW
+}
+
+//Exchange has read access to own BTC Wallet
+rule ExchangeReadAccessOwnBTCWallet {
+description: "Allow exchange read access to their own BTCWallet only"
+participant(p): "org.acme.biznet.Exchange"
+operation: READ
+resource(r): "org.acme.biznet.BTCWallet"
+condition: (p.getIdentifier() === r.owner.getIdentifier())  
+action: ALLOW
+}
+
+//****************EXCHANGE_CREATE_TRANSACTIONS**********************
+
+//Exchange can submit TransferRawData transaction
+rule ExchangeSubmitTransferRawDataTransactions {
+    description: "Allow exchange to submit TransferRawData transactions"
+    participant: "org.acme.biznet.Exchange"
+    operation: CREATE, READ
+    resource: "org.acme.biznet.TransferRawData"
     action: ALLOW
 }
 
-//Data Consumers to have read only access to other DataProcessors
-rule DataConsumerReadAccessDataProcessors {
-    description: "Allow data consumers read access to other DataProcessors"
-    participant: "org.acme.biznet.DataConsumer"
-    operation: READ
-    resource: "org.acme.biznet.DataProcessor"
+//Exchange can submit CashToTokens transaction
+rule ExchangeSubmitCashToTokensTransactions {
+    description: "Allow exchange to submit CashToTokens transactions"
+    participant: "org.acme.biznet.Exchange"
+    operation: CREATE, READ
+    resource: "org.acme.biznet.TradeCashToTokens"
     action: ALLOW
 }
 
-//Data Consumers to have read access to own Account assets
-rule DataConsumerReadAccessOwnAccountRecord {
-    description: "Allow data consumers read access to own Account assets"
-    participant(p): "org.acme.biznet.DataConsumer"
-    operation: READ
-    resource(r): "org.acme.biznet.Account"
-    condition: (r.ownerId == p.getIdentifier())
+//Exchange can submit CashToBTC transaction
+rule ExchangeSubmitCashToBTCTransactions {
+    description: "Allow exchange to submit CashToBTC transactions"
+    participant: "org.acme.biznet.Exchange"
+    operation: CREATE, READ
+    resource: "org.acme.biznet.TradeCashToBTC"
     action: ALLOW
 }
 
-//Data Consumers to have read access to purchased air quality data assets
-rule DataConsumerReadAccessAirQualityDataRecord {
-    description: "Allow data consumers read access to purchased air quality data assets"
-    participant(p): "org.acme.biznet.DataConsumer"
-    operation: READ
-    resource(r): "org.acme.biznet.EnhancedData"
-  	condition: (r.owner.getIdentifier() == p.getIdentifier())
+//Exchange can submit TokensToCash transaction
+rule ExchangeSubmitTokensToCashTransactions {
+    description: "Allow exchange to submit TokensToCash transactions"
+    participant: "org.acme.biznet.Exchange"
+    operation: CREATE, READ
+    resource: "org.acme.biznet.TradeTokensToCash"
     action: ALLOW
+}
+
+//Exchange can submit TokensToBTC transaction
+rule ExchangeSubmitTokensToBTCTransactions {
+    description: "Allow exchange to submit TokensToBTC transactions"
+    participant: "org.acme.biznet.Exchange"
+    operation: CREATE, READ
+    resource: "org.acme.biznet.TradeTokensToBTC"
+    action: ALLOW
+}
+
+//Exchange can submit BTCToTokens transaction
+rule ExchangeSubmitBTCToTokenTransactions {
+    description: "Allow exchange to submit BTCToTokens transactions"
+    participant: "org.acme.biznet.Exchange"
+    operation: CREATE, READ
+    resource: "org.acme.biznet.TradeBTCToTokens"
+    action: ALLOW
+}
+
+//Exchange can submit BTCToCash transaction
+rule ExchangeSubmitBTCToCashTransactions {
+    description: "Allow exchange to submit BTCToCash transactions"
+    participant: "org.acme.biznet.Exchange"
+    operation: CREATE, READ
+    resource: "org.acme.biznet.TradeBTCToCash"
+    action: ALLOW
+}
+
+//****************EXCHANGE_SEE_OWN_HISTORY**********************
+
+//Exchange can see the history of own transactions only
+rule ExchangeSeeOwnHistoryOnly {
+  	description: "Exchanges should be able to see the history of their own transactions only"
+  	participant(p): "org.acme.biznet.Exchange"
+  	operation: READ
+  	resource(r): "org.hyperledger.composer.system.HistorianRecord"
+  	condition: (r.participantInvoking.getIdentifier() != p.getIdentifier())
+  	action: DENY
+}
+
+
+//*********************NETWORK***************************
+
+//NetworkAdmin has access to Sensor Asset
+rule NetworkAdminUserAccessSensors {
+description: "Allow netwok admin access to sensors"
+participant: "org.hyperledger.composer.system.NetworkAdmin"
+operation: READ, UPDATE, DELETE
+resource: "org.acme.biznet.Sensor"
+action: ALLOW
+}
+
+rule SystemACL {
+  description:  "System ACL to permit all access"
+  participant: "org.hyperledger.composer.system.Participant"
+  operation: ALL
+  resource: "org.hyperledger.composer.system.**"
+  action: ALLOW
 }
 
 rule NetworkAdminUser {
@@ -273,11 +820,4 @@ rule NetworkAdminSystem {
     action: ALLOW
 }
 
-rule SystemACL {
-  description:  "System ACL to permit all access"
-  participant: "ANY"
-  operation: ALL
-  resource: "org.hyperledger.composer.system.**"
-  action: ALLOW
-}
 

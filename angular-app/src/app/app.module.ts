@@ -1,56 +1,80 @@
+/*
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpModule } from '@angular/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
-import { Configuration }     from './configuration';
 import { DataService }     from './data.service';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 // import { TransactionComponent } from './Transaction/Transaction.component'
 
-import { WalletComponent } from './Wallet/Wallet.component';
+import { SDTWalletComponent } from './SDTWallet/SDTWallet.component';
+import { BTCWalletComponent } from './BTCWallet/BTCWallet.component';
 import { AccountComponent } from './Account/Account.component';
-import { AirPollutionDataComponent } from './AirPollutionData/AirPollutionData.component';
-import { ExtendedDataComponent } from './ExtendedData/ExtendedData.component';
-import { SellerComponent } from './seller/seller.component';
-import { BuyerComponent } from './buyer/buyer.component';
-import { ConsumerComponent } from './consumer/consumer.component';
-import { ExchangeComponent } from './exchange/exchange.component';
-import { AboutComponent } from './about/about.component';
-import { TransactionSbComponent } from './transaction-sb/transaction-sb.component';
-import { TransactionBdComponent } from './transaction-bd/transaction-bd.component';
-import { TransactionTcComponent } from './transaction-tc/transaction-tc.component';
-import { TransactionCtComponent } from './transaction-ct/transaction-ct.component';
-import { AllTransactionsComponent } from './AllTransactions/AllTransactions.component';
+import { SensorComponent } from './Sensor/Sensor.component';
+import { RawDataComponent } from './RawData/RawData.component';
+import { EnrichedDataComponent } from './EnrichedData/EnrichedData.component';
 
+
+  import { ProviderComponent } from './Provider/Provider.component';
+  import { RequesterComponent } from './Requester/Requester.component';
+  import { ConsumerComponent } from './Consumer/Consumer.component';
+  import { ExchangeComponent } from './Exchange/Exchange.component';
+
+
+  import { TransferRawDataComponent } from './TransferRawData/TransferRawData.component';
+  import { TransferEnrichedDataComponent } from './TransferEnrichedData/TransferEnrichedData.component';
+  import { TradeCashToTokensComponent } from './TradeCashToTokens/TradeCashToTokens.component';
+  import { TradeCashToBTCComponent } from './TradeCashToBTC/TradeCashToBTC.component';
+  import { TradeTokensToCashComponent } from './TradeTokensToCash/TradeTokensToCash.component';
+  import { TradeTokensToBTCComponent } from './TradeTokensToBTC/TradeTokensToBTC.component';
+  import { TradeBTCToTokensComponent } from './TradeBTCToTokens/TradeBTCToTokens.component';
+  import { TradeBTCToCashComponent } from './TradeBTCToCash/TradeBTCToCash.component';
 @NgModule({
   declarations: [
     AppComponent,
 		HomeComponent,
     // TransactionComponent,
-    WalletComponent,
-		AccountComponent,
-		AirPollutionDataComponent,
-    ExtendedDataComponent,
+    SDTWalletComponent,
+    BTCWalletComponent,
+    AccountComponent,
+    SensorComponent,
+    RawDataComponent,
+    
+    EnrichedDataComponent
+    ,
 
-    SellerComponent,
-    BuyerComponent,
-    ConsumerComponent,
-    ExchangeComponent,
+    ProviderComponent,
+      RequesterComponent,
+      ConsumerComponent,
+      
+      ExchangeComponent
+      ,
 
-    AboutComponent,
-
-    TransactionSbComponent,
-
-    TransactionBdComponent,
-
-    TransactionTcComponent,
-
-    TransactionCtComponent,
-
-    AllTransactionsComponent
-
+    TransferRawDataComponent,
+        TransferEnrichedDataComponent,
+        TradeCashToTokensComponent,
+        TradeCashToBTCComponent,
+        TradeTokensToCashComponent,
+        TradeTokensToBTCComponent,
+        TradeBTCToTokensComponent,
+        
+        TradeBTCToCashComponent
+        
   ],
   imports: [
     BrowserModule,
@@ -60,7 +84,6 @@ import { AllTransactionsComponent } from './AllTransactions/AllTransactions.comp
     AppRoutingModule
   ],
   providers: [
-    Configuration,
     DataService
   ],
   bootstrap: [AppComponent]

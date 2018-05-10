@@ -1,9 +1,22 @@
+/*
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 import { Injectable } from '@angular/core';
 import { Http, Response, Headers } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
-import { Configuration } from './configuration';
 
 @Injectable()
 export class DataService<Type> {
@@ -11,8 +24,8 @@ export class DataService<Type> {
     private actionUrl: string;
     private headers: Headers;
 
-    constructor(private http: Http, private _configuration: Configuration) {
-        this.actionUrl = _configuration.ServerWithApiUrl;
+    constructor(private http: Http) {
+        this.actionUrl = '/api/';
         this.headers = new Headers();
         this.headers.append('Content-Type', 'application/json');
         this.headers.append('Accept', 'application/json');
@@ -59,15 +72,6 @@ export class DataService<Type> {
         return this.http.delete(this.actionUrl + ns + '/' + id)
           .map(this.extractData)
           .catch(this.handleError);
-    }
-
-    public transactions(): Observable<Type[]> {
-        console.log('Get transactions ');
-
-        //return this.http.get(this.actionUrl + 'system/transactions')
-        return this.http.get(this.actionUrl + 'system/historian')
-        .map(this.extractData)
-        .catch(this.handleError);
     }
 
     private handleError(error: any): Observable<string> {

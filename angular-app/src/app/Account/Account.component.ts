@@ -1,3 +1,17 @@
+/*
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 import { Component, OnInit, Input } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { AccountService } from './Account.service';
@@ -23,15 +37,11 @@ export class AccountComponent implements OnInit {
         
   
       
-          ownerId = new FormControl("", Validators.required);
-        
-  
-      
-          currency = new FormControl("", Validators.required);
-        
-  
-      
           balance = new FormControl("", Validators.required);
+        
+  
+      
+          owner = new FormControl("", Validators.required);
         
   
 
@@ -44,15 +54,11 @@ export class AccountComponent implements OnInit {
         
     
         
-          ownerId:this.ownerId,
+          balance:this.balance,
         
     
         
-          currency:this.currency,
-        
-    
-        
-          balance:this.balance
+          owner:this.owner
         
     
     });
@@ -120,15 +126,11 @@ export class AccountComponent implements OnInit {
         
       
         
-          "ownerId":this.ownerId.value,
+          "balance":this.balance.value,
         
       
         
-          "currency":this.currency.value,
-        
-      
-        
-          "balance":this.balance.value
+          "owner":this.owner.value
         
       
     };
@@ -140,15 +142,11 @@ export class AccountComponent implements OnInit {
         
       
         
-          "ownerId":null,
+          "balance":null,
         
       
         
-          "currency":null,
-        
-      
-        
-          "balance":null
+          "owner":null
         
       
     });
@@ -164,15 +162,11 @@ export class AccountComponent implements OnInit {
         
       
         
-          "ownerId":null,
+          "balance":null,
         
       
         
-          "currency":null,
-        
-      
-        
-          "balance":null 
+          "owner":null 
         
       
       });
@@ -198,19 +192,13 @@ export class AccountComponent implements OnInit {
     
         
           
-            "ownerId":this.ownerId.value,
+            "balance":this.balance.value,
           
         
     
         
           
-            "currency":this.currency.value,
-          
-        
-    
-        
-          
-            "balance":this.balance.value
+            "owner":this.owner.value
           
         
     
@@ -272,15 +260,11 @@ export class AccountComponent implements OnInit {
           
         
           
-            "ownerId":null,
+            "balance":null,
           
         
           
-            "currency":null,
-          
-        
-          
-            "balance":null 
+            "owner":null 
           
         
       };
@@ -296,28 +280,20 @@ export class AccountComponent implements OnInit {
           formObject.accountId = null;
         }
       
-        if(result.ownerId){
-          
-            formObject.ownerId = result.ownerId;
-          
-        }else{
-          formObject.ownerId = null;
-        }
-      
-        if(result.currency){
-          
-            formObject.currency = result.currency;
-          
-        }else{
-          formObject.currency = null;
-        }
-      
         if(result.balance){
           
             formObject.balance = result.balance;
           
         }else{
           formObject.balance = null;
+        }
+      
+        if(result.owner){
+          
+            formObject.owner = result.owner;
+          
+        }else{
+          formObject.owner = null;
         }
       
 
@@ -346,15 +322,11 @@ export class AccountComponent implements OnInit {
         
       
         
-          "ownerId":null,
+          "balance":null,
         
       
         
-          "currency":null,
-        
-      
-        
-          "balance":null 
+          "owner":null 
         
       
       });
